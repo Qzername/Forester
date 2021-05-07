@@ -6,4 +6,16 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="MaxWindow.png" />
+    <None Remove="MinWindow.png" />
+    <None Remove="X.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="IMG\X.png" />
+    <Resource Include="IMG\MaxWindow.png" />
+    <Resource Include="IMG\MinWindow.png" />
+  </ItemGroup>
+
 </Project>

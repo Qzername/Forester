@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Hubert\\source\\repos\\Forester\\ForesterAPI\\ForesterAPI.csproj": {}
+    "D:\\Projekty\\aktywne teraz\\Forester\\ForesterAPI\\ForesterAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Hubert\\source\\repos\\Forester\\ForesterAPI\\ForesterAPI.csproj": {
+    "D:\\Projekty\\aktywne teraz\\Forester\\ForesterAPI\\ForesterAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Hubert\\source\\repos\\Forester\\ForesterAPI\\ForesterAPI.csproj",
+        "projectUniqueName": "D:\\Projekty\\aktywne teraz\\Forester\\ForesterAPI\\ForesterAPI.csproj",
         "projectName": "ForesterAPI",
-        "projectPath": "C:\\Users\\Hubert\\source\\repos\\Forester\\ForesterAPI\\ForesterAPI.csproj",
+        "projectPath": "D:\\Projekty\\aktywne teraz\\Forester\\ForesterAPI\\ForesterAPI.csproj",
         "packagesPath": "C:\\Users\\Hubert\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Hubert\\source\\repos\\Forester\\ForesterAPI\\obj\\",
+        "outputPath": "D:\\Projekty\\aktywne teraz\\Forester\\ForesterAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

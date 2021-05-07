@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Hubert\\source\\repos\\Forester\\Forester\\Forester.csproj",
+      "projectUniqueName": "D:\\Projekty\\aktywne teraz\\Forester\\Forester\\Forester.csproj",
       "projectName": "Forester",
-      "projectPath": "C:\\Users\\Hubert\\source\\repos\\Forester\\Forester\\Forester.csproj",
+      "projectPath": "D:\\Projekty\\aktywne teraz\\Forester\\Forester\\Forester.csproj",
       "packagesPath": "C:\\Users\\Hubert\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Hubert\\source\\repos\\Forester\\Forester\\obj\\",
+      "outputPath": "D:\\Projekty\\aktywne teraz\\Forester\\Forester\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

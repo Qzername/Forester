@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "f4Gck1xHr2Q5Djca4OYLd1YugOzaNWizdttgTSeMU4AcILqEUunusytidcy3WMq28UcSdO5cfYSoEMlQGYztEg==",
+  "dgSpecHash": "C53Q3bKej/3yNFYoM1VRgNtthlxAvClvEd0RDE2J+WX8M0wc8cPjcUb23BLYI1VjPnzVQzZI9Hxa0y/06xW0yQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Hubert\\source\\repos\\Forester\\ForesterAPI\\ForesterAPI.csproj",
+  "projectFilePath": "D:\\Projekty\\aktywne teraz\\Forester\\ForesterAPI\\ForesterAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Hubert\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\Hubert\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",

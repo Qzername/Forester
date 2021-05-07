@@ -20,3 +20,25 @@ C:\Users\Hubert\source\repos\Forester\Forester\obj\Debug\net5.0-windows\Forester
 C:\Users\Hubert\source\repos\Forester\Forester\obj\Debug\net5.0-windows\ref\Forester.dll
 C:\Users\Hubert\source\repos\Forester\Forester\obj\Debug\net5.0-windows\Forester.pdb
 C:\Users\Hubert\source\repos\Forester\Forester\obj\Debug\net5.0-windows\Forester.genruntimeconfig.cache
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\Forester.exe
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\Forester.deps.json
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\Forester.runtimeconfig.json
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\Forester.runtimeconfig.dev.json
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\Forester.dll
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\ref\Forester.dll
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\Forester.pdb
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.csprojAssemblyReference.cache
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\MainWindow.g.cs
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\App.g.cs
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester_MarkupCompile.cache
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester_MarkupCompile.lref
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\MainWindow.baml
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.g.resources
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.AssemblyInfoInputs.cache
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.AssemblyInfo.cs
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.csproj.CoreCompileInputs.cache
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.dll
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\ref\Forester.dll
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.pdb
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.genruntimeconfig.cache

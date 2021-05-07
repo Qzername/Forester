@@ -1,13 +1,34 @@
-﻿<Window x:Class="Forester.MainWindow"
+﻿<Window x:Name="Window" x:Class="Forester.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Forester"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button x:Name="Download" Content="Download" FontSize="64" HorizontalAlignment="Center" Margin="0,157,0,0" VerticalAlignment="Top" Height="110" Width="332" Click="Download_Click"/>
+        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize" SizeToContent="Manual" WindowStartupLocation="CenterScreen" IsTabStop="False" WindowStyle="None">
+    <Grid x:Name="Main">
+        <Button x:Name="Download" Content="Download" FontSize="64" HorizontalAlignment="Left" Margin="234,157,0,0" VerticalAlignment="Top" Height="110" Width="332" Click="Download_Click" Grid.ColumnSpan="2"/>
+        
+        <Grid x:Name="ToolBar" Margin="0,0,0,432" MouseDown="DragBar_MouseDown">
+            <Rectangle Fill="Black" Height="18" VerticalAlignment="Top"/>
 
+            <Button BorderBrush="Transparent" Margin="782,0,0,0" VerticalAlignment="Top" Height="18" Width="18" Click="Exit_Clicked" HorizontalAlignment="Right">
+                <Button.Background>
+                    <ImageBrush ImageSource="/IMG/X.png"/>
+                </Button.Background>
+            </Button>
+
+            <Button BorderBrush="Transparent" Margin="764,0,18,0" VerticalAlignment="Top" Height="18" Width="18" Click="Maximize_Clicked" HorizontalAlignment="Right">
+                <Button.Background>
+                    <ImageBrush ImageSource="/IMG/MaxWindow.png"/>
+                </Button.Background>
+            </Button>
+
+            <Button BorderBrush="Transparent" Margin="0,0,36,0" VerticalAlignment="Top" Height="18" Width="18" Click="Minimalize_Clicked" HorizontalAlignment="Right">
+                <Button.Background>
+                    <ImageBrush ImageSource="/IMG/MinWindow.png"/>
+                </Button.Background>
+            </Button>
+        </Grid>
     </Grid>
 </Window>
