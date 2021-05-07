@@ -1,0 +1,13 @@
+﻿<Window x:Class="Forester.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Forester"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Button x:Name="Download" Content="Download" FontSize="64" HorizontalAlignment="Center" Margin="0,157,0,0" VerticalAlignment="Top" Height="110" Width="332" Click="Download_Click"/>
+
+    </Grid>
+</Window>
