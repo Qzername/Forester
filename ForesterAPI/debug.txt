@@ -1,0 +1,1 @@
+{"name":"SpamBox 2.0","author":{"id":2,"name":"uzer","password":"ilovyou","isDeveloper":"true"},"isPrivate":"false","allowedAccounts":null,"isInDownloadFolder":null}

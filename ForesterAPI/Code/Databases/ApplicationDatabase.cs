@@ -30,17 +30,18 @@ namespace ForesterAPI.Databases
             {
                 string json;
 
-                StreamReader sr = File.OpenText(baseApplication + fileName);
+                StreamReader sr = File.OpenText(fileName);
                 json = sr.ReadToEnd();
 
-                var app = (Application)JsonConvert.DeserializeObject(json);
-                app.isInDownloadFolder = Directory.GetFiles(baseDownload + FinalApplications[^1].name).Length == 0 ? "false" : "true";
+                var app = JsonConvert.DeserializeObject<Application>(json);
+                app.isInDownloadFolder = Directory.GetFiles(baseDownload + app.name).Length == 0 ? "false" : "true";
 
                 FinalApplications.Add(app);
             }
 
             return FinalApplications.ToArray();
         }
+
         /*
         public static Application Get(string name)
         {
