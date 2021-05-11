@@ -42,3 +42,7 @@ D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.dl
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\ref\Forester.dll
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.pdb
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.genruntimeconfig.cache
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\LogIn.g.cs
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\LogIn.baml
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\Newtonsoft.Json.dll
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.csproj.CopyComplete

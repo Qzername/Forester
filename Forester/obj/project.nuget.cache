@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "i7GoP1hd6W+Bn16V3VjY4BU26gh0m42lVTWi+AKMfPW1sASGlxh3+oIsYHpiz6MAnwCksOJy5xwrw9re32v8HA==",
+  "dgSpecHash": "EM3ea1GDICj91KTfcSQ8bSKIPsWm4M4dC9IDGJwKs3WADTvQLy662zurFNTJmxmDmakO0dKXG9vUzdPB6WjDMw==",
   "success": true,
   "projectFilePath": "D:\\Projekty\\aktywne teraz\\Forester\\Forester\\Forester.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Hubert\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

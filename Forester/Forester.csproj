@@ -4,18 +4,28 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <Authors>Hubert "uZer" Szymik</Authors>
+    <Company>uZer</Company>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="IMG\Logo.png" />
+    <None Remove="Logo.png" />
     <None Remove="MaxWindow.png" />
     <None Remove="MinWindow.png" />
     <None Remove="X.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="IMG\Logo.png" />
     <Resource Include="IMG\X.png" />
     <Resource Include="IMG\MaxWindow.png" />
     <Resource Include="IMG\MinWindow.png" />
+    <Resource Include="Logo.png" />
   </ItemGroup>
 
 </Project>

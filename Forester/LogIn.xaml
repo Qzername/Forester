@@ -1,0 +1,17 @@
+﻿<Window x:Class="Forester.LogIn"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Forester"
+        mc:Ignorable="d"
+        Title="LogIn" Height="500" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" Background="Black">
+    <Grid Background="Black">
+        <Image Source="/Logo.png" Margin="-2,10,-2,262"/>
+        <TextBox GotFocus="loginInput_GotFocus" LostFocus="loginInput_LostFocus"  MinWidth="150" FontSize="21" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="loginInput" BorderThickness="0 0 0 2" Margin="0,257,0,0" Height="32" Width="258" Background="#00000000" Foreground="White" BorderBrush="White" TextAlignment="Center" Text="Login"/>
+        <TextBox GotFocus="passwordInput_GotFocus" LostFocus="passwordInput_LostFocus" MinWidth="150" FontSize="21" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="passwordInput" BorderThickness="0 0 0 2" Margin="0,339,0,0" Height="32" Width="258" Background="#00000000" Foreground="White" BorderBrush="White" TextAlignment="Center" Text="Password"/>
+        <Button x:Name="LoginButton" Content="Zaloguj" HorizontalAlignment="Left" Margin="0,397,0,0" FontSize="35" VerticalAlignment="Top" Background="Transparent" BorderBrush="Transparent" Foreground="White" Height="59" Width="175" Click="LoginButton_Click"/>
+        <Button x:Name="RegisterButton" Content="Zarejestruj" HorizontalAlignment="Left" Margin="175,397,0,0" FontSize="35" VerticalAlignment="Top" Background="Transparent" BorderBrush="Transparent" Foreground="White" Height="59" Width="175" Click="RegisterButton_Click"/>
+        <Label x:Name="ErrorText" Content="" HorizontalContentAlignment="Center" FontSize="20" Foreground="White" HorizontalAlignment="Center" Margin="0,456,0,0" VerticalAlignment="Top" Height="44" Width="350" Background="{x:Null}"/>
+    </Grid>
+</Window>
