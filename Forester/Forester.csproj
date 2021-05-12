@@ -28,4 +28,8 @@
     <Resource Include="Logo.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Apps\" />
+  </ItemGroup>
+
 </Project>

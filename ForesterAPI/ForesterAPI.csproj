@@ -12,6 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Database\Applications\SpamBox 2.0">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Database\database.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

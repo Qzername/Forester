@@ -61,6 +61,9 @@ namespace ForesterAPI.Databases
         {
             string json = JsonConvert.SerializeObject(app);
 
+            if (string.IsNullOrEmpty(app.version))
+                app.version = "1.0v";
+
             using (StreamWriter sw = File.CreateText(baseApplication + app.name))
                 foreach (string line in json.Split(new[] { '\r', '\n' }))
                     sw.WriteLine(line);

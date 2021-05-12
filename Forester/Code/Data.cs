@@ -10,5 +10,22 @@ namespace Forester
     public static class Data
     {
         public static Account currentAccount;
+        public static List<Application> publicAppliactions;
+        public static List<Application> privateAllowedApplications;
+        public static List<Application> getAllApps
+        {
+            get
+            {
+                List<Application> final = new List<Application>();
+                final.AddRange(publicAppliactions);
+                final.AddRange(privateAllowedApplications);
+                return final;
+            }
+        }
+        static Data()
+        {
+            publicAppliactions = new List<Application>();
+            privateAllowedApplications = new List<Application>();
+        }
     }
 }

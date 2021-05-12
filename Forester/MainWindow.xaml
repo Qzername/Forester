@@ -5,10 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Forester"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize" SizeToContent="Manual" WindowStartupLocation="CenterScreen" IsTabStop="False" WindowStyle="None">
+        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize" SizeToContent="Manual" WindowStartupLocation="CenterScreen" IsTabStop="False" WindowStyle="None" Background="#FF323232">
     <Grid x:Name="Main">
-        <Button x:Name="Download" Content="Download" FontSize="64" HorizontalAlignment="Left" Margin="234,157,0,0" VerticalAlignment="Top" Height="110" Width="332" Click="Download_Click" Grid.ColumnSpan="2"/>
-        
+
         <Grid x:Name="ToolBar" Margin="0,0,0,432" MouseDown="DragBar_MouseDown">
             <Rectangle Fill="Black" Height="18" VerticalAlignment="Top"/>
 
@@ -29,6 +28,13 @@
                     <ImageBrush ImageSource="/IMG/MinWindow.png"/>
                 </Button.Background>
             </Button>
+        </Grid>
+        <Label Content="Forester 0.9v" Width="auto" Height="auto" x:Name="Info" Foreground="White" HorizontalAlignment="Left" Margin="-2,-5,0,0" VerticalAlignment="Top"/>
+        <ListBox SelectionMode="Single" x:Name="applist" Margin="10,26,602,10" Background="#FF4D4D4D" BorderBrush="#01ABADB3" SelectionChanged="applist_SelectionChanged" Foreground="White"/>
+        <Grid x:Name="AppInfo" HorizontalAlignment="Left" Height="414" Margin="203,26,0,0" VerticalAlignment="Top" Width="587">
+            <Label Foreground="White" HorizontalContentAlignment="Center" x:Name="AppName" Content="" FontSize="30" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="586"/>
+            <Label Foreground="White" x:Name="AppDescription" Content="" FontSize="16" HorizontalAlignment="Center" Margin="0,54,0,0" VerticalAlignment="Top" Height="264" Width="568"/>
+            <Button x:Name="DownloadButton" Content="Button" HorizontalAlignment="Center" Margin="0,343,0,0" VerticalAlignment="Top" Height="61" Width="567" Click="DownloadButton_Click"/>
         </Grid>
     </Grid>
 </Window>

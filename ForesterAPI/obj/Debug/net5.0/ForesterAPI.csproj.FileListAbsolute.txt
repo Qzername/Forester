@@ -81,3 +81,4 @@ D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net5.0\Microsoft.AspNet
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net5.0\Database\database.db
+D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net5.0\Database\Applications\SpamBox 2.0
