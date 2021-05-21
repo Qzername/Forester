@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Forester
 {
+    /// <summary>
+    /// Storage of needed data to run program smoothly
+    /// </summary>
     public static class Data
     {
         public static Account currentAccount;
@@ -26,6 +29,12 @@ namespace Forester
         {
             publicAppliactions = new List<Application>();
             privateAllowedApplications = new List<Application>();
+        }
+
+        public static class BasePage
+        {
+            public static string appName;
+            public static string appDescription;
         }
     }
 }

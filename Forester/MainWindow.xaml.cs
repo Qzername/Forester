@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Classes = Forester.Models;
 
 namespace Forester
@@ -15,17 +16,29 @@ namespace Forester
         public MainWindow()
         {
             InitializeComponent();
+
+            Data.BasePage.appName = AppName.Content.ToString();
+            Data.BasePage.appDescription = AppDescription.Content.ToString();
+
             MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
 
             Info.Content = Info.Content + $" - name: {Data.currentAccount.name} - id: {Data.currentAccount.id}" + (Data.currentAccount.isDeveloper== "true"? " DEWELOPER":"");
 
             DownloadButton.Visibility = Visibility.Hidden;
+            if (Data.currentAccount.isDeveloper == "false")
+                DeveloperButton.Visibility = Visibility.Hidden;
 
             GetApplications();
         }
 
         void GetApplications()
         {
+            if(Data.getAllApps.Count > 0)
+            {
+                Data.privateAllowedApplications.Clear();
+                Data.publicAppliactions.Clear();
+            }
+
             string result = ServerConnection.Get("/api/Applications/GetPublic");
             Classes.Application[] apps = JsonConvert.DeserializeObject<Classes.Application[]>(result);
 
@@ -53,8 +66,30 @@ namespace Forester
 
         #region ToolBox
         void Exit_Clicked(object sender, RoutedEventArgs e) => Close();
-        void Maximize_Clicked(object sender, RoutedEventArgs e) => Application.Current.MainWindow.WindowState = Application.Current.MainWindow.WindowState==WindowState.Normal? WindowState.Maximized:WindowState.Normal;
-        void Minimalize_Clicked(object sender, RoutedEventArgs e) => Application.Current.MainWindow.WindowState = WindowState.Minimized;
+        void Maximize_Clicked(object sender, RoutedEventArgs e) =>
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(delegate () {
+                if(WindowState == WindowState.Normal)
+                {
+                    WindowState = WindowState.Maximized;
+                    Thickness thick = applist.Margin;
+                    thick.Bottom = 25;
+                    DownloadButton.Margin = thick;
+                    applist.Margin = thick;
+                }
+                else
+                {
+                    WindowState = WindowState.Normal;
+                    Thickness thick = applist.Margin;
+                    thick.Bottom = 10;
+                    DownloadButton.Margin = thick;
+                    applist.Margin = thick;
+                }
+                Activate();
+            }));
+        void Minimalize_Clicked(object sender, RoutedEventArgs e)
+            => Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(delegate () {
+                WindowState = WindowState.Minimized;
+                Activate();}));
         void DragBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
@@ -67,6 +102,13 @@ namespace Forester
 
             DragMove();
         }
+
+        private void Developer_Click(object sender, RoutedEventArgs e)
+        {
+            DeveloperPanel panel = new DeveloperPanel();
+            panel.Show();
+            Close();
+        }
         #endregion
 
         private void applist_SelectionChanged(object sender, SelectionChangedEventArgs e) => RefreshPage();
@@ -76,11 +118,18 @@ namespace Forester
 
             TextBlock text = applist.SelectedItem as TextBlock;
 
+            if (text is null)
+            {
+                AppName.Content = Data.BasePage.appName;
+                AppDescription.Content = Data.BasePage.appDescription;
+                DownloadButton.IsEnabled = false;
+                return;
+            }
+
             var app = Data.getAllApps.Single(x => x.name == text.Text);
 
             AppName.Content = app.name;
-            AppDescription.Content = $"Server Version: {app.version}\nStatus: {(app.isPrivate == "false" ? "Public" : "Private")}" +
-                $"\nIs Downloaded? {(DownloadHandler.IsDownloaded(app.name) ? $"Yes - Version: {DownloadHandler.GetInfo(app.name).version}" : "No")}";
+            AppDescription.Content = app.description;
 
             Classes.Application appStatus;
             DownloadButton.IsEnabled = true;
@@ -100,14 +149,23 @@ namespace Forester
                 DownloadButton.Content = "Pobierz";
         }
         
-        private void DownloadButton_Click(object sender, RoutedEventArgs e)
+        private async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
             TextBlock text = applist.SelectedItem as TextBlock;
             var app = Data.getAllApps.Single(x => x.name == text.Text);
             DownloadButton.IsEnabled = false;
             DownloadButton.Content = "Pobieranie";
-            DownloadHandler.Download(app);
+            await DownloadHandler.Download(app);
             RefreshPage();
         }
+
+        private void refreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            applist.Items.Clear();
+            GetApplications();
+
+            DownloadButton.Visibility = Visibility.Hidden;
+        }
+
     }
 }

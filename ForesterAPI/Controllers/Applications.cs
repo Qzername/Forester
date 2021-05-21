@@ -3,6 +3,7 @@ using ForesterAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ForesterAPI.Controllers
 {
@@ -78,6 +79,25 @@ namespace ForesterAPI.Controllers
                 ApplicationDatabase.CreateNew(value.application);
             else
                 return "APPLICATION ALREADY EXIST.";
+
+            return "OK.";
+        }
+
+        [HttpPost("[action]")]
+        public string UpdateInfo([FromBody] VerifiedApplication value)
+        {
+            var users = SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE id={value.verificationKey.id} AND password=\"{value.verificationKey.password}\"");
+
+            if (users.Length == 0)
+                return "USER NOT VERIFIED.";
+
+            if (users[0].isDeveloper != "true")
+                return "USER NOT PERMITED";
+
+            if (ApplicationDatabase.DoesExist(value.application.name))
+                ApplicationDatabase.Update(value.application);
+            else
+                return "APPLICATION DOESN'T EXISTS.";
 
             return "OK.";
         }

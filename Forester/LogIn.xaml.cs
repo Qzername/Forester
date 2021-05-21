@@ -1,12 +1,10 @@
 ﻿using System.Windows;
 using Forester.Models;
 using Newtonsoft.Json;
+using System.Security.Cryptography;
 
 namespace Forester
 {
-    /// <summary>
-    /// Logika interakcji dla klasy LogIn.xaml
-    /// </summary>
     public partial class LogIn : Window
     {
         public LogIn()
@@ -22,7 +20,7 @@ namespace Forester
                 return;
             }
 
-            string response = ServerConnection.Get($"/api/Accounts/GetUser/{loginInput.Text}/{passwordInput.Text}/");
+            string response = ServerConnection.Get($"/api/Accounts/GetUser/{loginInput.Text}/{ ServerConnection.Crypt(passwordInput.Text)}/");
             
             if(response == "NO USER FOUND.")
             {
@@ -37,7 +35,7 @@ namespace Forester
             Close();
         }
 
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        private async void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             if(string.IsNullOrWhiteSpace(loginInput.Text) || string.IsNullOrWhiteSpace(passwordInput.Text))
             {
@@ -49,7 +47,7 @@ namespace Forester
             {
                 id = 0,
                 name = loginInput.Text,
-                password = passwordInput.Text,
+                password = ServerConnection.Crypt(passwordInput.Text),
                 isDeveloper = "false"
             };
 
