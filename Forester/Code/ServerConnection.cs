@@ -13,7 +13,8 @@ namespace Forester
     public static class ServerConnection
     {
         //Base link to api
-        public static string api = "http://localhost:5000";
+        public static string api = "http://***REMOVED***:5000";
+        //public static string api = "http://localhost:5000";
 
         public static string Get(string URI)
         {

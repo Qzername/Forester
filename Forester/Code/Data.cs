@@ -12,6 +12,7 @@ namespace Forester
     /// </summary>
     public static class Data
     {
+        public static Config config;
         public static Account currentAccount;
         public static List<Application> publicAppliactions;
         public static List<Application> privateAllowedApplications;

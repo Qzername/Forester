@@ -2,6 +2,7 @@
 using ForesterAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -25,7 +26,7 @@ namespace ForesterAPI.Controllers
 
             foreach (Application app in apps)
                 if (app.author.id == id && app.author.password == password)
-                    PublishedApps.Add(app);
+                    PublishedApps.Add(ApplicationDatabase.RemovePasswords(app));
 
             return JsonConvert.SerializeObject(PublishedApps.ToArray());
         }
@@ -43,10 +44,10 @@ namespace ForesterAPI.Controllers
             List<Application> PrivateApps = new List<Application>();
 
             foreach (Application app in apps)
-                if(app.allowedAccounts is not null)
+                if(!(app.allowedAccounts is null))
                     foreach (Account acc in app.allowedAccounts)
                         if (acc.id == users[0].id && acc.password == users[0].password && app.isPrivate == "true")
-                            PrivateApps.Add(app);
+                            PrivateApps.Add(ApplicationDatabase.RemovePasswords(app));
 
             return JsonConvert.SerializeObject(PrivateApps.ToArray());
         }
@@ -59,7 +60,7 @@ namespace ForesterAPI.Controllers
 
             foreach (Application app in table)
                 if (app.isPrivate == "false")
-                    final.Add(app);
+                    final.Add(ApplicationDatabase.RemovePasswords(app));
 
             return JsonConvert.SerializeObject(final.ToArray());
         }

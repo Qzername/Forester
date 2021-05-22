@@ -21,8 +21,10 @@ namespace Forester
         /// <param name="name">Name of application</param>
         public static bool IsDownloaded(string name)
         {
-            if (Directory.Exists(appsFolder + name))
+            if (Directory.Exists(appsFolder + name) && File.Exists(appsFolder + name + "/" + name))
                 return true;
+            else if(Directory.Exists(appsFolder + name))
+                Directory.Delete(appsFolder + name);
 
             return false;
         }
@@ -48,32 +50,43 @@ namespace Forester
         /// Downloading the app into 
         /// </summary>
         /// <param name="app"></param>
-        public static async Task Download(Application app)
+        public static async Task<bool> Download(Application app)
         {
             //Deleting older version of program (if exists)
             if(File.Exists(appsFolder + app.name + "/" + app.name))
             {
-                string[] files = Directory.GetFiles(appsFolder + app.name + "/");
-                foreach (string file in files)
-                    File.Delete(file);
+                DirectoryInfo di = new DirectoryInfo(appsFolder + app.name + "/");
+
+                foreach (FileInfo fileS in di.GetFiles())
+                    fileS.Delete();
+                foreach (DirectoryInfo dir in di.GetDirectories())
+                    dir.Delete(true);
             }
 
             //Creating app directory
             Directory.CreateDirectory(appsFolder + app.name);
 
-            //Downloading .zip with app (TODO: async download)
-            WebClient wc = new WebClient();
-            await wc.DownloadFileTaskAsync(new Uri(ServerConnection.api + $"/api/Download/Load/{Data.currentAccount.id}/{Data.currentAccount.password}/{app.name}"),
-                    appsFolder+ app.name +".zip");
+            try
+            {
+                //Downloading .zip with app (TODO: async download)
+                WebClient wc = new WebClient();
+                await wc.DownloadFileTaskAsync(new Uri(ServerConnection.api + $"/api/Download/Load/{Data.currentAccount.id}/{Data.currentAccount.password}/{app.name}"),
+                        appsFolder + app.name + ".zip");
 
-            await Task.Delay(1000);
+                await Task.Delay(1000);
 
-            //Creating info .json, extracting program, cleaning up
-            Directory.CreateDirectory(appsFolder + app.name);
-            ZipFile.ExtractToDirectory(appsFolder + app.name + ".zip", appsFolder + app.name);
-            File.Create(appsFolder + app.name + "/" + app.name).Close();
-            File.WriteAllText(appsFolder + app.name + "/" + app.name, JsonConvert.SerializeObject(app));
-            File.Delete(appsFolder + app.name + ".zip");
+                //Creating info .json, extracting program, cleaning up
+                Directory.CreateDirectory(appsFolder + app.name);
+                ZipFile.ExtractToDirectory(appsFolder + app.name + ".zip", appsFolder + app.name);
+                File.Create(appsFolder + app.name + "/" + app.name).Close();
+                File.WriteAllText(appsFolder + app.name + "/" + app.name, JsonConvert.SerializeObject(app));
+                File.Delete(appsFolder + app.name + ".zip");
+                return true;
+            }
+            catch(Exception)
+            {
+                return false;
+            }
         }
 
         /// <summary>

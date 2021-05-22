@@ -48,3 +48,4 @@ D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\Newtonsoft.
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.csproj.CopyComplete
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\DeveloperPanel.g.cs
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\DeveloperPanel.baml
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\config.json

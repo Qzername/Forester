@@ -20,6 +20,7 @@ namespace ForesterAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls("http://*:5000");
                     webBuilder.UseStartup<Startup>();
                 });
     }

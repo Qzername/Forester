@@ -63,7 +63,7 @@ namespace ForesterAPI.Databases
             if (string.IsNullOrEmpty(app.version))
                 app.version = "1.0v";
 
-            if(app.allowedAccounts is not null)
+            if(!(app.allowedAccounts is null))
             {
                 Account[] allowedAccounts = new Account[app.allowedAccounts.Length];
 
@@ -87,7 +87,7 @@ namespace ForesterAPI.Databases
             if (string.IsNullOrEmpty(app.version))
                 app.version = "1.0v";
 
-            if (app.allowedAccounts is not null)
+            if (!(app.allowedAccounts is null))
             {
                 Account[] allowedAccounts = new Account[app.allowedAccounts.Length];
 
@@ -99,6 +99,22 @@ namespace ForesterAPI.Databases
 
             File.WriteAllText(baseApplication + app.name, string.Empty);
             File.WriteAllText(baseApplication + app.name, JsonConvert.SerializeObject(app));
+        }
+
+        public static Application RemovePasswords(Application app)
+        {
+            var author = app.author;
+            author.password = string.Empty;
+            app.author = author;
+
+            for(int i =0; i<app.allowedAccounts.Length;i++)
+            {
+                var user = app.allowedAccounts[i];
+                user.password = string.Empty;
+                app.allowedAccounts[i] = user;
+            }
+
+            return app;
         }
     }
 }

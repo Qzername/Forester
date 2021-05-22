@@ -92,13 +92,15 @@ namespace Forester
                 Activate();}));
         void DragBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
+           
+            if (WindowState == WindowState.Maximized)
             {
-                Application.Current.MainWindow.WindowState = WindowState.Normal;
+                WindowState = WindowState.Normal;
                 var point = e.GetPosition(this);
                 Left = point.X-Window.Width/2;
                 Top = point.Y;
-            }    
+            }
+
 
             DragMove();
         }
@@ -129,7 +131,7 @@ namespace Forester
             var app = Data.getAllApps.Single(x => x.name == text.Text);
 
             AppName.Content = app.name;
-            AppDescription.Content = app.description;
+            AppDescription.Content = GenerateDescription(app);
 
             Classes.Application appStatus;
             DownloadButton.IsEnabled = true;
@@ -155,8 +157,15 @@ namespace Forester
             var app = Data.getAllApps.Single(x => x.name == text.Text);
             DownloadButton.IsEnabled = false;
             DownloadButton.Content = "Pobieranie";
-            await DownloadHandler.Download(app);
-            RefreshPage();
+            bool done = await DownloadHandler.Download(app);
+
+            if (done)
+                RefreshPage();
+            else
+            {
+                DownloadButton.Content = "Wystąpił błąd. Czy twórca upoblikował pierwszą wersje?";
+                DownloadButton.IsEnabled = true;
+            }
         }
 
         private void refreshButton_Click(object sender, RoutedEventArgs e)
@@ -167,5 +176,34 @@ namespace Forester
             DownloadButton.Visibility = Visibility.Hidden;
         }
 
+        private void logoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Data.config.autoLogin = "";
+            Data.config.autoPassword = "";
+
+            var config = Data.config;
+
+            System.IO.File.WriteAllText("./config.json", JsonConvert.SerializeObject(config));
+
+            Data.currentAccount = new Classes.Account();
+
+            LogIn login = new LogIn();
+            login.Show();
+            Close();
+        }
+    
+        string GenerateDescription(Classes.Application app)
+        {
+            if (string.IsNullOrWhiteSpace(app.description))
+                return string.Empty;
+
+            string final = app.description;
+
+            final = final.Replace("{version}", app.version);
+            final = final.Replace("{author}", app.author.name);
+            final = final.Replace("{isPrivate}", app.isPrivate == "true" ? "tak" : "nie");
+
+            return final;
+        }
     }
 }

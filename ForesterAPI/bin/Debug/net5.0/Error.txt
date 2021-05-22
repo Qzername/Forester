@@ -1,2 +1,0 @@
-Author: sex
-{"verificationKey":{"id":4,"password":"98d44e13f455d916674d38424d39e1cb01b2a9132aacbb7b97a6f8bb7feb2544"},"application":{"name":"Testowa Aplikacja","author":{"id":4,"name":"sex","password":"98d44e13f455d916674d38424d39e1cb01b2a9132aacbb7b97a6f8bb7feb2544","isDeveloper":"true"},"description":"Sprawdzam czy wszystko dziala","version":"Undefined","isPrivate":"false","allowedAccounts":[],"isInDownloadFolder":"false"}}

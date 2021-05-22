@@ -10,23 +10,17 @@ namespace Forester
         public LogIn()
         {
             InitializeComponent();
-        }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(loginInput.Text) || string.IsNullOrWhiteSpace(passwordInput.Text))
-            {
-                ErrorText.Content = "Login or password is blank";
-                return;
-            }
+            string fileText = System.IO.File.ReadAllText("./config.json");
+            Data.config = JsonConvert.DeserializeObject<Config>(fileText);
 
-            string response = ServerConnection.Get($"/api/Accounts/GetUser/{loginInput.Text}/{ ServerConnection.Crypt(passwordInput.Text)}/");
-            
-            if(response == "NO USER FOUND.")
-            {
-                ErrorText.Content = "Login or password is incorrect";
+            if (string.IsNullOrWhiteSpace(Data.config.autoLogin))
                 return;
-            }
+
+            string response = ServerConnection.Get($"/api/Accounts/GetUser/{Data.config.autoLogin}/{Data.config.autoPassword}/");
+
+            if (response == "NO USER FOUND.")
+                return;
 
             Data.currentAccount = JsonConvert.DeserializeObject<Account>(response);
 
@@ -35,11 +29,47 @@ namespace Forester
             Close();
         }
 
-        private async void RegisterButton_Click(object sender, RoutedEventArgs e)
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(loginInput.Text) || string.IsNullOrWhiteSpace(passwordInput.Text))
+            {
+                ErrorText.Content = "Login lub hasło są puste";
+                return;
+            }
+
+            string response = ServerConnection.Get($"/api/Accounts/GetUser/{loginInput.Text}/{ ServerConnection.Crypt(passwordInput.Text)}/");
+            
+            if(response == "NO USER FOUND.")
+            {
+                ErrorText.Content = "Login lub hasło są niepoprawne";
+                return;
+            }
+
+            Data.currentAccount = JsonConvert.DeserializeObject<Account>(response);
+
+            if ((bool)autologin.IsChecked)
+            {
+                Data.config.autoLogin = loginInput.Text;
+                Data.config.autoPassword = ServerConnection.Crypt(passwordInput.Text);
+
+                Config config = Data.config;
+                string text = JsonConvert.SerializeObject(config);
+
+                var stream = System.IO.File.CreateText("./config.json");
+                stream.WriteLine(text);
+                stream.Close();
+            }
+
+            MainWindow main = new MainWindow();
+            main.Show();
+            Close();
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             if(string.IsNullOrWhiteSpace(loginInput.Text) || string.IsNullOrWhiteSpace(passwordInput.Text))
             {
-                ErrorText.Content = "Login or password is blank";
+                ErrorText.Content = "Login lub hasło są puste";
                 return;
             }
 
@@ -56,13 +86,13 @@ namespace Forester
             switch(response)
             {
                 case "JSON WITHOUT NEEDED INFORMATION.":
-                    ErrorText.Content = "Something went wrong.";
+                    ErrorText.Content = "Coś poszło nie tak.";
                     break;
                 case "NAME TAKEN.":
-                    ErrorText.Content = "This login is already taken.";
+                    ErrorText.Content = "Ten login jest już zajęty.";
                     break;
                 case "OK.":
-                    ErrorText.Content = "Registered.";
+                    ErrorText.Content = "Zarejestrowano.";
                     break;
             }
         }

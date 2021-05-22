@@ -105,7 +105,7 @@ namespace Forester
                 name = NameInput.Text,
                 description = DescriptionInput.Text,
                 isPrivate = isprivate.IsChecked.ToString().ToLower(),
-                version = "Undefined",
+                version = VersionInput.Text,
                 allowedAccounts = allowedAccountsList.ToArray(),
                 author = Data.currentAccount,
                 isInDownloadFolder = "false"
@@ -150,6 +150,7 @@ namespace Forester
 
         private async void VersionUpload_Click(object sender, RoutedEventArgs e)
         {
+            Error.Content = "";
             List<Account> allowedAccountsList = new List<Account>();
 
             if (AllowedIdsInput.IsEnabled)
@@ -169,6 +170,11 @@ namespace Forester
             };
 
             await DownloadHandler.Upload(app, DirectoryInput.Text);
+            Error.Content = "Przesłane";
+
+            applist.Items.Clear();
+            GetApplications();
+            RefreshPage(app);
         }
     }
 }

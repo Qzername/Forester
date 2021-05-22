@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <Authors>Hubert "uZer" Szymik</Authors>
     <Company>uZer</Company>
+    <ApplicationIcon>ico.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,6 +31,24 @@
 
   <ItemGroup>
     <Folder Include="Apps\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

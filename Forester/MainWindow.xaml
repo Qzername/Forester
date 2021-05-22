@@ -10,19 +10,19 @@
         <Grid x:Name="ToolBar" Margin="0,0,0,0" MouseDown="DragBar_MouseDown" Height="18" Width="auto" VerticalAlignment="Top">
             <Rectangle Fill="Black" Height="18" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
 
-            <Button BorderBrush="Transparent" Margin="782,0,0,0" VerticalAlignment="Center" Height="18" Width="18" Click="Exit_Clicked" HorizontalAlignment="Right" MinWidth="18" MinHeight="18">
+            <Button BorderBrush="Transparent" Margin="0,0,0,0" VerticalAlignment="Center" Height="18" Width="18" Click="Exit_Clicked" HorizontalAlignment="Right" MinWidth="18" MinHeight="18">
                 <Button.Background>
                     <ImageBrush ImageSource="/IMG/X.png"/>
                 </Button.Background>
             </Button>
 
-            <Button BorderBrush="Transparent" Margin="764,0,0,0" VerticalAlignment="Center" Height="18" Width="18" Click="Maximize_Clicked" HorizontalAlignment="Left" MinWidth="18" MinHeight="18">
+            <Button BorderBrush="Transparent" Margin="0,0,18,0" VerticalAlignment="Center" Height="18" Width="18" Click="Maximize_Clicked" HorizontalAlignment="Right" MinWidth="18" MinHeight="18">
                 <Button.Background>
                     <ImageBrush ImageSource="/IMG/MaxWindow.png"/>
                 </Button.Background>
             </Button>
 
-            <Button BorderBrush="Transparent" Margin="746,0,0,0" VerticalAlignment="Center" Height="18" Width="18" Click="Minimalize_Clicked" HorizontalAlignment="Left" MinWidth="18" MinHeight="18">
+            <Button BorderBrush="Transparent" Margin="0,0,36,0" VerticalAlignment="Center" Height="18" Width="18" Click="Minimalize_Clicked" HorizontalAlignment="Right" MinWidth="18" MinHeight="18">
                 <Button.Background>
                     <ImageBrush ImageSource="/IMG/MinWindow.png"/>
                 </Button.Background>
@@ -30,15 +30,16 @@
             <Button x:Name="DeveloperButton" Content="Panel Dewelopera" HorizontalAlignment="Center" VerticalAlignment="Center" Height="18" Width="104" Click="Developer_Click"/>
         </Grid>
 
-        <Label Content="Forester 1.0v" Width="auto" Height="auto" x:Name="Info" Foreground="White" HorizontalAlignment="Left" Margin="-2,-5,0,0" VerticalAlignment="Top"/>
-        <ListBox SelectionMode="Single" x:Name="applist" Margin="10,70,0,10" Background="#FF4D4D4D" BorderBrush="#01ABADB3" SelectionChanged="applist_SelectionChanged" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="188" MinHeight="370" Height="auto"/>
+        <Label Content="Forester 1.1.1v" Width="auto" Height="23" x:Name="Info" Foreground="White" HorizontalAlignment="Left" Margin="-2,-5,0,0" VerticalAlignment="Top"/>
+        <ListBox SelectionMode="Single" x:Name="applist" Margin="10,75,0,4" Background="#FF4D4D4D" BorderBrush="#01ABADB3" SelectionChanged="applist_SelectionChanged" Foreground="White" HorizontalAlignment="Left" Width="188" MinHeight="370" Height="auto"/>
 
         <Grid x:Name="AppInfo" MinHeight="414" Margin="203,26,5,0" MinWidth="596" RenderTransformOrigin="0.5,0.5">
             <Label Foreground="White" HorizontalContentAlignment="Center" x:Name="AppName" Content="Witamy w Foresterze!" FontSize="30" Margin="5,10,0,5" VerticalAlignment="Top"  HorizontalAlignment="Stretch"/>
-            <Label Foreground="White" x:Name="AppDescription" Content="To prosty launcher i downloader dla naszych projektów.&#xA;&#xD;&#xA;Aplikacje wykonał: uZer&#xA;Specjalne podziękowania: Heapy1337 (Ikony)" FontSize="16" Margin="14,65,14,77" MinHeight="274" MinWidth="568"/>
+            <Label Foreground="White" x:Name="AppDescription" Content="To prosty launcher i downloader dla naszych projektów.&#xA;&#xA;Aplikacje wykonał: uZer&#xA;Specjalne podziękowania: heapy (Ikony)" FontSize="16" Margin="14,65,14,77" MinHeight="274" MinWidth="568"/>
             <Button x:Name="DownloadButton" Content="Button" Margin="0,351,0,10" VerticalAlignment="Bottom" Height="62" MinWidth="586" Click="DownloadButton_Click"/>
         </Grid>
 
-        <Button x:Name="refreshButton" Content="Odśwież" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" Height="39" Width="188" Click="refreshButton_Click" />
+        <Button x:Name="refreshButton" Content="Odśwież" HorizontalAlignment="Left" Margin="10,49,0,0" VerticalAlignment="Top" Height="21" Width="188" Click="refreshButton_Click" />
+        <Button x:Name="logoutButton" Content="Wyloguj" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Height="21" Width="188" Click="logoutButton_Click"/>
     </Grid>
 </Window>

@@ -19,7 +19,7 @@ namespace ForesterAPI.Controllers
         {
             var users = SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE id={id} AND password=\"{password}\"");
 
-            if (users.Length == 0 || users[0].isDeveloper == "false")
+            if (users.Length == 0)
                 return null;
 
             var apps = ApplicationDatabase.Get();
@@ -38,25 +38,27 @@ namespace ForesterAPI.Controllers
         }
 
         [HttpPost("[action]/{id}/{password}/{name}")]
-        public async void Upload(int id, string password, string name, IFormFile file)
+        public async Task Upload(int id, string password, string name, IFormFile file)
         {
             var users = SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE id={id} AND password=\"{password}\"");
 
             if (file.Length < 0 || users.Length == 0 || users[0].isDeveloper == "false")
                 return;
 
-            var stream = new FileStream("./Database/" + name + ".zip", FileMode.Create);
-            await file.CopyToAsync(stream);
-            stream.Close();
+            using (FileStream stream = new FileStream("./Database/" + name + ".zip", FileMode.Create)) 
+                await file.CopyToAsync(stream);
 
             if (!ApplicationDatabase.DoesExist(name))
                 return;
 
             if (ApplicationDatabase.Get().Single(x => x.name == name).isInDownloadFolder == "true")
             {
-                string[] files = Directory.GetFiles(ApplicationDatabase.baseDownload + $"{name}/");
-                foreach (string fileS in files)
-                    System.IO.File.Delete(fileS);
+                DirectoryInfo di = new DirectoryInfo(ApplicationDatabase.baseDownload + $"{name}/");
+
+                foreach (FileInfo fileS in di.GetFiles())
+                    fileS.Delete();
+                foreach (DirectoryInfo dir in di.GetDirectories())
+                    dir.Delete(true);
             }
 
             ZipFile.ExtractToDirectory("./Database/" + name + ".zip", ApplicationDatabase.baseDownload + "/" + name + "/");

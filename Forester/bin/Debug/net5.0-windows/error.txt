@@ -1,0 +1,1 @@
+Object reference not set to an instance of an object.    at Forester.MainWindow.DragBar_MouseDown(Object sender, MouseButtonEventArgs e) in D:\Projekty\aktywne teraz\Forester\Forester\MainWindow.xaml.cs:line 99
