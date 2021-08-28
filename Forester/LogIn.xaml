@@ -6,14 +6,20 @@
         xmlns:local="clr-namespace:Forester"
         mc:Ignorable="d"
         Title="LogIn" Height="500" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" Background="Black">
+
     <Grid Background="Black">
         <Image Source="/Logo.png" Margin="-2,10,-2,262"/>
-        <TextBox GotFocus="loginInput_GotFocus" LostFocus="loginInput_LostFocus"  MinWidth="150" FontSize="21" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="loginInput" BorderThickness="0 0 0 2" Margin="0,257,0,0" Height="32" Width="258" Background="#00000000" Foreground="White" BorderBrush="White" TextAlignment="Center" Text="Login"/>
-        <TextBox GotFocus="passwordInput_GotFocus" LostFocus="passwordInput_LostFocus" MinWidth="150" FontSize="21" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="passwordInput" BorderThickness="0 0 0 2" Margin="0,317,0,0" Height="32" Width="258" Background="#00000000" Foreground="White" BorderBrush="White" TextAlignment="Center" Text="Password"/>
+        <TextBox MaxLength="20" GotFocus="loginInput_GotFocus" LostFocus="loginInput_LostFocus"  MinWidth="150" FontSize="21" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="loginInput" BorderThickness="0 0 0 2" Margin="0,243,0,0" Height="32" Width="258" Background="#00000000" Foreground="White" BorderBrush="White" TextAlignment="Center" Text="Login"/>
+        <TextBox MaxLength="20" GotFocus="passwordInput_GotFocus" LostFocus="passwordInput_LostFocus" MinWidth="150" FontSize="21" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="passwordInput" BorderThickness="0 0 0 2" Margin="0,291,0,0" Height="32" Width="258" Foreground="White" BorderBrush="White" Background="#00000000" TextAlignment="Center" Text="Password" />
         <Button x:Name="LoginButton" Content="Zaloguj" HorizontalAlignment="Left" Margin="0,397,0,0" FontSize="35" VerticalAlignment="Top" Background="Transparent" BorderBrush="Transparent" Foreground="White" Height="59" Width="175" Click="LoginButton_Click"/>
         <Button x:Name="RegisterButton" Content="Zarejestruj" HorizontalAlignment="Left" Margin="175,397,0,0" FontSize="35" VerticalAlignment="Top" Background="Transparent" BorderBrush="Transparent" Foreground="White" Height="59" Width="175" Click="RegisterButton_Click"/>
-        <Label x:Name="ErrorText" Content="" HorizontalContentAlignment="Center" FontSize="20" Foreground="White" HorizontalAlignment="Center" Margin="0,456,0,0" VerticalAlignment="Top" Height="44" Width="350" Background="{x:Null}"/>
-        <CheckBox x:Name="autologin" Content="Automatyczne logowanie&#xD;&#xA;" HorizontalAlignment="Left" Margin="57,370,0,0" VerticalAlignment="Top" Foreground="White" Height="18" Width="157">
+        <Label x:Name="ErrorText" Content="" HorizontalContentAlignment="Center" FontSize="20" Foreground="White" HorizontalAlignment="Center" Margin="0,461,0,0" VerticalAlignment="Top" Height="39" Width="350" Background="{x:Null}"/>
+        <CheckBox x:Name="autologin" Content="Automatyczne logowanie&#xD;&#xA;" HorizontalAlignment="Left" Margin="58,370,0,0" VerticalAlignment="Top" Foreground="White" Height="18" Width="156">
+            <CheckBox.LayoutTransform>
+                <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+            </CheckBox.LayoutTransform>
+        </CheckBox>
+        <CheckBox Unchecked="showPassword_Unchecked" Checked="showPassword_Checked" x:Name="showPassword" Content="Odkryj hasło" HorizontalAlignment="Left" Margin="109,343,0,0" VerticalAlignment="Top" Foreground="White" Height="18" Width="88">
             <CheckBox.LayoutTransform>
                 <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
             </CheckBox.LayoutTransform>

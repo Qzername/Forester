@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forester", "Forester\Forester.csproj", "{1FFD62AD-0B5A-4D73-B6FA-701357B01D60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForesterAPI", "ForesterAPI\ForesterAPI.csproj", "{0429D34B-DFE3-4804-AB4D-07BEF1CE6D28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForesterAPI", "ForesterAPI\ForesterAPI.csproj", "{0429D34B-DFE3-4804-AB4D-07BEF1CE6D28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForesterUpdater", "ForesterUpdater\ForesterUpdater.csproj", "{B7AFD0FE-0C07-4298-BE1C-4E78F4D834D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0429D34B-DFE3-4804-AB4D-07BEF1CE6D28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0429D34B-DFE3-4804-AB4D-07BEF1CE6D28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0429D34B-DFE3-4804-AB4D-07BEF1CE6D28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7AFD0FE-0C07-4298-BE1C-4E78F4D834D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7AFD0FE-0C07-4298-BE1C-4E78F4D834D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7AFD0FE-0C07-4298-BE1C-4E78F4D834D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7AFD0FE-0C07-4298-BE1C-4E78F4D834D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

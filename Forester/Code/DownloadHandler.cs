@@ -8,23 +8,35 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.Compression;
+using Path = Forester.Models.Path;
+using System.Diagnostics;
 
 namespace Forester
 {
     public static class DownloadHandler
     {
-        static readonly string appsFolder = "./Apps/";
+        public static readonly string appsFolder = "./Apps/";
         
         /// <summary>
         /// Checking if program is downloaded
         /// </summary>
         /// <param name="name">Name of application</param>
-        public static bool IsDownloaded(string name)
+        public static bool IsDownloaded(string name, string path = "")
         {
-            if (Directory.Exists(appsFolder + name) && File.Exists(appsFolder + name + "/" + name))
+            string directoryPath;
+
+            if (path == "")
+                directoryPath = appsFolder;
+            else
+                directoryPath = path;
+
+            if (Directory.Exists(directoryPath + name) && File.Exists(directoryPath + name + "/" + name) )
                 return true;
-            else if(Directory.Exists(appsFolder + name))
-                Directory.Delete(appsFolder + name);
+            else if(Directory.Exists(directoryPath + name) && !File.Exists(directoryPath + name + "/path.json"))
+                Directory.Delete(directoryPath + name, true);
+
+            if (Directory.Exists(appsFolder + name))
+                Directory.Delete(appsFolder + name, true);
 
             return false;
         }
@@ -33,10 +45,11 @@ namespace Forester
         /// Getting info json from downloaded file
         /// </summary>
         /// <param name="name">Name of application</param>
-        public static Application GetInfo(string name)
+        public static Application GetInfo(string name, string path = "")
         {
             //Opening file and getting info from that file
-            StreamReader sr = File.OpenText(appsFolder + name + "/" +name );
+
+            StreamReader sr = File.OpenText(path == "" ? appsFolder + name + "/" +name : path + name + "/" + name);
             string json = sr.ReadToEnd();
             sr.Close();
 
@@ -50,10 +63,26 @@ namespace Forester
         /// Downloading the app into 
         /// </summary>
         /// <param name="app"></param>
-        public static async Task<bool> Download(Application app)
+        public static async Task<bool> Download(Application app, string path = "")
         {
+            string directoryPath;
+
+            if (path == "")
+                directoryPath = appsFolder;
+            else
+            {
+                directoryPath = path + "/";
+
+                if (!Directory.Exists(appsFolder + app.name))
+                    Directory.CreateDirectory(appsFolder + app.name);
+
+                var stream = File.CreateText(appsFolder + app.name + "/path.json");
+                stream.WriteLine(JsonConvert.SerializeObject(new Path() { path = directoryPath }));
+                stream.Close();
+            }
+
             //Deleting older version of program (if exists)
-            if(File.Exists(appsFolder + app.name + "/" + app.name))
+            if (File.Exists(directoryPath + app.name + "/" + app.name))
             {
                 DirectoryInfo di = new DirectoryInfo(appsFolder + app.name + "/");
 
@@ -64,10 +93,10 @@ namespace Forester
             }
 
             //Creating app directory
-            Directory.CreateDirectory(appsFolder + app.name);
+            Directory.CreateDirectory(path == "" ? directoryPath +app.name : directoryPath);
 
-            try
-            {
+           try
+           {
                 //Downloading .zip with app (TODO: async download)
                 WebClient wc = new WebClient();
                 await wc.DownloadFileTaskAsync(new Uri(ServerConnection.api + $"/api/Download/Load/{Data.currentAccount.id}/{Data.currentAccount.password}/{app.name}"),
@@ -76,15 +105,16 @@ namespace Forester
                 await Task.Delay(1000);
 
                 //Creating info .json, extracting program, cleaning up
-                Directory.CreateDirectory(appsFolder + app.name);
-                ZipFile.ExtractToDirectory(appsFolder + app.name + ".zip", appsFolder + app.name);
-                File.Create(appsFolder + app.name + "/" + app.name).Close();
-                File.WriteAllText(appsFolder + app.name + "/" + app.name, JsonConvert.SerializeObject(app));
+                Directory.CreateDirectory(directoryPath + app.name);
+                ZipFile.ExtractToDirectory(appsFolder + app.name + ".zip", directoryPath + app.name);
+                File.Create(directoryPath + app.name + "/" + app.name).Close();
+                File.WriteAllText(directoryPath + app.name + "/" + app.name, JsonConvert.SerializeObject(app));
                 File.Delete(appsFolder + app.name + ".zip");
                 return true;
             }
-            catch(Exception)
+            catch(Exception x)
             {
+                Debug.Print(x.Message);
                 return false;
             }
         }

@@ -2,6 +2,10 @@
 using Forester.Models;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
+using System.Diagnostics;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System;
 
 namespace Forester
 {
@@ -13,6 +17,17 @@ namespace Forester
 
             string fileText = System.IO.File.ReadAllText("./config.json");
             Data.config = JsonConvert.DeserializeObject<Config>(fileText);
+
+            string version = ServerConnection.Get("/api/Info/GetVersion");
+
+            if(version != Data.config.version)
+            {
+                ProcessStartInfo processInfo = new ProcessStartInfo();
+                processInfo.FileName = "./ForesterUpdater/ForesterUpdater.exe";
+                processInfo.WorkingDirectory = System.IO.Path.GetDirectoryName("./ForesterUpdater/");
+                Process.Start(processInfo);
+                Close();
+            }
 
             if (string.IsNullOrWhiteSpace(Data.config.autoLogin))
                 return;
@@ -73,6 +88,12 @@ namespace Forester
                 return;
             }
 
+            if (passwordInput.Text.Length > 20 || loginInput.Text.Length > 20) 
+            {
+                ErrorText.Content = "Za długie hasło lub login (20 maks)";
+                return;
+            }
+
             Account body = new Account()
             {
                 id = 0,
@@ -110,12 +131,33 @@ namespace Forester
         private void passwordInput_GotFocus(object sender, RoutedEventArgs e)
         {
             if (passwordInput.Text == "Password")
+            {
+                if((bool)showPassword.IsChecked)
+                    passwordInput.FontFamily = new System.Windows.Media.FontFamily("Segoe UI");
+                else
+                    passwordInput.FontFamily = new System.Windows.Media.FontFamily(new Uri("pack://application:,,,/"), "./IMG/#Password");
+
                 passwordInput.Text = "";
+            }
         }
         private void passwordInput_LostFocus(object sender, RoutedEventArgs e)
         {
             if (passwordInput.Text.Length == 0)
+            {
+                passwordInput.FontFamily = new System.Windows.Media.FontFamily("Segoe UI");
                 passwordInput.Text = "Password";
+            }
+        }
+
+        private void showPassword_Checked(object sender, RoutedEventArgs e) =>
+            passwordInput.FontFamily = new System.Windows.Media.FontFamily("Segoe UI");
+
+        private void showPassword_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if(passwordInput.Text != "Password")
+                passwordInput.FontFamily = new System.Windows.Media.FontFamily(new Uri("pack://application:,,,/"), "./IMG/#Password");
         }
     }
+
+    
 }

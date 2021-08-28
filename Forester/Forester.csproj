@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="IMG\Logo.png" />
+    <None Remove="IMG\Password.ttf" />
     <None Remove="Logo.png" />
     <None Remove="MaxWindow.png" />
     <None Remove="MinWindow.png" />
@@ -23,6 +24,7 @@
 
   <ItemGroup>
     <Resource Include="IMG\Logo.png" />
+    <Resource Include="IMG\Password.ttf" />
     <Resource Include="IMG\X.png" />
     <Resource Include="IMG\MaxWindow.png" />
     <Resource Include="IMG\MinWindow.png" />
@@ -44,6 +46,30 @@
   <ItemGroup>
     <None Update="config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ForesterUpdater\ForesterUpdater.deps.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ForesterUpdater\ForesterUpdater.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ForesterUpdater\ForesterUpdater.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ForesterUpdater\ForesterUpdater.pdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ForesterUpdater\ForesterUpdater.runtimeconfig.dev.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ForesterUpdater\ForesterUpdater.runtimeconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ForesterUpdater\Newtonsoft.Json.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ForesterUpdater\ref\ForesterUpdater.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

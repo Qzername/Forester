@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Path = Forester.Models.Path;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Net;
@@ -22,9 +23,12 @@ namespace Forester
 
             MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
 
-            Info.Content = Info.Content + $" - name: {Data.currentAccount.name} - id: {Data.currentAccount.id}" + (Data.currentAccount.isDeveloper== "true"? " DEWELOPER":"");
+            Info.Content = Info.Content + $" {Data.config.version} - name: {Data.currentAccount.name} - id: {Data.currentAccount.id}" + (Data.currentAccount.isDeveloper== "true"? " DEWELOPER":"");
 
             DownloadButton.Visibility = Visibility.Hidden;
+            Settings.Visibility = Visibility.Hidden;
+            SettingsPanel.Visibility = Visibility.Hidden;
+
             if (Data.currentAccount.isDeveloper == "false")
                 DeveloperButton.Visibility = Visibility.Hidden;
 
@@ -117,6 +121,7 @@ namespace Forester
         void RefreshPage()
         {
             DownloadButton.Visibility = Visibility.Visible;
+            Settings.Visibility = Visibility.Visible;
 
             TextBlock text = applist.SelectedItem as TextBlock;
 
@@ -136,9 +141,16 @@ namespace Forester
             Classes.Application appStatus;
             DownloadButton.IsEnabled = true;
 
-            if (DownloadHandler.IsDownloaded(app.name))
+            if (System.IO.File.Exists("./" + DownloadHandler.appsFolder + app.name + "/path.json"))
+                SettingsPath.Text = JsonConvert.DeserializeObject<Path>(System.IO.File.ReadAllText("./" + DownloadHandler.appsFolder + app.name + "/path.json")).path;
+            else
+                SettingsPath.Text = "";
+
+            if (DownloadHandler.IsDownloaded(app.name, SettingsPath.Text) || System.IO.File.Exists("./" + DownloadHandler.appsFolder + app.name + "/path.json"))
             {
-                appStatus = DownloadHandler.GetInfo(app.name);
+                SettingsPath.IsEnabled = false;
+
+                appStatus = DownloadHandler.GetInfo(app.name, SettingsPath.Text);
                 if (appStatus.version != app.version)
                     DownloadButton.Content = "Aktulizuj";
                 else
@@ -148,7 +160,10 @@ namespace Forester
                 }
             }
             else
+            {
+                SettingsPath.IsEnabled = true;
                 DownloadButton.Content = "Pobierz";
+            }
         }
         
         private async void DownloadButton_Click(object sender, RoutedEventArgs e)
@@ -157,7 +172,7 @@ namespace Forester
             var app = Data.getAllApps.Single(x => x.name == text.Text);
             DownloadButton.IsEnabled = false;
             DownloadButton.Content = "Pobieranie";
-            bool done = await DownloadHandler.Download(app);
+            bool done = await DownloadHandler.Download(app, SettingsPath.Text);
 
             if (done)
                 RefreshPage();
@@ -174,6 +189,7 @@ namespace Forester
             GetApplications();
 
             DownloadButton.Visibility = Visibility.Hidden;
+            Settings.Visibility = Visibility.Hidden;
         }
 
         private void logoutButton_Click(object sender, RoutedEventArgs e)
@@ -204,6 +220,16 @@ namespace Forester
             final = final.Replace("{isPrivate}", app.isPrivate == "true" ? "tak" : "nie");
 
             return final;
+        }
+
+        private void ExitPanel_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsPanel.Visibility = Visibility.Hidden;
+        }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsPanel.Visibility = Visibility.Visible;
         }
     }
 }

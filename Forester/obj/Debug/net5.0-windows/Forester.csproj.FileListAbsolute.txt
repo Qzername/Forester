@@ -27,7 +27,6 @@ D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\Forester.ru
 D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\Forester.dll
 D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\ref\Forester.dll
 D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\Forester.pdb
-D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.csprojAssemblyReference.cache
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\MainWindow.g.cs
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\App.g.cs
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester_MarkupCompile.cache
@@ -49,3 +48,13 @@ D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.cs
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\DeveloperPanel.g.cs
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\DeveloperPanel.baml
 D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\config.json
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\ForesterUpdater\ForesterUpdater.deps.json
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\ForesterUpdater\ForesterUpdater.dll
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\ForesterUpdater\ForesterUpdater.exe
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\ForesterUpdater\ForesterUpdater.pdb
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\ForesterUpdater\ForesterUpdater.runtimeconfig.dev.json
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\ForesterUpdater\ForesterUpdater.runtimeconfig.json
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\ForesterUpdater\Newtonsoft.Json.dll
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Debug\net5.0-windows\ForesterUpdater\ref\ForesterUpdater.dll
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\Forester.csproj.AssemblyReference.cache
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Debug\net5.0-windows\App.baml

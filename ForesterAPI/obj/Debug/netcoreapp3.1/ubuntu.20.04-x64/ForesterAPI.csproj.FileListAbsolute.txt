@@ -322,7 +322,6 @@ D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\netcoreapp3.1\ubuntu.20
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\netcoreapp3.1\ubuntu.20.04-x64\System.Security.Cryptography.Xml.dll
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\netcoreapp3.1\ubuntu.20.04-x64\System.Security.Permissions.dll
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\netcoreapp3.1\ubuntu.20.04-x64\System.Windows.Extensions.dll
-D:\Projekty\aktywne teraz\Forester\ForesterAPI\obj\Debug\netcoreapp3.1\ubuntu.20.04-x64\ForesterAPI.csprojAssemblyReference.cache
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\obj\Debug\netcoreapp3.1\ubuntu.20.04-x64\ForesterAPI.AssemblyInfoInputs.cache
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\obj\Debug\netcoreapp3.1\ubuntu.20.04-x64\ForesterAPI.AssemblyInfo.cs
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\obj\Debug\netcoreapp3.1\ubuntu.20.04-x64\ForesterAPI.csproj.CoreCompileInputs.cache
@@ -350,3 +349,6 @@ D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\netcoreapp3.1\ubuntu.20
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\netcoreapp3.1\ubuntu.20.04-x64\Microsoft.AspNetCore.JsonPatch.dll
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\netcoreapp3.1\ubuntu.20.04-x64\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\netcoreapp3.1\ubuntu.20.04-x64\Newtonsoft.Json.Bson.dll
+D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\netcoreapp3.1\ubuntu.20.04-x64\Database\Forester\config.json
+D:\Projekty\aktywne teraz\Forester\ForesterAPI\obj\Debug\netcoreapp3.1\ubuntu.20.04-x64\ForesterAPI.csproj.AssemblyReference.cache
+D:\Projekty\aktywne teraz\Forester\ForesterAPI\obj\Debug\netcoreapp3.1\ubuntu.20.04-x64\ForesterAPI.GeneratedMSBuildEditorConfig.editorconfig

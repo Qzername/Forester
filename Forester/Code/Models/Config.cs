@@ -10,5 +10,6 @@ namespace Forester.Models
     {
         public string autoLogin { get; set; }
         public string autoPassword { get; set; }
+        public string version { get; set; }
     }
 }

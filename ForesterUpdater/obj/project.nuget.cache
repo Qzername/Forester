@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "n7BzZoaX77eNqawGO2GrHZo1Emq/T6w0s3uIzpxF+rBdu2Ei/66biUHZpbu/nYcP2pLkGa863t2hlc+fo0QJUg==",
+  "success": true,
+  "projectFilePath": "D:\\Projekty\\aktywne teraz\\Forester\\ForesterUpdater\\ForesterUpdater.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Hubert\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

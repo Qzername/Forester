@@ -7,7 +7,6 @@ D:\Projekty\aktywne teraz\Forester\Forester\bin\Release\net5.0-windows\Forester.
 D:\Projekty\aktywne teraz\Forester\Forester\bin\Release\net5.0-windows\ref\Forester.dll
 D:\Projekty\aktywne teraz\Forester\Forester\bin\Release\net5.0-windows\Forester.pdb
 D:\Projekty\aktywne teraz\Forester\Forester\bin\Release\net5.0-windows\Newtonsoft.Json.dll
-D:\Projekty\aktywne teraz\Forester\Forester\obj\Release\net5.0-windows\Forester.csprojAssemblyReference.cache
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Release\net5.0-windows\DeveloperPanel.g.cs
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Release\net5.0-windows\LogIn.g.cs
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Release\net5.0-windows\MainWindow.g.cs
@@ -27,3 +26,13 @@ D:\Projekty\aktywne teraz\Forester\Forester\obj\Release\net5.0-windows\Forester.
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Release\net5.0-windows\ref\Forester.dll
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Release\net5.0-windows\Forester.pdb
 D:\Projekty\aktywne teraz\Forester\Forester\obj\Release\net5.0-windows\Forester.genruntimeconfig.cache
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Release\net5.0-windows\ForesterUpdater\ForesterUpdater.deps.json
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Release\net5.0-windows\ForesterUpdater\ForesterUpdater.dll
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Release\net5.0-windows\ForesterUpdater\ForesterUpdater.exe
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Release\net5.0-windows\ForesterUpdater\ForesterUpdater.pdb
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Release\net5.0-windows\ForesterUpdater\ForesterUpdater.runtimeconfig.dev.json
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Release\net5.0-windows\ForesterUpdater\ForesterUpdater.runtimeconfig.json
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Release\net5.0-windows\ForesterUpdater\Newtonsoft.Json.dll
+D:\Projekty\aktywne teraz\Forester\Forester\bin\Release\net5.0-windows\ForesterUpdater\ref\ForesterUpdater.dll
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Release\net5.0-windows\Forester.csproj.AssemblyReference.cache
+D:\Projekty\aktywne teraz\Forester\Forester\obj\Release\net5.0-windows\App.baml

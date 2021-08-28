@@ -24,6 +24,9 @@ namespace ForesterAPI.Controllers
         [HttpPost("[action]")]
         public string NewUser([FromBody] Account user)
         {
+            if (user.password.Length > 20 || user.name.Length>20)
+                return "FUCK OFF.";
+
             if (string.IsNullOrEmpty(user.name) || string.IsNullOrEmpty(user.password) || string.IsNullOrEmpty(user.isDeveloper))
                 return "JSON WITHOUT NEEDED INFORMATION.";
 
