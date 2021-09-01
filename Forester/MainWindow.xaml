@@ -36,24 +36,30 @@
         <Grid x:Name="AppInfo" MinHeight="414" Margin="203,26,5,0" MinWidth="596" RenderTransformOrigin="0.5,0.5">
             <Label Foreground="White" HorizontalContentAlignment="Center" x:Name="AppName" Content="Witamy w Foresterze!" FontSize="30" Margin="5,10,0,5" VerticalAlignment="Top"  HorizontalAlignment="Stretch"/>
             <Label Foreground="White" x:Name="AppDescription" Content="To prosty launcher i downloader dla naszych projektów.&#xA;&#xA;Aplikacje wykonał: uZer&#xA;Specjalne podziękowania: heapy (Ikony)" FontSize="16" Margin="14,65,14,77" MinHeight="274" MinWidth="568"/>
-            <Button x:Name="DownloadButton" Content="Button" Margin="73,0,5,10" VerticalAlignment="Bottom" VerticalContentAlignment="Center" Height="62" Click="DownloadButton_Click"/>
-            <Button x:Name="Settings" Content="Ustawienia" HorizontalAlignment="Left" Margin="5,352,0,0" VerticalAlignment="Top" Height="63" Width="63" Click="Settings_Click"/>
+
+            <Grid x:Name="downloadingButtons" Height="70" VerticalAlignment="Bottom">
+                <Button x:Name="DownloadButton" Content="Button"  Margin="68,0,10,7" Height="63" Click="DownloadButton_Click" />
+                <Button x:Name="Settings" Content="Ustawienia" HorizontalAlignment="Left" Margin="0,0,0,7" Height="63" Width="63" Click="Settings_Click" Background="#FFDDDDDD"/>
+            </Grid>
         </Grid>
 
         <Button x:Name="refreshButton" Content="Odśwież" HorizontalAlignment="Left" Margin="10,49,0,0" VerticalAlignment="Top" Height="21" Width="188" Click="refreshButton_Click" />
         <Button x:Name="logoutButton" Content="Wyloguj" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Height="21" Width="188" Click="logoutButton_Click"/>
 
         <Grid x:Name="SettingsPanel" Margin="0,18,0,0">
-            <Rectangle HorizontalAlignment="Center" Height="432" VerticalAlignment="Center" Width="800" Fill="#FF2C2C2C" Opacity="0.8"/>
-            <Rectangle HorizontalAlignment="Center" Height="72" VerticalAlignment="Top" Width="288" Fill="Black" Margin="0,182,0,0"/>
-            <Label HorizontalContentAlignment="Center" Content="Ustawienia" HorizontalAlignment="Center" Margin="0,182,0,0" VerticalAlignment="Top" Foreground="White" Width="288" Height="43" FontSize="24"/>
-            <TextBox x:Name="SettingsPath" HorizontalAlignment="Left" Margin="356,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181"/>
-            <Label Content="Sciezka instalacji:" HorizontalAlignment="Left" Margin="256,226,0,0" VerticalAlignment="Top" Foreground="White"/>
-            <Button x:Name="ExitPanel" HorizontalAlignment="Left" Margin="524,182,0,0" VerticalAlignment="Top" Width="20" Click="ExitPanel_Click" Height="20" BorderBrush="#00000000">
-                <Button.Background>
-                    <ImageBrush ImageSource="/IMG/X.png"/>
-                </Button.Background>
-            </Button>
+            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FF2C2C2C" Opacity="0.8"/>
+            <Grid Width="288" Height="101" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Black">
+                <Label HorizontalContentAlignment="Center" Content="Ustawienia" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Width="288" Height="43" FontSize="24"/>
+                <TextBox x:Name="SettingsPath" HorizontalAlignment="Left" Margin="100,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181"/>
+                <Label Content="Sciezka instalacji:" HorizontalAlignment="Left" Margin="0,43,0,0" VerticalAlignment="Top" Foreground="White"/>
+                <Button x:Name="ExitPanel" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Click="ExitPanel_Click" Height="20" BorderBrush="#00000000">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/IMG/X.png"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="DownloadConfirmed" Click="DownloadConfirmed_Click" Content="Pobierz" HorizontalAlignment="Center" Margin="0,76,0,0" VerticalAlignment="Top" Width="277" FontSize="10"/>
+            </Grid>
         </Grid>
+
     </Grid>
 </Window>

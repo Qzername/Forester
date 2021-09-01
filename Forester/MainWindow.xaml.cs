@@ -77,16 +77,18 @@ namespace Forester
                     WindowState = WindowState.Maximized;
                     Thickness thick = applist.Margin;
                     thick.Bottom = 25;
-                    DownloadButton.Margin = thick;
                     applist.Margin = thick;
+                    thick.Left = 0;
+                    downloadingButtons.Margin = thick;
                 }
                 else
                 {
                     WindowState = WindowState.Normal;
                     Thickness thick = applist.Margin;
                     thick.Bottom = 10;
-                    DownloadButton.Margin = thick;
                     applist.Margin = thick;
+                    thick.Left = 0;
+                    downloadingButtons.Margin = thick;
                 }
                 Activate();
             }));
@@ -152,26 +154,35 @@ namespace Forester
 
                 appStatus = DownloadHandler.GetInfo(app.name, SettingsPath.Text);
                 if (appStatus.version != app.version)
+                {
                     DownloadButton.Content = "Aktulizuj";
+                    DownloadConfirmed.Content = "Aktulizuj";
+                }
                 else
                 {
                     DownloadButton.IsEnabled = false;
                     DownloadButton.Content = "Wersja aktualna";
+                    DownloadConfirmed.Content = "Wersja aktualna";
                 }
             }
             else
             {
                 SettingsPath.IsEnabled = true;
                 DownloadButton.Content = "Pobierz";
+                DownloadConfirmed.Content = "Pobierz";
             }
         }
-        
-        private async void DownloadButton_Click(object sender, RoutedEventArgs e)
+
+        private async void DownloadConfirmed_Click(object sender, RoutedEventArgs e) => ConfirmedDownload();
+
+        async void ConfirmedDownload()
         {
             TextBlock text = applist.SelectedItem as TextBlock;
             var app = Data.getAllApps.Single(x => x.name == text.Text);
             DownloadButton.IsEnabled = false;
             DownloadButton.Content = "Pobieranie";
+            DownloadConfirmed.IsEnabled = false;
+            DownloadConfirmed.Content = "Pobieranie";
             bool done = await DownloadHandler.Download(app, SettingsPath.Text);
 
             if (done)
@@ -180,7 +191,11 @@ namespace Forester
             {
                 DownloadButton.Content = "Wystąpił błąd. Czy twórca upoblikował pierwszą wersje?";
                 DownloadButton.IsEnabled = true;
+                DownloadConfirmed.Content = "Wystąpił błąd. Czy twórca upoblikował pierwszą wersje?";
+                DownloadConfirmed.IsEnabled = true;
             }
+
+            SettingsPanel.Visibility = Visibility.Hidden;
         }
 
         private void refreshButton_Click(object sender, RoutedEventArgs e)
@@ -189,7 +204,7 @@ namespace Forester
             GetApplications();
 
             DownloadButton.Visibility = Visibility.Hidden;
-            Settings.Visibility = Visibility.Hidden;
+            SettingsPanel.Visibility = Visibility.Hidden;
         }
 
         private void logoutButton_Click(object sender, RoutedEventArgs e)
@@ -230,6 +245,18 @@ namespace Forester
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
             SettingsPanel.Visibility = Visibility.Visible;
+            DownloadConfirmed.Visibility = Visibility.Hidden;
+        }
+
+        private void DownloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            if ((string)DownloadButton.Content != "Aktulizuj")
+            {
+                SettingsPanel.Visibility = Visibility.Visible;
+                DownloadConfirmed.Visibility = Visibility.Visible;
+            }
+            else
+                ConfirmedDownload();
         }
     }
 }
