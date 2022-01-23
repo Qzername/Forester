@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "14d00fe7-e553-4b71-a587-06f8f5cf3641": {
+      "ProjectGuid": "14d00fe7-e553-4b71-a587-06f8f5cf3641",
+      "DisplayName": "Forester2",
+      "ColorIndex": 0
+    },
+    "f0aaf442-323f-4855-a4c1-8ff3983f8176": {
+      "ProjectGuid": "f0aaf442-323f-4855-a4c1-8ff3983f8176",
+      "DisplayName": "ForesterAPI",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}

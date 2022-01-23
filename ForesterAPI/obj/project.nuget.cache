@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "nYNUkYAVLUynOKYMcYu8atz4peeAUo4wvSJQy+HMp+8LHujeWukhPoRecvXU4GvkOJxhvwfddITVB7RBtnZNsQ==",
+  "success": true,
+  "projectFilePath": "D:\\Projekty\\aktywne teraz\\Forester\\ForesterAPI\\ForesterAPI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Hubert\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Hubert\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Hubert\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\Hubert\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\Hubert\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\Hubert\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}
