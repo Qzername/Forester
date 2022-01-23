@@ -1,9 +1,0 @@
-﻿<Application x:Class="Forester.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Forester"
-             StartupUri="LogIn.xaml">
-    <Application.Resources>
-        <FontFamily x:Key="PasswordFont">pack://application:,,,/IMG/#Password</FontFamily>
-    </Application.Resources>
-</Application>
