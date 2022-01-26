@@ -26,7 +26,7 @@ namespace ForesterAPI.Controllers
 
             long expTime = DateTimeOffset.UtcNow.AddDays(7).ToUnixTimeSeconds();
 
-            Dictionary<string, object> claims = new Dictionary<string, object>() { { "ID", users[0].ID }, { "username", users[0].friendlyUsername }, { "exp", expTime } };
+            Dictionary<string, object> claims = new Dictionary<string, object>() { { "ID", users[0].ID }, { "username", users[0].friendlyUsername } };
             Token token = new Token() { exp = expTime, token = JWTManager.Encode(claims) };
 
             return Ok(JSONManager.Serialize(token));
@@ -51,16 +51,16 @@ namespace ForesterAPI.Controllers
         }
 
         [HttpPut("[action]")]
-        public IActionResult Update(string token, Account update)
+        public IActionResult Update(UpdateCredentials update)
         {
-            string decoded = JWTManager.Decode(token);
+            string decoded = JWTManager.Decode(update.token);
 
             if (decoded == "")
                 return StatusCode(403);
 
             var loginToken = JSONManager.Deserialize<LoginToken>(decoded);
 
-            string query = "UPDATE Accounts SET = ";
+            string query = "UPDATE Accounts SET ";
 
             if(!string.IsNullOrEmpty(update.friendlyUsername))
                 query += "friendly_username = \"" + update.friendlyUsername + "\",";
@@ -75,35 +75,36 @@ namespace ForesterAPI.Controllers
                 return StatusCode(406);
 
             query = query.Remove(query.Length - 1);
-            query += "WHERE username = \"" + loginToken.username + "\"";
+            query += " WHERE username = \"" + loginToken.username + "\"";
 
             SQLDatabase.NoReturnQuery(query);
 
             return Ok();
+
         }
 
         [HttpGet("[action]")]
-        public FileContentResult GetPicture(string username, string pictureType)
+        public FileContentResult GetPicture(UpdatePictureCredentials update)
         {
-            var users = SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE username=\"{username}\"");
+            var users = SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE username=\"{update.name}\"");
 
             if (users.Length == 0)
                 return null;
 
-            var type = (PictureManager.Picture)Enum.Parse(typeof(PictureManager.Picture), pictureType);
+            var type = (PictureManager.Picture)Enum.Parse(typeof(PictureManager.Picture), update.pictureType);
 
-            (bool profilePicture, bool backgroundPicture) = PictureManager.CheckIfExist(username);
+            (bool profilePicture, bool backgroundPicture) = PictureManager.CheckIfExist(update.name);
 
             if ((type == PictureManager.Picture.profile && profilePicture) || (type == PictureManager.Picture.background && backgroundPicture))
                 return null; 
 
-            return File(PictureManager.GetImage(username, type), "image/png");
+            return File(PictureManager.GetImage(update.name, type), "image/png");
         }
 
         [HttpPut("[action]")]
-        public IActionResult UpdatePicture(string token, string pictureType, IFormFile file)
+        public IActionResult UpdatePicture(UpdatePictureCredentials update, IFormFile file)
         {
-            string decoded = JWTManager.Decode(token);
+            string decoded = JWTManager.Decode(update.name);
 
             if (decoded == "")
                 return StatusCode(403);
@@ -115,7 +116,7 @@ namespace ForesterAPI.Controllers
                 file.CopyTo(ms);
                 var fileBytes = ms.ToArray();
 
-                PictureManager.UpdateImage(loginToken.username, (PictureManager.Picture)Enum.Parse(typeof(PictureManager.Picture), pictureType), fileBytes);
+                PictureManager.UpdateImage(loginToken.username, (PictureManager.Picture)Enum.Parse(typeof(PictureManager.Picture), update.pictureType), fileBytes);
             }
 
             return Ok();
@@ -131,6 +132,7 @@ namespace ForesterAPI.Controllers
 
             var user = users[0];
 
+            user.username = "";
             user.password = "";
 
             return Ok(JSONManager.Serialize(user));
