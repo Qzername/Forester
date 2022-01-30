@@ -1,6 +1,6 @@
 ﻿using System.Data.SQLite;
 
-namespace ForesterAPI.Database
+namespace ForesterAPI
 {
     public static class SQLDatabase
     {

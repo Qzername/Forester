@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ForesterAPI.Models;
 using System.Data.SQLite;
-using ForesterAPI.Database;
 
 namespace ForesterAPI.Controllers
 {
@@ -81,45 +80,6 @@ namespace ForesterAPI.Controllers
 
             return Ok();
 
-        }
-
-        [HttpGet("[action]")]
-        public FileContentResult GetPicture(UpdatePictureCredentials update)
-        {
-            var users = SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE username=\"{update.name}\"");
-
-            if (users.Length == 0)
-                return null;
-
-            var type = (PictureManager.Picture)Enum.Parse(typeof(PictureManager.Picture), update.pictureType);
-
-            (bool profilePicture, bool backgroundPicture) = PictureManager.CheckIfExist(update.name);
-
-            if ((type == PictureManager.Picture.profile && profilePicture) || (type == PictureManager.Picture.background && backgroundPicture))
-                return null; 
-
-            return File(PictureManager.GetImage(update.name, type), "image/png");
-        }
-
-        [HttpPut("[action]")]
-        public IActionResult UpdatePicture(UpdatePictureCredentials update, IFormFile file)
-        {
-            string decoded = JWTManager.Decode(update.name);
-
-            if (decoded == "")
-                return StatusCode(403);
-
-            var loginToken = JSONManager.Deserialize<LoginToken>(decoded);
-
-            using (var ms = new MemoryStream())
-            {
-                file.CopyTo(ms);
-                var fileBytes = ms.ToArray();
-
-                PictureManager.UpdateImage(loginToken.username, (PictureManager.Picture)Enum.Parse(typeof(PictureManager.Picture), update.pictureType), fileBytes);
-            }
-
-            return Ok();
         }
 
         [HttpGet("[action]")]
