@@ -1,5 +1,6 @@
 ﻿using ForesterAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace ForesterAPI.Controllers
 {
@@ -7,6 +8,23 @@ namespace ForesterAPI.Controllers
     [ApiController]
     public class UpdateController : ControllerBase
     {
+        #region Forester
+        [HttpGet("Forester/Version")]
+        public IActionResult VersionForester() => Ok(System.IO.File.ReadAllText("./Database/Update/Forester/version.json"));
+
+        [HttpGet("Forester/Download")]
+        public FileContentResult DownloadForester() => File(System.IO.File.ReadAllBytes("./Database/Update/Forester/app.zip"), "application/force-download", "forester.zip");
+        #endregion
+
+        #region Updater
+        [HttpGet("Updater/Version")]
+        public IActionResult VersionUpdater() => Ok(System.IO.File.ReadAllText("./Database/Update/Updater/version.json"));
+
+        [HttpGet("Updater/Download")]
+        public FileContentResult DownloadUpdater() => File(System.IO.File.ReadAllBytes("./Database/Update/Updater/app.zip"), "application/force-download", "updater.zip");
+        #endregion
+
+        #region Picture
         [HttpGet("[action]")]
         public FileContentResult GetPicture(UpdatePictureCredentials update)
         {
@@ -61,5 +79,6 @@ namespace ForesterAPI.Controllers
 
             return Ok();
         }
+        #endregion
     }
 }

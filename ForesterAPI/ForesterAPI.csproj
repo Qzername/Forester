@@ -15,8 +15,11 @@
 
   <ItemGroup>
     <Folder Include="Database\Applications\" />
+    <Folder Include="Database\Temp\" />
     <Folder Include="Database\Pictures\Accounts\" />
     <Folder Include="Database\Pictures\Applications\" />
+    <Folder Include="Database\Update\Forester\" />
+    <Folder Include="Database\Update\Updater\" />
   </ItemGroup>
 
   <ItemGroup>
