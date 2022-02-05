@@ -9,8 +9,6 @@
         public string version { get; set; }
         public string isPrivate { get; set; }
         public ulong mainDeveloper { get; set; }
-        public ulong[] allowedDevelopers { get; set; }
-        public ulong[] allowedUsers { get; set; }
         public string absoluteUpdate { get; set; }
         public int downloadNumber { get; set; }
     }

@@ -58,7 +58,9 @@ namespace ForesterAPI
             byte[] data = File.ReadAllBytes(pathToTemp);
 
             Directory.Delete(pathToTemp, true);
-            
+
+            SQLDatabase.NoReturnQuery($"UPDATE Applications SET downloadNumber = downloadNumber + 1 WHERE name=\"{name}\"");
+
             return data;
         }
 

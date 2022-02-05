@@ -9,7 +9,7 @@ namespace ForesterAPI.Controllers
     public class AccountsController : ControllerBase
     {
         // GET: api/<AccountsController>/Login
-        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         public IActionResult Login(LoginCredentials login)
         {
             if (string.IsNullOrEmpty(login.username) || string.IsNullOrEmpty(login.password))
@@ -50,9 +50,9 @@ namespace ForesterAPI.Controllers
         }
 
         [HttpPut("[action]")]
-        public IActionResult Update(UpdateCredentials update)
+        public IActionResult Update([FromHeader] string token, Account update)
         {
-            string decoded = JWTManager.Decode(update.token);
+            string decoded = JWTManager.Decode(token);
 
             if (decoded == "")
                 return StatusCode(403);
@@ -83,7 +83,7 @@ namespace ForesterAPI.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetUser(string username)
+        public IActionResult GetUser([FromQuery] string username)
         {
             var users = SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE username=\"{username}\"");
 

@@ -26,23 +26,23 @@ namespace ForesterAPI.Controllers
 
         #region Picture
         [HttpGet("[action]")]
-        public FileContentResult GetPicture(UpdatePictureCredentials update)
+        public FileContentResult GetPicture([FromHeader] string token, PictureManager.Folder objectType, PictureManager.Picture pictureType, string name)
         {
-            string decoded = JWTManager.Decode(update.token.token);
+            string decoded = JWTManager.Decode(token);
 
             if (decoded == "")
                 return null;
 
             var loginToken = JSONManager.Deserialize<LoginToken>(decoded);
 
-            (bool profilePicture, bool backgroundPicture) = PictureManager.CheckIfExist(update.name, update.objectType);
+            (bool profilePicture, bool backgroundPicture) = PictureManager.CheckIfExist(name, objectType);
 
-            if ((update.pictureType == PictureManager.Picture.profile && !profilePicture) || (update.pictureType == PictureManager.Picture.background && !backgroundPicture))
+            if ((pictureType == PictureManager.Picture.profile && !profilePicture) || (pictureType == PictureManager.Picture.background && !backgroundPicture))
                 return null;
 
-            if(update.objectType == PictureManager.Folder.Applications)
+            if(objectType == PictureManager.Folder.Applications)
             {
-                var apps = SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE name=\"{update.name}\"");
+                var apps = SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE name=\"{name}\"");
 
                 if (apps.Length == 0)
                     return null;
@@ -53,20 +53,20 @@ namespace ForesterAPI.Controllers
                     return null;
             }
 
-            return File(PictureManager.GetImage(update.name, update.pictureType, update.objectType), "image/png");
+            return File(PictureManager.GetImage(name, pictureType, objectType), "image/png");
         }
 
         [HttpPut("[action]")]
-        public IActionResult UpdatePicture(UpdatePictureCredentials update, IFormFile file)
+        public IActionResult UpdatePicture([FromHeader] string token, PictureManager.Folder objectType, PictureManager.Picture pictureType, string name, IFormFile file)
         {
-            string decoded = JWTManager.Decode(update.token.token);
+            string decoded = JWTManager.Decode(token);
 
             if (decoded == "")
                 return StatusCode(403);
 
             var loginToken = JSONManager.Deserialize<LoginToken>(decoded);
 
-            if (update.objectType == PictureManager.Folder.Applications && SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE mainDeveloper = {loginToken.ID}").Length == 0)
+            if (objectType == PictureManager.Folder.Applications && SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE mainDeveloper = {loginToken.ID}").Length == 0)
                 return StatusCode(403);
 
             using (var ms = new MemoryStream())
@@ -74,7 +74,7 @@ namespace ForesterAPI.Controllers
                 file.CopyTo(ms);
                 var fileBytes = ms.ToArray();
 
-                PictureManager.UpdateImage(loginToken.username, update.pictureType, update.objectType, fileBytes);
+                PictureManager.UpdateImage(loginToken.username, pictureType, objectType, fileBytes);
             }
 
             return Ok();

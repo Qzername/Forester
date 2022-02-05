@@ -9,9 +9,9 @@ namespace ForesterAPI.Controllers
     {
         // GET api/<DownloadController>
         [HttpGet("[action]")]
-        public FileContentResult Load(Token token, string name, Dictionary<string, string> files)
+        public FileContentResult Load([FromHeader] string token, string name, Dictionary<string, string> files)
         {
-            string decoded = JWTManager.Decode(token.token);
+            string decoded = JWTManager.Decode(token);
 
             if (decoded == "")
                 return null;
@@ -39,9 +39,9 @@ namespace ForesterAPI.Controllers
 
         // POST api/<DownloadController>
         [HttpPost("[action]")]
-        public IActionResult Upload(Token token, string name, IFormFile file)
+        public IActionResult Upload([FromHeader] string token, string name, IFormFile file)
         {
-            string decoded = JWTManager.Decode(token.token);
+            string decoded = JWTManager.Decode(token);
 
             if (decoded == "")
                 return StatusCode(403);

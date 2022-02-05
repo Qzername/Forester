@@ -9,10 +9,10 @@ namespace ForesterAPI.Controllers
     {
         // GET api/<ApplicationsController>/Get
         [HttpGet("[action]")]
-        public IActionResult Get(Token token)
+        public IActionResult Get([FromHeader] string token)
         {
             //Deserializacja tokenu
-            string decoded = JWTManager.Decode(token.token);
+            string decoded = JWTManager.Decode(token);
 
             if (decoded == "")
                 return StatusCode(403);
@@ -40,10 +40,10 @@ namespace ForesterAPI.Controllers
 
         // GET api/<ApplicationsController>/Get/<name>
         [HttpGet("[action]/{name}")]
-        public IActionResult Get(Token token, string name)
+        public IActionResult Get([FromHeader] string token, [FromQuery] string name)
         {
             //Deserializacja tokenu
-            string decoded = JWTManager.Decode(token.token);
+            string decoded = JWTManager.Decode(token);
 
             if (decoded == "")
                 return StatusCode(403);
@@ -65,12 +65,74 @@ namespace ForesterAPI.Controllers
             return Ok(JSONManager.Serialize(app));
         }
 
-        // POST api/<ApplicationsController>/New
-        [HttpPost("[action]")]
-        public IActionResult New(Token token, Application app)
+        // GET api/<ApplicationsController>/GetAllowed
+        [HttpGet("[action]")]
+        public IActionResult GetAllowed([FromHeader] string token, [FromQuery] string name)
         {
             //Deserializacja tokenu
-            string decoded = JWTManager.Decode(token.token);
+            string decoded = JWTManager.Decode(token);
+
+            if (decoded == "")
+                return StatusCode(403);
+
+            var loginToken = JSONManager.Deserialize<LoginToken>(decoded);
+
+            var apps = SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE name=\"{name}\" AND mainDeveloper={loginToken.ID}");
+
+            if(apps.Length == 0)
+                return StatusCode(403);
+
+            var users = SQLDatabase.Select<long>($"SELECT ID_User FROM AllowedUsers WHERE ID_Application = {apps[0].ID}");
+            var developers = SQLDatabase.Select<long>($"SELECT ID_User FROM Developers WHERE ID_Application = {apps[0].ID}");
+
+            Allowed allowed = new Allowed()
+            {
+                name = name,
+                allowedUsers = users,
+                allowedDevelopers = developers
+            };
+
+            return Ok(JSONManager.Serialize(allowed));
+        }
+
+        // PUT api/<ApplicationsController>/UpdateAllowed
+        [HttpPut("[action]")]
+        public IActionResult UpdateAllowed([FromHeader] string token, [FromBody] Allowed allowed)
+        {
+            //Deserializacja tokenu
+            string decoded = JWTManager.Decode(token);
+
+            if (decoded == "")
+                return StatusCode(403);
+
+            var loginToken = JSONManager.Deserialize<LoginToken>(decoded);
+
+            var apps = SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE name=\"{allowed.name}\" AND mainDeveloper={loginToken.ID}");
+
+            if (apps.Length == 0)
+                return StatusCode(403);
+
+            long appID = apps[0].ID;
+
+            SQLDatabase.NoReturnQuery($"DELETE FROM AllowedUsers WHERE ID_Application = {appID}");
+
+            foreach (long id in allowed.allowedUsers)
+                SQLDatabase.NoReturnQuery($"INSERT INTO AllowedUsers(ID_Application, ID_User) VALUES({appID},{id})");
+
+            SQLDatabase.NoReturnQuery($"DELETE FROM Developers WHERE ID_Application = {appID}");
+
+            foreach (long id in allowed.allowedDevelopers)
+                SQLDatabase.NoReturnQuery($"INSERT INTO Developers(ID_Application, ID_User) VALUES({appID},{id})");
+
+            return Ok();
+        }
+
+        // POST api/<ApplicationsController>/New
+        [HttpPost("[action]")]
+        public IActionResult New([FromHeader] string token, Application app)
+        {
+            //Deserializacja tokenu
+            string decoded = JWTManager.Decode(token);
 
             if (decoded == "")
                 return StatusCode(403);
@@ -90,10 +152,10 @@ namespace ForesterAPI.Controllers
 
         // PUT api/<ApplicationsController>/Update
         [HttpPut("[action]")]
-        public IActionResult Update(Token token, Application app)
+        public IActionResult Update([FromHeader] string token, Application app)
         {
             //Deserializacja tokenu
-            string decoded = JWTManager.Decode(token.token);
+            string decoded = JWTManager.Decode(token);
 
             if (decoded == "")
                 return StatusCode(403);
