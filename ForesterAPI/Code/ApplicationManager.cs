@@ -12,8 +12,11 @@ namespace ForesterAPI
         {
             Clear(name);
 
-            FileStream stream = new FileStream($"./Database/Applications/{name}/app.zip", FileMode.Create);
-            file.CopyTo(stream);
+            if (!Directory.Exists("./Database/Applications/" + name + "/"))
+                Directory.CreateDirectory("./Database/Applications/" + name + "/");
+
+            using (FileStream stream = new FileStream($"./Database/Applications/{name}/app.zip", FileMode.Create))
+                file.CopyTo(stream);
 
             ZipArchive zip = ZipFile.Open($"./Database/Applications/{name}/app.zip", ZipArchiveMode.Read);
             
@@ -47,15 +50,16 @@ namespace ForesterAPI
             string pathToAppZip = $"./Database/Applications/{name}/app.zip";
 
             Directory.CreateDirectory(pathToTemp);
-            File.Copy(pathToAppZip, pathToTemp);
+            File.Copy(pathToAppZip, pathToTemp + "app.zip");
 
-            ZipArchive archive = ZipFile.Open(pathToAppZip, ZipArchiveMode.Update);
+            using (ZipArchive archive = ZipFile.Open(pathToTemp + "app.zip", ZipArchiveMode.Update))
+            {
+                foreach (var item in archive.Entries)
+                    if (filesToRemove.Contains(item.Name))
+                        item.Delete();
+            }
 
-            foreach (var item in archive.Entries)
-                if (filesToRemove.Contains(item.Name))
-                    item.Delete();
-
-            byte[] data = File.ReadAllBytes(pathToTemp);
+            byte[] data = File.ReadAllBytes(pathToTemp + "app.zip");
 
             Directory.Delete(pathToTemp, true);
 
@@ -72,8 +76,11 @@ namespace ForesterAPI
 
         static void Clear(string name)
         {
-            File.Delete($"./Database/Applications/{name}/config.json");
-            File.Delete($"./Database/Applications/{name}/app.zip");
+            if(File.Exists($"./Database/Applications/{name}/config.json"))
+                File.Delete($"./Database/Applications/{name}/config.json");
+    
+            if(File.Exists($"./Database/Applications/{name}/app.zip"))
+                File.Delete($"./Database/Applications/{name}/app.zip");
         }
     }
 }

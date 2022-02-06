@@ -25,35 +25,38 @@ namespace ForesterAPI.Controllers
         #endregion
 
         #region Picture
-        [HttpGet("[action]")]
-        public FileContentResult GetPicture([FromHeader] string token, PictureManager.Folder objectType, PictureManager.Picture pictureType, string name)
+        [HttpPost("[action]")]
+        public ActionResult GetPicture([FromHeader] string token, PictureManager.Folder objectType, PictureManager.Picture pictureType, string name)
         {
             string decoded = JWTManager.Decode(token);
 
             if (decoded == "")
-                return null;
+                return StatusCode(403);
 
             var loginToken = JSONManager.Deserialize<LoginToken>(decoded);
 
             (bool profilePicture, bool backgroundPicture) = PictureManager.CheckIfExist(name, objectType);
 
             if ((pictureType == PictureManager.Picture.profile && !profilePicture) || (pictureType == PictureManager.Picture.background && !backgroundPicture))
-                return null;
+                return StatusCode(402);
+
+            string appName = string.Empty;
 
             if(objectType == PictureManager.Folder.Applications)
             {
                 var apps = SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE name=\"{name}\"");
 
                 if (apps.Length == 0)
-                    return null;
+                    return StatusCode(404);
 
                 var app = apps[0];
+                appName = app.name;
 
                 if (app.isPrivate == "True" && loginToken.ID != app.mainDeveloper && SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Applications.ID = {app.ID} AND Developers.ID_User = {loginToken.ID}").Length == 0)
-                    return null;
+                    return StatusCode(404);
             }
 
-            return File(PictureManager.GetImage(name, pictureType, objectType), "image/png");
+            return File(PictureManager.GetImage(objectType == PictureManager.Folder.Accounts? name : appName, pictureType, objectType), "image/png");
         }
 
         [HttpPut("[action]")]
