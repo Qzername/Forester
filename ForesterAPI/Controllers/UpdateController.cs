@@ -77,7 +77,7 @@ namespace ForesterAPI.Controllers
                 file.CopyTo(ms);
                 var fileBytes = ms.ToArray();
 
-                PictureManager.UpdateImage(loginToken.username, pictureType, objectType, fileBytes);
+                PictureManager.UpdateImage(objectType == PictureManager.Folder.Accounts? loginToken.username : name, pictureType, objectType, fileBytes);
             }
 
             return Ok();
