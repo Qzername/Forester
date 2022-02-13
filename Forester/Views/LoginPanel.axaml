@@ -12,13 +12,8 @@
 		     CanResize="True">
 	
 	<Panel HorizontalAlignment="Stretch">
-
-		<Path Fill="#FF6508" Name="Wave3" />
-
-		<controls:CustomBlurBehind/>
-
-		<Path Fill="#FF1900" Name="Wave2" />
-		<Path Fill="#F00022" Name="Wave1" />
-
+		<Path Fill="{Binding first}" Name="Wave3" />
+		<Path Fill="{Binding second}" Name="Wave2" />
+		<Path Fill="{Binding third}" Name="Wave1" />
 	</Panel>
 </Window>
