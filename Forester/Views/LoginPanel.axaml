@@ -1,0 +1,24 @@
+<Window xmlns:svg="clr-namespace:Avalonia.Svg;assembly=Avalonia.Svg"
+			 xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			xmlns:controls="clr-namespace:Forester.Controls"
+             mc:Ignorable="d" Width="1200" Height="720"
+             x:Class="Forester.Views.LoginPanel"
+		   	 ExtendClientAreaToDecorationsHint="True"
+             ExtendClientAreaChromeHints="NoChrome"
+             ExtendClientAreaTitleBarHeightHint="50"
+		     CanResize="True">
+	
+	<Panel HorizontalAlignment="Stretch">
+
+		<Path Fill="#FF6508" Name="Wave3" />
+
+		<controls:CustomBlurBehind/>
+
+		<Path Fill="#FF1900" Name="Wave2" />
+		<Path Fill="#F00022" Name="Wave1" />
+
+	</Panel>
+</Window>

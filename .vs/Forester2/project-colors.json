@@ -15,7 +15,17 @@
       "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
       "DisplayName": "Różne pliki",
       "ColorIndex": -1
+    },
+    "28742ee1-31d5-413d-9f6b-1cd2ea603e66": {
+      "ProjectGuid": "28742ee1-31d5-413d-9f6b-1cd2ea603e66",
+      "DisplayName": "Forester",
+      "ColorIndex": 2
+    },
+    "0fa77233-e165-4418-b2a6-87ce63097dd3": {
+      "ProjectGuid": "0fa77233-e165-4418-b2a6-87ce63097dd3",
+      "DisplayName": "Forester",
+      "ColorIndex": 3
     }
   },
-  "NextColorIndex": 2
+  "NextColorIndex": 4
 }
