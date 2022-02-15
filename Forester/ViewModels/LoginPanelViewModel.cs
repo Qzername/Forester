@@ -1,4 +1,6 @@
-﻿using Avalonia.Media;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Media;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -32,13 +34,6 @@ namespace Forester.ViewModels
             get => _third;
             set => this.RaiseAndSetIfChanged(ref _third, value);
         }
-        #endregion
-
-        public LoginPanelViewModel()
-        {
-            Data.ReadConfig();
-            SetTheme();
-        }
 
         /// <summary>
         /// Ustawienie kolorów
@@ -58,7 +53,7 @@ namespace Forester.ViewModels
             if (hexString.IndexOf('#') != -1)
                 hexString = hexString.Replace("#", "");
 
-            byte r, g, b = 0;
+            byte r, g, b;
 
             r = byte.Parse(hexString.Substring(0, 2), NumberStyles.AllowHexSpecifier);
             g = byte.Parse(hexString.Substring(2, 2), NumberStyles.AllowHexSpecifier);
@@ -66,5 +61,76 @@ namespace Forester.ViewModels
 
             return Color.FromArgb(255, r, g, b);
         }
+        #endregion
+
+        public LoginPanelViewModel()
+        {
+            isLogin = true;
+
+            loginIsEnabled = true;
+            loginOpacity = 1;
+
+            registerIsEnabled = false;
+            registerOpacity = 0;
+
+            Data.ReadConfig();
+            SetTheme();
+        }
+
+        public void Test()
+        {
+            System.Diagnostics.Debug.WriteLine("test");
+        }
+
+        #region Switch panel
+        //nienawidze avaloni wpf i robienia aplikacji
+        //tutaj kod odpowiada za przełączanie panelu rejestrcji na logowanie
+        bool isLogin;
+
+        bool _loginIsEnabled, _registerIsEnabled;
+        float _loginOpacity, _registerOpacity;
+
+        #region Parameters
+        public bool loginIsEnabled
+        {
+            get => _loginIsEnabled;
+            set => this.RaiseAndSetIfChanged(ref _loginIsEnabled, value);
+        }
+
+        public bool registerIsEnabled
+        {
+            get => _registerIsEnabled;
+            set => this.RaiseAndSetIfChanged(ref _registerIsEnabled, value);
+        }
+
+        public float loginOpacity
+        {
+            get => _loginOpacity;
+            set => this.RaiseAndSetIfChanged(ref _loginOpacity, value);
+        }
+
+        public float registerOpacity
+        {
+            get => _registerOpacity;
+            set => this.RaiseAndSetIfChanged(ref _registerOpacity, value);
+        }
+        #endregion
+
+        public void SwitchPanels(Button button)
+        {
+            isLogin = !isLogin;
+
+            loginIsEnabled = isLogin;
+            loginOpacity = isLogin ? 1 : 0;
+
+            registerIsEnabled = !isLogin;
+            registerOpacity = isLogin ? 0 : 1;
+
+            button.Content = isLogin ? "Don't have an account?" : "Already have an account?";
+        }
+        #endregion
+
+        public void Exit(Window window) =>
+            window.Close();
     }
 }

@@ -12,10 +12,12 @@ namespace Forester.Views
     public partial class LoginPanel : Window
     {
         double currentOffset = 0;
+        bool isLogin;
 
         public LoginPanel()
         {
             AvaloniaXamlLoader.Load(this);
+            System.Diagnostics.Debug.WriteLine("loginpanel");
 
             //Ustawienie zegaru do animacji
             DispatcherTimer timer = new DispatcherTimer();
@@ -24,16 +26,15 @@ namespace Forester.Views
             timer.Start();
         }
 
-
         //Klatka animacji wszystkie fale
         void Timer_Tick(object? sender, EventArgs e)
         {
             currentOffset += 5;
 
             //Offsety s¹ ju¿ ustawione
-            GeneratePath(new Point(0 + currentOffset * 0.3, 300), 500, 150, "Wave3", false);
-            GeneratePath(new Point(0 + currentOffset * 0.6, 450), 600, 100, "Wave2", true);
-            GeneratePath(new Point(400 + currentOffset, 600), 800, 50, "Wave1", false);
+            GeneratePath(new Point(0 + currentOffset * 0.3, Height - 420), 500, 150, "Wave3", false);
+            GeneratePath(new Point(0 + currentOffset * 0.6, Height - 250), 600, 100, "Wave2", true);
+            GeneratePath(new Point(400 + currentOffset, Height - 100), 800, 50, "Wave1", false);
         }
 
         /// <summary>
