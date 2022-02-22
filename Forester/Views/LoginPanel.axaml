@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:controls="clr-namespace:Forester.Controls"
-             mc:Ignorable="d" 
 			 MinWidth="1000" MinHeight="720" 
 			 Width="1280" Height="720"
 			 MaxWidth="1600" MaxHeight="900"
@@ -12,7 +10,8 @@
 		   	 ExtendClientAreaToDecorationsHint="True"
              ExtendClientAreaChromeHints="NoChrome"
              ExtendClientAreaTitleBarHeightHint="50"
-		     CanResize="True" Name="LoginWindow">
+		     CanResize="True" Name="LoginWindow"
+			 DataContext="{Binding RelativeSource={RelativeSource Self}}">
 	
 	<Window.Styles>
 		<StyleInclude Source="/Views/Style/Login.xaml" />
@@ -28,7 +27,7 @@
 		
 		<Button Command="{Binding Exit, Mode=OneWay}" CommandParameter="{Binding ElementName=LoginWindow}" CornerRadius="10" Margin="10" FontSize="30" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="50" Height="50" Content="X"/>
 		
-		<Border Name="Login" IsEnabled="{Binding loginIsEnabled}" Opacity="{Binding loginOpacity}" CornerRadius="77" Width="500" Height="400">
+		<Border Name="Login" IsEnabled="{Binding loginIsEnabled}" Opacity="{Binding loginOpacity}" CornerRadius="77" Width="500" Height="420">
 			<Border.Background>
 				<SolidColorBrush Color="Gray" Opacity="0.5"/>
 			</Border.Background>
@@ -36,8 +35,8 @@
 			<StackPanel>
 				<TextBlock HorizontalAlignment="Center" FontSize="50" Text="Sign In" Margin="0,25,0,5"/>
 				<TextBlock HorizontalAlignment="Center" Foreground="#ECECEC" FontSize="22" Text="Login to manage your account" Margin="0,10"/>
-				<TextBox Watermark="Login" Classes="Standard" Margin="65,10,65,30"/>
-				<TextBox Watermark="Password" Classes="Standard" Margin="65,0,65,6" PasswordChar="●"/>
+				<TextBox Text="{Binding login}" Watermark="Login" Classes="Standard" Margin="65,10,65,30"/>
+				<TextBox Text="{Binding password}" Watermark="Password" Classes="Standard" Margin="65,0,65,6" PasswordChar="●"/>
 				<CheckBox Content="Remember me" Margin="65,10,0,5">
 					<CheckBox.Resources>
 						<SolidColorBrush x:Key="CheckBoxCheckBackgroundFillCheckedPointerOver" Color="Gray" />
@@ -47,11 +46,12 @@
 						<SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeCheckedPointerOver" Color="Gray" />
 					</CheckBox.Resources>
 				</CheckBox>
-				<Button Command="{Binding Test}" Classes="Confirm" Content="Sign in" Background="{Binding third}"/>
+				<Button Command="{Binding Login}" Classes="Confirm" Content="Sign in" Background="{Binding third}"/>
+				<TextBlock HorizontalAlignment="Center" FontSize="20" Foreground="Red" Text="{Binding error}"/>
 			</StackPanel>
 		</Border>
 
-		<Border Name="Register" IsEnabled="{Binding registerIsEnabled}" Opacity="{Binding registerOpacity}" CornerRadius="77" Width="500" Height="400">
+		<Border Name="Register" IsEnabled="{Binding registerIsEnabled}" Opacity="{Binding registerOpacity}" CornerRadius="77" Width="500" Height="420">
 			<Border.Background>
 				<SolidColorBrush Color="Gray" Opacity="0.5"/>
 			</Border.Background>
@@ -59,13 +59,14 @@
 			<StackPanel>
 				<TextBlock HorizontalAlignment="Center" FontSize="50" Text="Sign Up" Margin="0,15,0,5"/>
 				<TextBlock HorizontalAlignment="Center" Foreground="#ECECEC" FontSize="22" Text="Welcome to Forester!" Margin="0,5"/>
-				<TextBox Watermark="Login"  Classes="Standard" Margin="65,10,65,25"/>
-				<TextBox Watermark="Username" Classes="Standard" Margin="65,0,65,25"/>
-				<TextBox Watermark="Password" Classes="Standard" Margin="65,0,65,10" PasswordChar="●"/>
-				<Button Command="{Binding Test}" Classes="Confirm" Content="Sign Up" Background="{Binding third}"/>
+				<TextBox Text="{Binding login}" Watermark="Login"  Classes="Standard" Margin="65,10,65,25"/>
+				<TextBox Text="{Binding username}" Watermark="Username" Classes="Standard" Margin="65,0,65,25"/>
+				<TextBox Text="{Binding password}" Watermark="Password" Classes="Standard" Margin="65,0,65,10" PasswordChar="●"/>
+				<Button Command="{Binding Register}" Classes="Confirm" Content="Sign Up" Background="{Binding third}"/>
+				<TextBlock HorizontalAlignment="Center" FontSize="20" Foreground="Red" Text="{Binding error}"/>
 			</StackPanel>
 		</Border>
 
-		<Button Name="Switch" Command="{Binding SwitchPanels}" CommandParameter="{Binding ElementName=Switch}" Background="Transparent" Margin="50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White" FontSize="27" Content="Don't have a account?"/>
+		<Button Name="Switch" Command="{Binding SwitchPanels}" CommandParameter="{Binding ElementName=Switch}" Background="Transparent" Margin="0,0,0,55" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White" FontSize="27" Content="Don't have a account?"/>
 	</Panel>
 </Window>

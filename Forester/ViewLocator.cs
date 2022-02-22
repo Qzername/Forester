@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using Forester.ViewModels;
 using System;
 
 namespace Forester
