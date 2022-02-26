@@ -153,9 +153,9 @@ namespace Forester.ViewModels
             Geometry tempWave3 = Wave3;
 
             //Offsety są już ustawione
-            GeneratePath(new Point(0 + currentOffset * 0.3, mainWindowVM.Height - 420), 500, 150, ref tempWave1, false);
-            GeneratePath(new Point(0 + currentOffset * 0.6, mainWindowVM.Height - 250), 600, 100, ref tempWave2, true);
-            GeneratePath(new Point(400 + currentOffset, mainWindowVM.Height - 100), 800, 50, ref tempWave3, false);
+            GeneratePath(new Point(0 + currentOffset * 0.3, mainWindowVM.height - 420), 500, 150, ref tempWave1, false);
+            GeneratePath(new Point(0 + currentOffset * 0.6, mainWindowVM.height - 250), 600, 100, ref tempWave2, true);
+            GeneratePath(new Point(400 + currentOffset, mainWindowVM.height - 100), 800, 50, ref tempWave3, false);
 
             Wave1 = tempWave1;
             Wave2 = tempWave2;
@@ -177,34 +177,34 @@ namespace Forester.ViewModels
             //W związku z tym że render dla ułatwienia animacji rysowana jest od prawego rogu okna,
             //Do starting point dodaje całą szerokośc okna
             PathFigure pathFigure = new PathFigure();
-            pathFigure.StartPoint = new Point(mainWindowVM.Width + offset.X, offset.Y);
+            pathFigure.StartPoint = new Point(mainWindowVM.width + offset.X, offset.Y);
             pathFigure.IsClosed = true;
             pathGeometry.Figures.Add(pathFigure);
 
             //Segmenty fali, rysowanie na całej płaszczyźnie ekranu
-            for (int i = 0; i < (mainWindowVM.Width + offset.X) / width; i++)
+            for (int i = 0; i < (mainWindowVM.width + offset.X) / width; i++)
             {
                 BezierSegment bezierSegment = new BezierSegment();
-                bezierSegment.Point3 = new Point(mainWindowVM.Width - width * (i + 1) + offset.X, offset.Y);
+                bezierSegment.Point3 = new Point(mainWindowVM.width - width * (i + 1) + offset.X, offset.Y);
                 bezierSegment.Point2 = new Point(bezierSegment.Point3.X + width / 2, offset.Y + height * (i % 2 == Convert.ToInt32(startUpside) ? -1 : 1));
-                bezierSegment.Point1 = new Point(mainWindowVM.Width - width * i + offset.X, offset.Y);
+                bezierSegment.Point1 = new Point(mainWindowVM.width - width * i + offset.X, offset.Y);
 
                 pathFigure.Segments.Add(bezierSegment);
             }
 
             //Łączenie ostatniego segmentu z lewym dolnym rogiem okna
             LineSegment lineSegment = new LineSegment();
-            lineSegment.Point = new Point(0, mainWindowVM.Height);
+            lineSegment.Point = new Point(0, mainWindowVM.height);
             pathFigure.Segments.Add(lineSegment);
 
             //Następnie przeciągniecie linii do prawego dolnego
             LineSegment lineSegment2 = new LineSegment();
-            lineSegment2.Point = new Point(mainWindowVM.Width, mainWindowVM.Height);
+            lineSegment2.Point = new Point(mainWindowVM.width, mainWindowVM.height);
             pathFigure.Segments.Add(lineSegment2);
 
             //i na koniec do punktu startowego
             LineSegment lineSegment3 = new LineSegment();
-            lineSegment3.Point = new Point(mainWindowVM.Width + offset.X, offset.Y);
+            lineSegment3.Point = new Point(mainWindowVM.width + offset.X, offset.Y);
             pathFigure.Segments.Add(lineSegment3);
 
             Path path = new Path();

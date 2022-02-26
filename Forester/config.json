@@ -1,6 +1,6 @@
 ﻿{
-  "autoLogin": "",
-  "autoPassword": "",
+  "autoLogin": "test",
+  "autoPassword": "123321",
   "version": "alpha build 1",
   "theme": {
     "Name": "default",

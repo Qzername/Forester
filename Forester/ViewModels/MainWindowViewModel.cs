@@ -15,24 +15,31 @@ namespace Forester.ViewModels
             private set => this.RaiseAndSetIfChanged(ref content, value);
         }
 
-        float width;
-        public float Width
+        float _width;
+        public float width
         {
-            get => width;
-            set => this.RaiseAndSetIfChanged(ref width, value);
+            get => _width;
+            set => this.RaiseAndSetIfChanged(ref _width, value);
         }
         
-        float height;
-        public float Height
+        float _height;
+        public float height
         {
-            get => height;
-            set => this.RaiseAndSetIfChanged(ref height, value);
+            get => _height;
+            set => this.RaiseAndSetIfChanged(ref _height, value);
+        }
+
+        float _toolBarHeight;
+        public float toolBarHeight
+        {
+            get => _toolBarHeight;
+            set => this.RaiseAndSetIfChanged(ref _toolBarHeight, value);
         }
 
         public MainWindowViewModel()
         {
-            Width = 1280;
-            Height = 720;
+            width = 1280;
+            height = 720;
 
             Data.ReadConfig();
 

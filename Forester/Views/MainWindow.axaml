@@ -11,10 +11,10 @@
 		Content="{Binding Content}"
 		ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
-        ExtendClientAreaTitleBarHeightHint="50"
+        ExtendClientAreaTitleBarHeightHint="{Binding ToolBarHeight}"
 		CanResize="True"
 		MinWidth="1000" MinHeight="720" 
-		Width="{Binding Width, Mode=TwoWay}" Height="{Binding Height, Mode=TwoWay}"
+		Width="{Binding width, Mode=TwoWay}" Height="{Binding height, Mode=TwoWay}"
 		MaxWidth="1600" MaxHeight="900">
 
 	
