@@ -265,7 +265,7 @@ namespace Forester.ViewModels
                 Data.token = JsonConverter.Deserialize<Token>(response.Content.ReadAsStringAsync().Result);
 
                 timer.Stop();
-                mainWindowVM.ChangeWindow<AppPanelViewModel>();
+                mainWindowVM.ChangeToApp();
             }
             else
                 error = "Login or password is incorrect";

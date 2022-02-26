@@ -8,5 +8,13 @@ namespace Forester.ViewModels
 {
     public class AppPanelViewModel : ViewModelBase
     {
+        MainWindowViewModel mainWindowVM;
+
+        public AppPanelViewModel(MainWindowViewModel mainWindowVM)
+        {
+            this.mainWindowVM = mainWindowVM;
+            mainWindowVM.toolBarHeight = 20;
+        }
+
     }
 }

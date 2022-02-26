@@ -3,9 +3,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Forester.Views.AppPanelView" Padding="0,20,0,0">
+             x:Class="Forester.Views.AppPanelView" Padding="0,20,0,0"
+			 Background="#111">
 	<StackPanel>
-		<Rectangle Height="50" Fill="Gray" Opacity="1">
+		<Rectangle Height="50" Fill="Black" Opacity="1">
 
 		</Rectangle>
 	</StackPanel>
