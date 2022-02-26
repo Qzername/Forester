@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using Forester.ViewModels;
 using System;
 
 namespace Forester
@@ -23,7 +24,7 @@ namespace Forester
 
         public bool Match(object data)
         {
-            return data is ReactiveUI.ReactiveObject;
+            return data is ViewModelBase;
         }
     }
 }

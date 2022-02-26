@@ -25,7 +25,12 @@
       "ProjectGuid": "0fa77233-e165-4418-b2a6-87ce63097dd3",
       "DisplayName": "Forester",
       "ColorIndex": 3
+    },
+    "32112663-597f-472f-a47a-c8c1b2305ca0": {
+      "ProjectGuid": "32112663-597f-472f-a47a-c8c1b2305ca0",
+      "DisplayName": "Forester",
+      "ColorIndex": 4
     }
   },
-  "NextColorIndex": 4
+  "NextColorIndex": 5
 }

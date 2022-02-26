@@ -1,5 +1,6 @@
 ﻿using Avalonia.Media;
 using Forester.Models;
+using Forester.Models.API;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,6 +16,7 @@ namespace Forester
     public static class Data
     {
         public static Config config;
+        public static Token token;
 
         /// <summary>
         /// Read config
@@ -24,7 +26,11 @@ namespace Forester
         /// <summary>
         /// Save config
         /// </summary>
-        public static void SaveConfig(Config config) => FileReader.SaveText("./config.json", JsonConverter.Serialize(config));
+        public static void SaveConfig(Config config) 
+        {
+            Data.config = config;
+            FileReader.SaveText("./config.json", JsonConverter.Serialize(config)); 
+        }
     }
 
     public struct ThemeColor

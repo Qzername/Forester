@@ -1,4 +1,4 @@
-﻿using ForesterAPI.Models.API;
+﻿using Forester.Models.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,17 +17,17 @@ namespace Forester
 
         public static Token token;
 
-        public static string Get(string URI)
+        public static HttpResponseMessage Get(string URI)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(api);
 
             HttpResponseMessage message = client.GetAsync(URI).Result;
 
-            return message.Content.ReadAsStringAsync().Result;
+            return message;
         }
 
-        public static string Post(string URI, object body)
+        public static HttpResponseMessage Post(string URI, object body)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(api);
@@ -36,7 +36,7 @@ namespace Forester
 
             var response = client.PostAsync(URI, data).Result;
 
-            return response.Content.ReadAsStringAsync().Result;
+            return response;
         }
 
         public static string Crypt(string rawData)

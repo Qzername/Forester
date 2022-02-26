@@ -35,16 +35,16 @@ namespace ForesterAPI.Controllers
         [HttpPost("[action]")]
         public IActionResult Register(RegisterCredentials register)
         {
-            if (string.IsNullOrEmpty(register.username) || string.IsNullOrEmpty(register.password))
+            if (string.IsNullOrEmpty(register.username) || string.IsNullOrEmpty(register.password) || string.IsNullOrEmpty(register.loginUsername)) 
                 return StatusCode(406);
 
-            if (register.password.Length > 20 || register.username.Length > 20)
+            if (register.password.Length > 20 || register.username.Length > 20 || register.loginUsername.Length > 20)
                 return StatusCode(400);
 
             if (SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE username=\"{register.loginUsername}\"").Length > 0)
                 return StatusCode(499); //Already in base
 
-            SQLDatabase.NoReturnQuery($"INSERT INTO Accounts(friendly_ID, friendly_username, username, password, isDeveloper) VALUES(\"{RandomFriendlyID(register.username)}\",\"{register.password}\",\"{register.username}\",\"{register.password}\",\"{false}\")");
+            SQLDatabase.NoReturnQuery($"INSERT INTO Accounts(friendly_ID, friendly_username, username, password, isDeveloper) VALUES(\"{RandomFriendlyID(register.username)}\",\"{register.username}\",\"{register.loginUsername}\",\"{register.password}\",\"{false}\")");
 
             return Ok();
         }
