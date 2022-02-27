@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.IO.Compression;
+using System.Security.Cryptography;
 
 namespace ForesterAPI
 {
@@ -23,7 +24,21 @@ namespace ForesterAPI
             Dictionary<string, string> json = new Dictionary<string, string>();
 
             foreach (var entry in zip.Entries)
-                json.Add(entry.FullName, entry.Length.ToString());
+            {
+                string hash;
+
+                using (var md5 = MD5.Create())
+                {
+                    using (var stream = entry.Open())
+                    {
+                        var hashMD5 = md5.ComputeHash(stream);
+
+                        hash = BitConverter.ToString(hashMD5).Replace("-", "").ToLowerInvariant();
+                    }
+                }
+
+                json.Add(entry.FullName, hash);
+            }
 
             File.WriteAllText($"./Database/Applications/{name}/config.json", DicToJson(json));
         }
@@ -70,7 +85,7 @@ namespace ForesterAPI
 
         static string DicToJson(Dictionary<string, string> dict)
         {
-            var entries = dict.Select(d => string.Format("\"{0}\": {1}", d.Key, d.Value));
+            var entries = dict.Select(d => string.Format("\"{0}\": \"{1}\"", d.Key, d.Value));
             return "{" + string.Join(",", entries) + "}";
         }
 
