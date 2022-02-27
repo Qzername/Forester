@@ -12,9 +12,9 @@
 	</UserControl.Styles>
 
 	<Panel Name="panelTest" HorizontalAlignment="Stretch">
-		<Path Data="{Binding Wave1}" Fill="{Binding first}" Name="Wave3" />
-		<Path Data="{Binding Wave2}" Fill="{Binding second}" Name="Wave2" />
-		<Path Data="{Binding Wave3}" Fill="{Binding third}" Name="Wave1" />
+		<Path Data="{Binding wave1}" Fill="{Binding first}" Name="Wave3" />
+		<Path Data="{Binding wave2}" Fill="{Binding second}" Name="Wave2" />
+		<Path Data="{Binding wave3}" Fill="{Binding third}" Name="Wave1" />
 
 		<TextBlock Margin="50" HorizontalAlignment="Center" Foreground="{Binding third}" FontSize="72" Text="Forester"/>
 

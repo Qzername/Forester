@@ -4,15 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+/*  name rules
+    private variables _[name]
+    variables and properties [name]
+    struct and classes name [Name] 
+    struct and clases objects [name]
+    method names [Name]
+ */
+
 namespace Forester.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        ViewModelBase content;
-        public ViewModelBase Content
+        ViewModelBase _content;
+        public ViewModelBase content
         {
-            get => content;
-            private set => this.RaiseAndSetIfChanged(ref content, value);
+            get => _content;
+            private set => this.RaiseAndSetIfChanged(ref _content, value);
         }
 
         float _width;
@@ -62,14 +70,14 @@ namespace Forester.ViewModels
                 }
             }
                 
-            Content = new LoginPanelViewModel(this);
+            content = new LoginPanelViewModel(this);
         }
 
         public void ChangeToApp(string login)
         {
             var response = ServerConnection.Get($"/api/Accounts/GetUser?username={login}");
             Data.account = JsonConverter.Deserialize<Account>(response.Content.ReadAsStringAsync().Result);
-            Content = new AppPanelViewModel(this);
+            content = new AppPanelViewModel(this);
         }
         
     }

@@ -103,21 +103,21 @@ namespace Forester.ViewModels
             set => this.RaiseAndSetIfChanged(ref _registerOpacity, value);
         }
 
-        public Geometry wave1, wave2, wave3;
-        public Geometry Wave1
+        public Geometry _wave1, _wave2, _wave3;
+        public Geometry wave1
         {
-            get => wave1;
-            set => this.RaiseAndSetIfChanged(ref wave1, value);
+            get => _wave1;
+            set => this.RaiseAndSetIfChanged(ref _wave1, value);
         }
-        public Geometry Wave2
+        public Geometry wave2
         {
-            get => wave2;
-            set => this.RaiseAndSetIfChanged(ref wave2, value);
+            get => _wave2;
+            set => this.RaiseAndSetIfChanged(ref _wave2, value);
         }
-        public Geometry Wave3
+        public Geometry wave3
         {
-            get => wave3;
-            set => this.RaiseAndSetIfChanged(ref wave3, value);
+            get => _wave3;
+            set => this.RaiseAndSetIfChanged(ref _wave3, value);
         }
 
         DispatcherTimer timer;
@@ -148,18 +148,18 @@ namespace Forester.ViewModels
         {
             currentOffset += 5;
 
-            Geometry tempWave1 = Wave1;
-            Geometry tempWave2 = Wave2;
-            Geometry tempWave3 = Wave3;
+            Geometry tempWave1 = wave1;
+            Geometry tempWave2 = wave2;
+            Geometry tempWave3 = wave3;
 
             //Offsety są już ustawione
             GeneratePath(new Point(0 + currentOffset * 0.3, mainWindowVM.height - 420), 500, 150, ref tempWave1, false);
             GeneratePath(new Point(0 + currentOffset * 0.6, mainWindowVM.height - 250), 600, 100, ref tempWave2, true);
             GeneratePath(new Point(400 + currentOffset, mainWindowVM.height - 100), 800, 50, ref tempWave3, false);
 
-            Wave1 = tempWave1;
-            Wave2 = tempWave2;
-            Wave3 = tempWave3;
+            wave1 = tempWave1;
+            wave2 = tempWave2;
+            wave3 = tempWave3;
         }
 
         /// <summary>
