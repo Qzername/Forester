@@ -25,9 +25,11 @@ namespace ForesterAPI.Controllers
         #endregion
 
         #region Picture
-        [HttpPost("[action]")]
-        public ActionResult GetPicture([FromHeader] string token, PictureManager.Folder objectType, PictureManager.Picture pictureType, string name)
+        [HttpGet("[action]")]
+        public ActionResult GetPicture([FromHeader] string token, [FromQuery] PictureManager.Folder objectType, [FromQuery] PictureManager.Picture pictureType, [FromQuery] string name)
         {
+            string folder = string.Empty;
+
             string decoded = JWTManager.Decode(token);
 
             if (decoded == "")
@@ -35,12 +37,32 @@ namespace ForesterAPI.Controllers
 
             var loginToken = JSONManager.Deserialize<LoginToken>(decoded);
 
+            if (objectType == PictureManager.Folder.Accounts)
+            {
+                string[] splitedName = name.Split('#');
+
+                if (splitedName.Length < 2)
+                    return StatusCode(403);
+
+                string friendly_name = string.Join("", splitedName.Take(splitedName.Length - 1));
+                string code = splitedName[splitedName.Length - 1];
+
+                if (code.Length != 4)
+                    return StatusCode(403);
+
+                var account = SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE friendly_ID={code} AND friendly_username = \"{friendly_name}\"");
+
+                if (code.Length == 0)
+                    return StatusCode(403);
+
+                name = account[0].ID.ToString();
+                folder = name;
+            }
+
             (bool profilePicture, bool backgroundPicture) = PictureManager.CheckIfExist(name, objectType);
 
             if ((pictureType == PictureManager.Picture.profile && !profilePicture) || (pictureType == PictureManager.Picture.background && !backgroundPicture))
                 return StatusCode(402);
-
-            string appName = string.Empty;
 
             if(objectType == PictureManager.Folder.Applications)
             {
@@ -50,13 +72,13 @@ namespace ForesterAPI.Controllers
                     return StatusCode(404);
 
                 var app = apps[0];
-                appName = app.name;
+                folder = app.name;
 
                 if (app.isPrivate == "True" && loginToken.ID != app.mainDeveloper && SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Applications.ID = {app.ID} AND Developers.ID_User = {loginToken.ID}").Length == 0)
                     return StatusCode(404);
             }
 
-            return File(PictureManager.GetImage(objectType == PictureManager.Folder.Accounts? name : appName, pictureType, objectType), "image/png");
+            return File(PictureManager.GetImage(folder, pictureType, objectType), "image/png");
         }
 
         [HttpPut("[action]")]
@@ -70,6 +92,9 @@ namespace ForesterAPI.Controllers
             var loginToken = JSONManager.Deserialize<LoginToken>(decoded);
 
             if (objectType == PictureManager.Folder.Applications && SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE mainDeveloper = {loginToken.ID}").Length == 0)
+                return StatusCode(404);
+
+            if (objectType == PictureManager.Folder.Accounts && loginToken.username != name)
                 return StatusCode(403);
 
             using (var ms = new MemoryStream())
@@ -77,7 +102,7 @@ namespace ForesterAPI.Controllers
                 file.CopyTo(ms);
                 var fileBytes = ms.ToArray();
 
-                PictureManager.UpdateImage(objectType == PictureManager.Folder.Accounts? loginToken.username : name, pictureType, objectType, fileBytes);
+                PictureManager.UpdateImage(objectType == PictureManager.Folder.Accounts? loginToken.ID.ToString() : name, pictureType, objectType, fileBytes);
             }
 
             return Ok();

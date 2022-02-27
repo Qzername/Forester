@@ -1,9 +1,10 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
-        <Border Padding="300, 400">
-			<CheckBox>test</CheckBox>
-        </Border>
+        <Border Padding="0, 120">
+		</Border>
+		
+		
     </Design.PreviewWith>
 
 	<Style Selector="TextBox.Standard">

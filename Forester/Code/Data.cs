@@ -17,6 +17,7 @@ namespace Forester
     {
         public static Config config;
         public static Token token;
+        public static Account account;
 
         /// <summary>
         /// Read config

@@ -8,7 +8,7 @@
 			 MaxWidth="1600" MaxHeight="900">
 	
 	<UserControl.Styles>
-		<StyleInclude Source="/Views/Style/Login.xaml" />
+		<StyleInclude Source="/Views/Style/Login.axaml" />
 	</UserControl.Styles>
 
 	<Panel Name="panelTest" HorizontalAlignment="Stretch">

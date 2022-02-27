@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
@@ -11,9 +11,9 @@
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-	<AvaloniaXaml Include="Views\Style\Login.xaml">
-	   <Generator>MSBuild:Compile</Generator>
-	</AvaloniaXaml>
+	  <AvaloniaXaml Include="Views\Style\Login.axaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </AvaloniaXaml>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.10" />
@@ -21,6 +21,11 @@
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.10" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaXaml Update="Views\Style\App.axaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaXaml>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\LoginPanelView.axaml.cs">

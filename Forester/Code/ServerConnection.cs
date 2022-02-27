@@ -1,4 +1,7 @@
-﻿using Forester.Models.API;
+﻿using Avalonia;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using Forester.Models.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +18,30 @@ namespace Forester
         //public static string api = "http://***REMOVED***:5000";
         public static string api = "http://localhost:5000";
 
-        public static Token token;
-
         public static HttpResponseMessage Get(string URI)
         {
             HttpClient client = new HttpClient();
+
+            if (!string.IsNullOrWhiteSpace(Data.token.token))
+                client.DefaultRequestHeaders.Add("token", Data.token.token);
+
             client.BaseAddress = new Uri(api);
 
             HttpResponseMessage message = client.GetAsync(URI).Result;
 
             return message;
+        }
+
+        public static HttpResponseMessage Put(string URI, object body)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(api);
+
+            var data = new StringContent(JsonConverter.Serialize(body), Encoding.UTF8, "application/json");
+
+            var response = client.PutAsync(URI, data).Result;
+
+            return response;
         }
 
         public static HttpResponseMessage Post(string URI, object body)
@@ -37,6 +54,23 @@ namespace Forester
             var response = client.PostAsync(URI, data).Result;
 
             return response;
+        }
+
+        public static Bitmap GetImage(string username)
+        {
+            var response = Get($"/api/Update/GetPicture?objectType=0&pictureType=0&name={username.Replace("#", "%23")}");
+
+            Bitmap bitmap;
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                bitmap = new Bitmap(response.Content.ReadAsStream());
+            else
+            {
+                var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+                bitmap = new Bitmap(assets.Open(new Uri("avares://Forester/Assets/defaultPP.png")));
+            }
+
+            return bitmap;
         }
 
         public static string Crypt(string rawData)

@@ -9,15 +9,23 @@ namespace ForesterAPI
         {
             bool profilePicture, backgroundPicture;
 
-            profilePicture = File.Exists($"./Database/Picutres/{folder}/{username}/profilePicture.png");
-            backgroundPicture = File.Exists($"./Database/Picutres/{folder}/{username}/backgroundPicture.png");
+            profilePicture = File.Exists($"./Database/Pictures/{folder}/{username}/profilePicture.png");
+            backgroundPicture = File.Exists($"./Database/Pictures/{folder}/{username}/backgroundPicture.png");
 
             return (profilePicture, backgroundPicture);
         }
 
-        public static byte[] GetImage(string username, Picture type, Folder folder) => File.ReadAllBytes($"./Database/Picutres/{folder}/{username}/{type}Picture.png");
+        public static byte[] GetImage(string username, Picture type, Folder folder) => File.ReadAllBytes($"./Database/Pictures/{folder}/{username}/{type}Picture.png");
 
-        public static void UpdateImage(string username, Picture type, Folder folder, byte[] data) => File.WriteAllBytes($"./Database/Picutres/{folder}/{username}/{type}Picture.png", data);
+        public static void UpdateImage(string username, Picture type, Folder folder, byte[] data) 
+        {
+            if (!File.Exists($"./Database/Pictures/{folder}/{username}/{type}Picture.png"))
+            {
+                Directory.CreateDirectory($"./Database/Pictures/{folder}/{username}");
+            }
+
+            File.WriteAllBytes($"./Database/Pictures/{folder}/{username}/{type}Picture.png", data); 
+        }
 
         public enum Picture
         {

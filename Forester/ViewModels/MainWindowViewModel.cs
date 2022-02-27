@@ -57,7 +57,7 @@ namespace Forester.ViewModels
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     Data.token = JsonConverter.Deserialize<Token>(response.Content.ReadAsStringAsync().Result);
-                    Content = new AppPanelViewModel(this);
+                    ChangeToApp(loginC.username);
                     return;
                 }
             }
@@ -65,9 +65,12 @@ namespace Forester.ViewModels
             Content = new LoginPanelViewModel(this);
         }
 
-        public void ChangeToApp()
+        public void ChangeToApp(string login)
         {
+            var response = ServerConnection.Get($"/api/Accounts/GetUser?username={login}");
+            Data.account = JsonConverter.Deserialize<Account>(response.Content.ReadAsStringAsync().Result);
             Content = new AppPanelViewModel(this);
         }
+        
     }
 }
