@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Forester.Views.AppPages
+namespace Forester.Views.App
 {
     public partial class LibraryView : UserControl
     {

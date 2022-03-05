@@ -2,11 +2,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Forester.Views.AppPages.DeveloperPages
+namespace Forester.Views.App.Developer
 {
-    public partial class BasicInfo : UserControl
+    public partial class BasicInfoView : UserControl
     {
-        public BasicInfo()
+        public BasicInfoView()
         {
             InitializeComponent();
         }
