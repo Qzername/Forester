@@ -129,6 +129,7 @@ namespace Forester.ViewModels
         public LoginPanelViewModel(MainWindowViewModel mainWindowVM)
         {
             this.mainWindowVM = mainWindowVM;
+            this.mainWindowVM.toolBarHeight = 50;
 
             SetTheme();
 

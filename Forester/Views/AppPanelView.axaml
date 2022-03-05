@@ -3,24 +3,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Forester.Views.AppPanelView">
+             x:Class="Forester.Views.AppPanelView"
+			 Height="{Binding $parent[Window].Height}">
 	<UserControl.Styles>
 		<StyleInclude Source="/Views/Style/App.axaml" />
 	</UserControl.Styles>
 
-	<StackPanel>
-		<Panel Height="20">
+	<DockPanel>
+		<Panel DockPanel.Dock="Top" Height="20">
 			<!--Toolbar-->
 			<Label VerticalAlignment="Center" Foreground="{Binding third}" Content=" Forester"/>
 			<Button Foreground="{Binding third}" Command="{Binding Exit, Mode=OneWay}" CommandParameter="{Binding $parent[Window]}" Classes="ToolBar" Content="X"/>
 			<Button Foreground="{Binding third}" Command="{Binding WindowSize, Mode=OneWay}" CommandParameter="{Binding $parent[Window]}" Classes="ToolBar" Margin="0,0,20,0" Content="○"/>
 			<Button Foreground="{Binding third}" Command="{Binding Minimalize, Mode=OneWay}" CommandParameter="{Binding $parent[Window]}" Classes="ToolBar" Margin="0,0,40,0" Content="-"/>
 		</Panel>
-		<Panel Background="#101010" Height="60">
+		<Panel DockPanel.Dock="Top" Background="#151515" Height="60">
 			<!--Panel wyboru-->
 			<StackPanel Orientation="Horizontal">
-				<Button Margin="15,0,0,0" Foreground="{Binding storeColor}" Classes="Choose" Content="Store"/>
-				<Button Margin="15,0,0,0" Foreground="{Binding libraryColor}" Classes="Choose" Content="Library"/>
+				<Button Command="{Binding ChangePage}" CommandParameter="0" Margin="15,0,0,0" Foreground="{Binding storeColor}" Classes="Choose" Content="Store"/>
+				<Button Command="{Binding ChangePage}" CommandParameter="1" Margin="15,0,0,0" Foreground="{Binding libraryColor}" Classes="Choose" Content="Library"/>
+				<Button Command="{Binding ChangePage}" CommandParameter="2" Margin="15,0,0,0" Foreground="{Binding developerColor}" Classes="Choose" Content="Developer" Opacity="{Binding developerOpacity}" IsEnabled="{Binding developerIsEnabled}"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
 				<Border VerticalAlignment="Center" BorderBrush="Black" BorderThickness="3" Width="38" Height="38" Margin="0,0,10,0">
@@ -30,8 +32,9 @@
 				<Button VerticalAlignment="Center" Content="U" Height="38" Width="38" Margin="0,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
 			</StackPanel>
 		</Panel>
-		<Panel>
-			<!--Tutaj okno-->
+		<!--okno wybrane-->
+		<Panel DockPanel.Dock="Top">
+			<ContentControl Content="{Binding content}" />
 		</Panel>
-	</StackPanel>
+	</DockPanel>
 </UserControl>

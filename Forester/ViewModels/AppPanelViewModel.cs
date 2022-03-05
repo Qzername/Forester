@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Forester.ViewModels.AppPages;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,7 @@ namespace Forester.ViewModels
 
         SolidColorBrush _storeColor;
         SolidColorBrush _libraryColor;
+        SolidColorBrush _developerColor;
 
         public SolidColorBrush storeColor
         {
@@ -52,6 +54,12 @@ namespace Forester.ViewModels
         {
             get => _libraryColor;
             set => this.RaiseAndSetIfChanged(ref _libraryColor, value);
+        }
+
+        public SolidColorBrush developerColor
+        {
+            get => _developerColor;
+            set => this.RaiseAndSetIfChanged(ref _developerColor, value);
         }
 
         IImage _profilePicture;
@@ -70,10 +78,60 @@ namespace Forester.ViewModels
             set => this.RaiseAndSetIfChanged(ref _username, value);
         }
 
+        ViewModelBase _content;
+        public ViewModelBase content
+        {
+            get => _content;
+            set => this.RaiseAndSetIfChanged(ref _content, value);
+        }
+
+        float _developerOpacity;
+        public float developerOpacity
+        {
+            get => _developerOpacity;
+            set => this.RaiseAndSetIfChanged(ref _developerOpacity, value);
+        }
+
+        bool _developerIsEnabled;
+        public bool developerIsEnabled
+        {
+            get => _developerIsEnabled;
+            set => this.RaiseAndSetIfChanged(ref _developerIsEnabled, value);
+        }
+
         MainWindowViewModel mainWindowVM;
+
+        //Pages
+        StoreViewModel storeVM; //ID = 0
+        LibraryViewModel libraryVM; //ID = 1
+        DeveloperViewModel developerVM; //ID = 2
+
+        float _height;
+        public float height
+        {
+            get => _height;
+            set => this.RaiseAndSetIfChanged(ref _height, value);
+        }
 
         public AppPanelViewModel(MainWindowViewModel mainWindowVM)
         {
+            storeVM = new StoreViewModel();
+            libraryVM = new LibraryViewModel();
+
+            if(Data.account.isDeveloper)
+            {
+                developerOpacity = 1;
+                developerIsEnabled = true;
+                developerVM = new DeveloperViewModel();
+            }
+            else
+            {
+                developerOpacity = 0;
+                developerIsEnabled = false;
+            }
+
+            content = storeVM;
+
             username = string.Format("{0}#{1}", Data.account.friendlyUsername, Data.account.friendly_ID);
 
             profilePicture = ServerConnection.GetImage(username);
@@ -85,6 +143,37 @@ namespace Forester.ViewModels
 
             storeColor = first;
             libraryColor = white;
+            developerColor = white;
+        }
+
+        public void ChangePage(int pageID)
+        {
+            switch(pageID)
+            {
+                case 0:
+                    storeColor = first;
+                    libraryColor = white;
+                    developerColor = white;
+
+                    content = storeVM;
+                    break;
+                case 1:
+                    storeColor = white;
+                    libraryColor = first;
+                    developerColor = white;
+
+                    content = libraryVM;
+                    break;
+                case 2:
+                    storeColor = white;
+                    libraryColor = white;
+                    developerColor = first;
+
+                    content = developerVM;
+                    break;
+            }
+
+            System.Diagnostics.Debug.WriteLine(height);
         }
 
         #region toolbar
