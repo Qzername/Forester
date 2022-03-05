@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using Forester.ViewModels.AppPages;
+using Forester.ViewModels.App;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;

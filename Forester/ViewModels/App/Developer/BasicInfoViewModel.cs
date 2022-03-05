@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forester.ViewModels.AppPages
+namespace Forester.ViewModels.App.Developer
 {
-    public class StoreViewModel : ViewModelBase
+    public class BasicInfoViewModel : ViewModelBase
     {
     }
 }
