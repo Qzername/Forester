@@ -5,9 +5,9 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Forester.Views.App.Developer.BasicInfoView">
 	<Panel>
-		<Panel>
-			<Label Content="Welcome to developer panel"/>
-			<Label Content="Choose app, or create new one."/>
-		</Panel>
+		<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+			<Label FontSize="25" Content="Welcome to developer panel"/>
+			<Label HorizontalAlignment="Center" Content="Choose app, or create new one."/>
+		</StackPanel>
 	</Panel>
 </UserControl>

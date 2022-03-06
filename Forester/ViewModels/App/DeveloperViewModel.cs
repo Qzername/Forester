@@ -14,7 +14,7 @@ namespace Forester.ViewModels.App
     {
         ViewModelBase _content;
         ManageAppViewModel manageAppVM;
-        BasicInfoViewModel basicInfoVM;
+        CreateAppViewModel createAppVM;
 
         public ViewModelBase content
         {
@@ -25,9 +25,11 @@ namespace Forester.ViewModels.App
         public DeveloperViewModel()
         {
             manageAppVM = new ManageAppViewModel();
-            basicInfoVM = new BasicInfoViewModel();
+            createAppVM = new CreateAppViewModel();
 
-            content = basicInfoVM;
+            content = new BasicInfoViewModel();
         }
+
+        public void AddNew() => content = createAppVM;
     }
 }

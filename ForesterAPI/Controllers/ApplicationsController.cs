@@ -145,7 +145,7 @@ namespace ForesterAPI.Controllers
             if (SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE name=\"{app.name}\"").Length > 0)
                 return StatusCode(499);
 
-            SQLDatabase.NoReturnQuery($"INSERT INTO Applications(name, quickDescription, description, version, isPrivate, mainDeveloper, absoluteUpdate) VALUES(\"{app.name}\", \"{app.quickDescription}\", \"{app.description}\", \"{app.version}\", \"False\", {loginToken.ID}, {app.absoluteUpdate})");
+            SQLDatabase.NoReturnQuery($"INSERT INTO Applications(name, version, isPrivate, mainDeveloper) VALUES(\"{app.name}\", \"{app.version}\", \"False\", {loginToken.ID})");
 
             return Ok();
         }
@@ -193,9 +193,6 @@ namespace ForesterAPI.Controllers
 
             if (!string.IsNullOrEmpty(app.isPrivate))
                 query += "isPrivate = \"" + app.isPrivate + "\",";
-            
-            if (!string.IsNullOrEmpty(app.absoluteUpdate))
-                query += "absoluteUpdate = \"" + app.absoluteUpdate + "\",";
 
             if (query[^1] != ',')
                 return StatusCode(406);

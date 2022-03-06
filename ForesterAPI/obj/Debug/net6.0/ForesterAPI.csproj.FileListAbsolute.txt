@@ -55,3 +55,6 @@ D:\Projekty\aktywne teraz\Forester\ForesterAPI\obj\Debug\net6.0\ref\ForesterAPI.
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\obj\Debug\net6.0\ForesterAPI.pdb
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\obj\Debug\net6.0\ForesterAPI.genruntimeconfig.cache
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Database\Applications\Testowa Aplikacja\config.json
+D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

@@ -5,6 +5,7 @@ using Forester.Models.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
@@ -37,6 +38,9 @@ namespace Forester
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(api);
 
+            if (!string.IsNullOrWhiteSpace(Data.token.token))
+                client.DefaultRequestHeaders.Add("token", Data.token.token);
+
             var data = new StringContent(JsonConverter.Serialize(body), Encoding.UTF8, "application/json");
 
             var response = client.PutAsync(URI, data).Result;
@@ -48,6 +52,9 @@ namespace Forester
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(api);
+
+            if (!string.IsNullOrWhiteSpace(Data.token.token))
+                client.DefaultRequestHeaders.Add("token", Data.token.token);
 
             var data = new StringContent(JsonConverter.Serialize(body), Encoding.UTF8, "application/json");
 
@@ -71,6 +78,13 @@ namespace Forester
             }
 
             return bitmap;
+        }
+
+        public static Task Upload(ref WebClient client, string URI, string filePath)
+        {
+            client.Headers.Add("token", Data.token.token);
+            client.UploadFileTaskAsync(new Uri(api + URI), "POST", filePath);
+            return Task.CompletedTask;
         }
 
         public static string Crypt(string rawData)

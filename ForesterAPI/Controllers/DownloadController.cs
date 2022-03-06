@@ -31,15 +31,12 @@ namespace ForesterAPI.Controllers
             if (!ApplicationManager.CheckIfExist(app.name))
                 return StatusCode(404);
 
-            if (app.absoluteUpdate == "True")
-                files = new Dictionary<string, string>();
-
             return File(ApplicationManager.GetFiles(name, files), "application/force-download", app.name + ".zip");
         }
 
         // POST api/<DownloadController>
         [HttpPost("[action]")]
-        public IActionResult Upload([FromHeader] string token, string name, IFormFile file)
+        public IActionResult Upload([FromHeader] string token, [FromQuery] string name, IFormFile file)
         {
             string decoded = JWTManager.Decode(token);
 

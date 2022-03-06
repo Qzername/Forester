@@ -8,7 +8,7 @@
 	<DockPanel Margin="10">
 		<!--Choose app-->
 		<DockPanel>
-			<Button DockPanel.Dock="Top" Margin="0,0,0,5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">Add new</Button>
+			<Button Command="{Binding AddNew}" DockPanel.Dock="Top" Margin="0,0,0,5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">Add new</Button>
 			<ScrollViewer Width="200" Background="#151515">
 				<StackPanel Margin="2">
 					<Label Content="Aplikacja"/>
@@ -18,11 +18,5 @@
 		<Panel>
 			<ContentControl Content="{Binding content}"/>
 		</Panel>
-		<!--Basic info-->
-		
-		<!--Create new app-->
-
-		<!--Manage app-->
-		
 	</DockPanel>
 </UserControl>
