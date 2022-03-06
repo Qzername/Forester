@@ -43,9 +43,12 @@ namespace Forester.ViewModels.App.Developer
             get => _percent;
             set => this.RaiseAndSetIfChanged(ref _percent, value);
         }
-        
-        public CreateAppViewModel()
+
+        DeveloperViewModel developerVM;
+
+        public CreateAppViewModel(DeveloperViewModel developerVM)
         {
+            this.developerVM = developerVM;
             pathToFolder = "None";
         }
 
@@ -112,6 +115,8 @@ namespace Forester.ViewModels.App.Developer
             pathToFolder = "None";
             name = string.Empty;
             version = string.Empty;
+
+            developerVM.RefreshList();
         }
 
         private void Client_UploadProgressChanged(object sender, UploadProgressChangedEventArgs e)

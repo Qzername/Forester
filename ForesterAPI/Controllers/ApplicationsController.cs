@@ -24,13 +24,11 @@ namespace ForesterAPI.Controllers
 
             //Sprawdzenie czy użytkownik jest deweloperem
             if(SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE ID={loginToken.ID} AND isDeveloper=\"True\"").Length > 0)
-            {
                 //Dodanie aplikacji gdzie użytkownik jest super deweloperem (od razu sprawdzam czy są prywatne)
                 applications.AddRange(SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE mainDeveloper = {loginToken.ID} AND isPrivate = \"True\""));
 
-                //Dodanie aplikacji gdzie użytkownik jest deweloperem (od razu sprawdzam czy są prywatne)
-                applications.AddRange(SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Developers.ID_User = {loginToken.ID} AND Applications.isPrivate = \"True\""));
-            }
+            //Dodanie aplikacji gdzie użytkownik jest deweloperem (od razu sprawdzam czy są prywatne)
+            applications.AddRange(SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Developers.ID_User = {loginToken.ID} AND Applications.isPrivate = \"True\""));
 
             //Dodanie reszty aplikacji
             applications.AddRange(SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE isPrivate=\"False\""));
@@ -63,6 +61,30 @@ namespace ForesterAPI.Controllers
                 return StatusCode(404); //Serwer zwraca wartość że nie wie o jaką aplikacje chodzi w celu ochrony danych o istnieniu aplikacji w bazach
 
             return Ok(JSONManager.Serialize(app));
+        }
+
+        // GET api/<ApplicationsController>/GetDeveloped
+        [HttpGet("[action]")]
+        public IActionResult GetDeveloped([FromHeader] string token)
+        {
+            //Deserializacja tokenu
+            string decoded = JWTManager.Decode(token);
+
+            if (decoded == "")
+                return StatusCode(403);
+
+            var loginToken = JSONManager.Deserialize<LoginToken>(decoded);
+
+            //Tworzenie tabeli zwrotnej
+            List<Application> applications = new List<Application>();
+
+            //Dodanie aplikacji gdzie użytkownik jest super deweloperem
+            applications.AddRange(SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE mainDeveloper = {loginToken.ID}"));
+
+            //Dodanie aplikacji gdzie użytkownik jest deweloperem
+            applications.AddRange(SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Developers.ID_User = {loginToken.ID}"));
+
+            return Ok(JSONManager.Serialize(applications.ToArray()));
         }
 
         // GET api/<ApplicationsController>/GetAllowed

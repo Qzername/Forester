@@ -10,8 +10,16 @@
 		<DockPanel>
 			<Button Command="{Binding AddNew}" DockPanel.Dock="Top" Margin="0,0,0,5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">Add new</Button>
 			<ScrollViewer Width="200" Background="#151515">
-				<StackPanel Margin="2">
-					<Label Content="Aplikacja"/>
+				<StackPanel>
+					
+					<ItemsControl Items="{Binding apps}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Button Background="Transparent" Width="200" Content="{Binding name}" />
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+
 				</StackPanel>
 			</ScrollViewer>
 		</DockPanel>
