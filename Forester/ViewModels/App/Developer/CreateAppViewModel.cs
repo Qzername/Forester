@@ -3,7 +3,10 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Forester.Code;
 using Forester.Models.API;
 using ReactiveUI;
+using System;
+using System.IO;
 using System.Net;
+using System.Threading;
 
 namespace Forester.ViewModels.App.Developer
 {
@@ -48,6 +51,9 @@ namespace Forester.ViewModels.App.Developer
 
         public void Publish()
         {
+            error = "";
+            percent = 0f;
+
             if (string.IsNullOrEmpty(pathToFolder) || string.IsNullOrEmpty(version) || string.IsNullOrEmpty(name))
             {
                 error = "All credentials needs to be fullfield";
@@ -60,6 +66,12 @@ namespace Forester.ViewModels.App.Developer
                 return;
             }
 
+            Thread uploadThread = new Thread(UploadThread);
+            uploadThread.Start();
+        }
+
+        async void UploadThread()
+        {
             Application app = new Application()
             {
                 ID = 0,
@@ -72,30 +84,44 @@ namespace Forester.ViewModels.App.Developer
                 mainDeveloper = 1,
             };
 
-            var result = ServerConnection.Post("/api/Applications/New",app);
+            var result = ServerConnection.Post("/api/Applications/New", app);
 
-            if(!result.IsSuccessStatusCode)
+            if (!result.IsSuccessStatusCode)
             {
                 error = "Something went wrong. Probably name is taken";
-
-                System.Diagnostics.Debug.WriteLine(result.Content.ReadAsStringAsync().Result);
-
                 return;
             }
 
             //Utworzono nową aplikacje, przeysłam pierwszą wersje
+            error = "Preparing app...";
             string path = AppFileManager.PrepareApp(pathToFolder);
 
             WebClient client = new WebClient();
             client.UploadProgressChanged += Client_UploadProgressChanged;
-            ServerConnection.Upload(ref client, "/api/Download/Upload?name="+app.name, path);
+            client.UploadFileCompleted += Client_UploadFileCompleted;
 
+            error = "Uploading...";
+
+            await ServerConnection.Upload(ref client, "/api/Download/Upload?name=" + app.name, path);
+        }
+
+        private void Client_UploadFileCompleted(object sender, UploadFileCompletedEventArgs e)
+        {
+            error = "Uploading completed.";
             AppFileManager.Clear();
+            pathToFolder = "None";
+            name = string.Empty;
+            version = string.Empty;
         }
 
         private void Client_UploadProgressChanged(object sender, UploadProgressChangedEventArgs e)
         {
-            percent = e.ProgressPercentage;
+            float progress = (float)e.BytesSent/ new FileInfo("./tempApp.zip").Length;
+
+            if (progress * 100 < percent)
+                return;
+
+            percent = (float)Math.Round(progress *100,2);
         }
 
         public async void SelectFolder()

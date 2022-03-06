@@ -16,8 +16,9 @@ namespace ForesterAPI
             if (!Directory.Exists("./Database/Applications/" + name + "/"))
                 Directory.CreateDirectory("./Database/Applications/" + name + "/");
 
-            using (FileStream stream = new FileStream($"./Database/Applications/{name}/app.zip", FileMode.Create))
-                file.CopyTo(stream);
+            FileStream stream = new FileStream($"./Database/Applications/{name}/app.zip", FileMode.Create);
+            file.CopyTo(stream);
+            stream.Close();
 
             ZipArchive zip = ZipFile.Open($"./Database/Applications/{name}/app.zip", ZipArchiveMode.Read);
             
@@ -27,18 +28,20 @@ namespace ForesterAPI
             {
                 string hash;
 
-                using (var md5 = MD5.Create())
-                {
-                    using (var stream = entry.Open())
-                    {
-                        var hashMD5 = md5.ComputeHash(stream);
+                var md5 = MD5.Create();
 
-                        hash = BitConverter.ToString(hashMD5).Replace("-", "").ToLowerInvariant();
-                    }
-                }
+                var streamAnother = entry.Open();
+
+                var hashMD5 = md5.ComputeHash(streamAnother);
+
+                hash = BitConverter.ToString(hashMD5).Replace("-", "").ToLowerInvariant();
+
+                streamAnother.Close();
 
                 json.Add(entry.FullName, hash);
             }
+
+            zip.Dispose();
 
             File.WriteAllText($"./Database/Applications/{name}/config.json", DicToJson(json));
         }

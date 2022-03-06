@@ -19,7 +19,7 @@
 			<Label HorizontalAlignment="Center" Margin="5" Content="Warning: your app at start will be set as private"/>
 
 			<Button Command="{Binding Publish}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Content="Submit"/>
-			<ProgressBar Value="{Binding percentUpload}" Height="10" Margin="0,10,0,5"/>
+			<ProgressBar Value="{Binding percent}" Height="10" Margin="0,10,0,5"/>
 			<Label FontSize="16" HorizontalAlignment="Center" Content="{Binding error}"/>
 		</StackPanel>
 	</Panel>

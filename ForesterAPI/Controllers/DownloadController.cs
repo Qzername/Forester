@@ -36,6 +36,7 @@ namespace ForesterAPI.Controllers
 
         // POST api/<DownloadController>
         [HttpPost("[action]")]
+        [DisableRequestSizeLimit]
         public IActionResult Upload([FromHeader] string token, [FromQuery] string name, IFormFile file)
         {
             string decoded = JWTManager.Decode(token);

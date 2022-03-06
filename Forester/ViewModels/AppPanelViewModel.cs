@@ -172,8 +172,6 @@ namespace Forester.ViewModels
                     content = developerVM;
                     break;
             }
-
-            System.Diagnostics.Debug.WriteLine(height);
         }
 
         #region toolbar
