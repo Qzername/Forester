@@ -26,7 +26,7 @@
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
 				<Border VerticalAlignment="Center" BorderBrush="Black" BorderThickness="3" Width="38" Height="38" Margin="0,0,10,0">
-					<Image Source="{Binding profilePicture}" Width="34" Height="34"/>
+					<Image Source="{Binding profilePicture}"/>
 				</Border>
 				<Label VerticalContentAlignment="Center" FontSize="25" Margin="0,0,10,0" Content="{Binding username}"/>
 				<Button VerticalAlignment="Center" Content="U" Height="38" Width="38" Margin="0,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>

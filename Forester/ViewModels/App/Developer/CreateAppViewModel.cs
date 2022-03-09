@@ -113,10 +113,12 @@ namespace Forester.ViewModels.App.Developer
             error = "Uploading completed.";
             AppFileManager.Clear();
             pathToFolder = "None";
-            name = string.Empty;
-            version = string.Empty;
 
             developerVM.RefreshList();
+            developerVM.ChangeView(name);
+
+            name = string.Empty;
+            version = string.Empty;
         }
 
         private void Client_UploadProgressChanged(object sender, UploadProgressChangedEventArgs e)

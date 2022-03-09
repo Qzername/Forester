@@ -6,5 +6,20 @@
              x:Class="Forester.Views.TestPanelView"
 			 DataContext="Forester.ViewModels.TestPanelViewModel"
 			 Background="Gray">
-  Here is a panel
+	<Rectangle Width="500" Height="200">
+
+		<Rectangle.Fill>
+
+			<LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%" >
+
+				<GradientStop Color="Black" Offset="0" />
+				<GradientStop Color="#47E80C" Offset="1" />
+
+			</LinearGradientBrush>
+
+		</Rectangle.Fill>
+
+	</Rectangle>
+
+
 </UserControl>

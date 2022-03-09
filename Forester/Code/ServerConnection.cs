@@ -4,6 +4,8 @@ using Avalonia.Platform;
 using Forester.Models.API;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,6 +14,7 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Drawing = System.Drawing;
 
 namespace Forester
 {
@@ -65,9 +68,9 @@ namespace Forester
             return response;
         }
 
-        public static Bitmap GetImage(string username)
+        public static Bitmap GetImage(string username, int objectType, int pictureType)
         {
-            var response = Get($"/api/Update/GetPicture?objectType=0&pictureType=0&name={username.Replace("#", "%23")}");
+            var response = Get($"/api/Update/GetPicture?objectType={objectType}&pictureType={pictureType}&name={username.Replace("#", "%23")}");
 
             Bitmap bitmap;
 
@@ -75,11 +78,37 @@ namespace Forester
                 bitmap = new Bitmap(response.Content.ReadAsStream());
             else
             {
-                var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-                bitmap = new Bitmap(assets.Open(new Uri("avares://Forester/Assets/defaultPP.png")));
+                if(pictureType == 0)
+                {
+                    var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+                    bitmap = new Bitmap(assets.Open(new Uri("avares://Forester/Assets/defaultPP.png")));
+                }
+                else
+                    bitmap = GenerateGradient();
             }
 
             return bitmap;
+        }
+
+        static Bitmap GenerateGradient()
+        {
+            int height = 400, width = 800;
+
+            using (Drawing.Bitmap bitmap = new Drawing.Bitmap(width, height))
+            using (Drawing.Graphics graphics = Drawing.Graphics.FromImage(bitmap))
+            using (LinearGradientBrush brush = new LinearGradientBrush(new Drawing.Point(0, 0), new Drawing.Point(height, width), Drawing.Color.Black, Drawing.Color.Green))
+            {
+                brush.SetSigmaBellShape(0.7f);
+                graphics.FillRectangle(brush, new Drawing.Rectangle(0, 0, width, height));
+
+                using (MemoryStream memory = new MemoryStream())
+                {
+                    bitmap.Save(memory, ImageFormat.Png);
+                    memory.Position = 0;
+
+                    return new Bitmap(memory);
+                }
+            }
         }
 
         public static Task Upload(ref WebClient client, string URI, string filePath)

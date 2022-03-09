@@ -174,7 +174,7 @@ namespace ForesterAPI.Controllers
 
         // PUT api/<ApplicationsController>/Update
         [HttpPut("[action]")]
-        public IActionResult Update([FromHeader] string token, Application app)
+        public IActionResult Update([FromHeader] string token, [FromQuery] string name, Application app)
         {
             //Deserializacja tokenu
             string decoded = JWTManager.Decode(token);
@@ -187,7 +187,7 @@ namespace ForesterAPI.Controllers
             if (SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE ID={loginToken.ID} AND isDeveloper=\"True\"").Length == 0)
                 return StatusCode(403);
 
-            var selectedApps = SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE ID={app.ID} AND mainDeveloper={loginToken.ID}");
+            var selectedApps = SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE name=\"{name}\" AND mainDeveloper={loginToken.ID}");
 
             if (selectedApps.Length == 0)
                 return StatusCode(403);
@@ -200,7 +200,7 @@ namespace ForesterAPI.Controllers
                     return StatusCode(499);
                 else
                 {
-                    ApplicationManager.Rename(selectedApps[0].name, app.name);
+                    ApplicationManager.Rename(name, app.name);
                     query += "name = \"" + app.name + "\",";
                 }
 
@@ -220,7 +220,7 @@ namespace ForesterAPI.Controllers
                 return StatusCode(406);
 
             query = query.Remove(query.Length - 1);
-            query += " WHERE ID = " + app.ID;
+            query += $" WHERE name = \"{name}\"";
 
             SQLDatabase.NoReturnQuery(query);
 

@@ -134,7 +134,7 @@ namespace Forester.ViewModels
 
             username = string.Format("{0}#{1}", Data.account.friendlyUsername, Data.account.friendly_ID);
 
-            profilePicture = ServerConnection.GetImage(username);
+            profilePicture = ServerConnection.GetImage(username,0,0);
 
             SetTheme(); 
 

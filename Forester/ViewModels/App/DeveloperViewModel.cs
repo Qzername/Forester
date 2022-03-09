@@ -32,7 +32,7 @@ namespace Forester.ViewModels.App
 
             RefreshList();
 
-            manageAppVM = new ManageAppViewModel();
+            manageAppVM = new ManageAppViewModel(this);
             createAppVM = new CreateAppViewModel(this);
 
             content = new BasicInfoViewModel();
@@ -49,6 +49,14 @@ namespace Forester.ViewModels.App
 
             foreach (var app in JsonConverter.Deserialize<Application[]>(response.Content.ReadAsStringAsync().Result))
                 apps.Add(app);
+        }
+
+        public void ChangeView(string name)
+        {
+            Application app = apps.Single(x=>x.name == name);
+
+            content = manageAppVM;
+            manageAppVM.SetApp(app);
         }
 
         public void AddNew() => content = createAppVM;

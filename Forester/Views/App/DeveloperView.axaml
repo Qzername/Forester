@@ -5,7 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="720" 
              x:Class="Forester.Views.App.DeveloperView">
 	
-	<DockPanel Margin="10">
+	<DockPanel Margin="10,10,0,10">
 		<!--Choose app-->
 		<DockPanel>
 			<Button Command="{Binding AddNew}" DockPanel.Dock="Top" Margin="0,0,0,5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">Add new</Button>
@@ -15,7 +15,7 @@
 					<ItemsControl Items="{Binding apps}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<Button Background="Transparent" Width="200" Content="{Binding name}" />
+								<Button Command="{Binding $parent[ItemsControl].DataContext.ChangeView}" CommandParameter="{Binding name}" Background="Transparent" Width="200" Content="{Binding name}" />
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
