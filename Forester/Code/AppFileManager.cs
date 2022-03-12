@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forester.Code
+namespace Forester
 {
     public static class AppFileManager
     {
