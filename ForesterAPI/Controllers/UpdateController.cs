@@ -82,7 +82,7 @@ namespace ForesterAPI.Controllers
         }
 
         [HttpPut("[action]")]
-        public IActionResult UpdatePicture([FromHeader] string token, PictureManager.Folder objectType, PictureManager.Picture pictureType, string name, IFormFile file)
+        public IActionResult UpdatePicture([FromHeader] string token, [FromQuery] PictureManager.Folder objectType, [FromQuery] PictureManager.Picture pictureType, [FromQuery] string name, IFormFile file)
         {
             string decoded = JWTManager.Decode(token);
 

@@ -7,8 +7,14 @@ namespace ForesterAPI
     public static class ApplicationManager
     {
         public static bool CheckIfExist(string name) => File.Exists($"./Database/Applications/{name}/config.json");
-        public static void Rename(string oldName, string newName) => Directory.Move("./Database/Applications/" + oldName, "./Database/Applications/" + newName);
-        
+        public static void Rename(string oldName, string newName)
+        {
+            if (Directory.Exists("./Database/Applications/" + oldName))
+                Directory.Move("./Database/Applications/" + oldName, "./Database/Applications/" + newName);
+
+            if(Directory.Exists("./Database/Pictures/Applications/" + oldName))
+                Directory.Move("./Database/Pictures/Applications/" + oldName, "./Database/Pictures/Applications/" + newName);
+        }
         public static void SaveAndCreateConfig(string name, IFormFile file)
         {
             Clear(name);

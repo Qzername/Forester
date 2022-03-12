@@ -12,13 +12,13 @@
 			<Panel Margin="0,0,0,10" Height="100">
 				<Image Source="{Binding backgroundPicture}" Stretch="UniformToFill" />
 				<Border Width="70" Height="70" BorderBrush="White" BorderThickness="2">
-					<Image Source="{Binding profilePicture}" Width="70" Height="70"/>
+					<Image Source="{Binding profilePicture}" Stretch="UniformToFill" Width="66" Height="66" Margin="2"/>
 				</Border>
 			</Panel>
 
 			<UniformGrid IsEnabled="{Binding makeChanges}" Margin="100,0" HorizontalAlignment="Stretch" Rows="1" Columns="2">
-				<Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Upload new profile picture</Button>
-				<Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Upload new background picture</Button>
+				<Button Command="{Binding UploadNewProfilePicture}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Upload new profile picture</Button>
+				<Button Command="{Binding UploadNewBackgroundPicture}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Upload new background picture</Button>
 			</UniformGrid>
 			
 			<TextBox IsEnabled="{Binding makeChanges}" Text="{Binding appName}" Watermark="Name of App" Margin="5" MaxLength="100"/>

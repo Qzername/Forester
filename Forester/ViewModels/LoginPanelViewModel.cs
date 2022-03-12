@@ -295,8 +295,6 @@ namespace Forester.ViewModels
 
             var response = ServerConnection.Post("/api/Accounts/Register", registerC);
 
-            System.Diagnostics.Debug.WriteLine(response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
-
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 Login();
             else

@@ -1,7 +1,10 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
+using AvaMedia = Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Forester.Models.API;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
@@ -90,25 +93,31 @@ namespace Forester
             return bitmap;
         }
 
-        static Bitmap GenerateGradient()
+        public static async void PostImage(string username, int objectType, int pictureType, Bitmap image)
         {
-            int height = 400, width = 800;
+            byte[] bytes;
 
-            using (Drawing.Bitmap bitmap = new Drawing.Bitmap(width, height))
-            using (Drawing.Graphics graphics = Drawing.Graphics.FromImage(bitmap))
-            using (LinearGradientBrush brush = new LinearGradientBrush(new Drawing.Point(0, 0), new Drawing.Point(height, width), Drawing.Color.Black, Drawing.Color.Green))
+            using (var stream = new MemoryStream())
             {
-                brush.SetSigmaBellShape(0.7f);
-                graphics.FillRectangle(brush, new Drawing.Rectangle(0, 0, width, height));
-
-                using (MemoryStream memory = new MemoryStream())
-                {
-                    bitmap.Save(memory, ImageFormat.Png);
-                    memory.Position = 0;
-
-                    return new Bitmap(memory);
-                }
+                image.Save(stream);
+                bytes = stream.ToArray();
             }
+
+            var response = Upload(bytes, $"/api/Update/UpdatePicture?objectType={objectType}&pictureType={pictureType}&name={username.Replace("#", "%23")}");
+        }
+
+        public static HttpResponseMessage Upload(byte[] file, string uri)
+        {
+            HttpClient client = new HttpClient();
+            
+            if (!string.IsNullOrWhiteSpace(Data.token.token))
+                client.DefaultRequestHeaders.Add("token", Data.token.token);
+
+            var content = new MultipartFormDataContent();
+
+            content.Add(new StreamContent(new MemoryStream(file)), "file", "FILE");
+
+            return client.PutAsync(api + uri, content).Result;
         }
 
         public static Task Upload(ref WebClient client, string URI, string filePath)
@@ -133,6 +142,26 @@ namespace Forester
                     builder.Append(bytes[i].ToString("x2"));
                 }
                 return builder.ToString();
+            }
+        }
+        static Bitmap GenerateGradient()
+        {
+            int height = 400, width = 1000;
+
+            using (Drawing.Bitmap bitmap = new Drawing.Bitmap(width, height))
+            using (Drawing.Graphics graphics = Drawing.Graphics.FromImage(bitmap))
+            using (LinearGradientBrush brush = new LinearGradientBrush(new Drawing.Point(0, 0), new Drawing.Point(height, width), Drawing.Color.Black, Drawing.Color.Green))
+            {
+                brush.SetSigmaBellShape(0.7f);
+                graphics.FillRectangle(brush, new Drawing.Rectangle(0, 0, width, height));
+
+                using (MemoryStream memory = new MemoryStream())
+                {
+                    bitmap.Save(memory, ImageFormat.Png);
+                    memory.Position = 0;
+
+                    return new Bitmap(memory);
+                }
             }
         }
     }
