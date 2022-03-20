@@ -51,7 +51,7 @@ namespace ForesterAPI.Controllers
             if (app.Length == 0)
                 return StatusCode(403);
 
-            if (app[0].mainDeveloper != loginToken.ID && SQLDatabase.Select<ulong>($"SELECT ID_User FROM Developers WHERE ID_Application = \"{app[0].ID}\" AND ID_User =\"{loginToken.ID}\"").Length > 0)
+            if (app[0].mainDeveloper != loginToken.ID && SQLDatabase.Select<ulong>($"SELECT ID_User FROM Developers WHERE ID_Application = {app[0].ID} AND ID_User = {loginToken.ID}").Length == 0)
                 return StatusCode(404);
 
             ApplicationManager.SaveAndCreateConfig(name, file);

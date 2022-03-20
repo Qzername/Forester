@@ -2,8 +2,8 @@
 {
     public struct Allowed
     {
-        public string name;
-        public long[] allowedUsers;
-        public long[] allowedDevelopers;
+        public string name { get; set; }
+        public Account[] allowedUsers { get; set; }
+        public Account[] allowedDevelopers { get; set; }
     }
 }

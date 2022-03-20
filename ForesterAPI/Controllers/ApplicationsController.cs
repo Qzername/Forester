@@ -104,8 +104,21 @@ namespace ForesterAPI.Controllers
             if(apps.Length == 0)
                 return StatusCode(403);
 
-            var users = SQLDatabase.Select<long>($"SELECT ID_User FROM AllowedUsers WHERE ID_Application = {apps[0].ID}");
-            var developers = SQLDatabase.Select<long>($"SELECT ID_User FROM Developers WHERE ID_Application = {apps[0].ID}");
+            var users = SQLDatabase.Select<Account>($"SELECT Accounts.* FROM Accounts, AllowedUsers WHERE AllowedUsers.ID_Application = {apps[0].ID} AND AllowedUsers.ID_User = Accounts.ID");
+
+            for(int i = 0; i < users.Length; i++)
+            {
+                users[i].username = "";
+                users[i].password = "";
+            }
+
+            var developers = SQLDatabase.Select<Account>($"SELECT Accounts.* FROM Accounts, Developers WHERE Developers.ID_Application = {apps[0].ID} AND Developers.ID_User = Accounts.ID");
+
+            for (int i = 0; i < developers.Length; i++)
+            {
+                developers[i].username = "";
+                developers[i].password = "";
+            }
 
             Allowed allowed = new Allowed()
             {
@@ -134,16 +147,46 @@ namespace ForesterAPI.Controllers
             if (apps.Length == 0)
                 return StatusCode(403);
 
+            if (allowed.allowedDevelopers is null)
+                allowed.allowedDevelopers = new Account[0];
+
+            if (allowed.allowedUsers is null)
+                allowed.allowedUsers = new Account[0];
+
+            List<long> allowedUsersID = new List<long>();
+
+            foreach(Account account in allowed.allowedUsers)
+            {
+                var id = SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE friendly_username = \"{account.friendlyUsername}\" AND friendly_ID = {account.friendly_ID}");
+
+                if (id.Length == 0)
+                    return StatusCode(404);
+
+                allowedUsersID.Add(long.Parse(id[0].ID.ToString()));
+            }
+
+            List<long> allowedDevelopersID = new List<long>();
+
+            foreach (Account account in allowed.allowedDevelopers)
+            {
+                var id = SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE friendly_username = \"{account.friendlyUsername}\" AND friendly_ID = {account.friendly_ID}");
+
+                if (id.Length == 0)
+                    return StatusCode(404);
+
+                allowedDevelopersID.Add(long.Parse(id[0].ID.ToString()));
+            }
+
             long appID = apps[0].ID;
 
             SQLDatabase.NoReturnQuery($"DELETE FROM AllowedUsers WHERE ID_Application = {appID}");
 
-            foreach (long id in allowed.allowedUsers)
+            foreach (long id in allowedUsersID)
                 SQLDatabase.NoReturnQuery($"INSERT INTO AllowedUsers(ID_Application, ID_User) VALUES({appID},{id})");
 
             SQLDatabase.NoReturnQuery($"DELETE FROM Developers WHERE ID_Application = {appID}");
 
-            foreach (long id in allowed.allowedDevelopers)
+            foreach (long id in allowedDevelopersID)
                 SQLDatabase.NoReturnQuery($"INSERT INTO Developers(ID_Application, ID_User) VALUES({appID},{id})");
 
             return Ok();
@@ -185,7 +228,20 @@ namespace ForesterAPI.Controllers
             var loginToken = JSONManager.Deserialize<LoginToken>(decoded);
 
             if (SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE ID={loginToken.ID} AND isDeveloper=\"True\"").Length == 0)
+            {
+                var selectApp = SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE name=\"{name}\"");
+
+                if (selectApp.Length == 0)
+                    return StatusCode(404);
+
+                if(SQLDatabase.Select<ulong>($"SELECT ID_User FROM Developers WHERE ID_Application = {selectApp[0].ID} AND ID_User = {loginToken.ID}").Length != 0 && !string.IsNullOrEmpty(app.version))
+                {
+                    SQLDatabase.NoReturnQuery($"UPDATE Applications SET version = \"{app.version}\" WHERE name = \"{name}\"");
+                    return Ok();
+                }
+
                 return StatusCode(403);
+            }
 
             var selectedApps = SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE name=\"{name}\" AND mainDeveloper={loginToken.ID}");
 

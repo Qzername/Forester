@@ -83,9 +83,12 @@ namespace ForesterAPI.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetUser([FromQuery] string username)
-        {
-            var users = SQLDatabase.Select<Account>($"SELECT * FROM Accounts WHERE username=\"{username}\"");
+        public IActionResult GetUser([FromQuery] string? username, [FromQuery] string? friendlyUsername, [FromQuery] long? id)
+        { 
+            var users = SQLDatabase.Select<Account>("SELECT * FROM Accounts WHERE " + 
+                (friendlyUsername is null?"": $"friendly_username=\"{friendlyUsername}\" ") +
+                (username is null?"": $"username=\"{username}\" ") +
+                (id is null ?"": $"ID={id} "));;
 
             if (users.Length == 0)
                 return StatusCode(404);

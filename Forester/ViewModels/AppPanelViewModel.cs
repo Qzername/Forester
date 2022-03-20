@@ -118,7 +118,9 @@ namespace Forester.ViewModels
             storeVM = new StoreViewModel();
             libraryVM = new LibraryViewModel();
 
-            if(Data.account.isDeveloper)
+            var response = ServerConnection.Get("/api/Applications/GetDeveloped");
+
+            if(Data.account.isDeveloper || JsonConverter.Deserialize<Models.API.Application[]>(response.Content.ReadAsStringAsync().Result).Length > 0)
             {
                 developerOpacity = 1;
                 developerIsEnabled = true;

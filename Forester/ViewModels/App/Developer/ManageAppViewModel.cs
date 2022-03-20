@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Forester;
@@ -7,6 +8,7 @@ using Forester.Models.API;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -113,14 +115,237 @@ namespace Forester.ViewModels.App.Developer
         string pathToFile;
         #endregion
 
+        #region Allowance
+        #region Private
+        ObservableCollection<SingleAllowed> users { get; set; }
+        bool _isPrivate;
+        public bool isPrivate
+        {
+            get => _isPrivate;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _isPrivate, value);
+                IsCheckedHandle();
+            }
+        }
+
+        string _errorPrivate;
+        public string errorPrivate
+        {
+            get => _errorPrivate;
+            set => this.RaiseAndSetIfChanged(ref _errorPrivate, value);
+        }
+
+        string _newUserPrivate;
+        public string newUserPrivate
+        {
+            get => _newUserPrivate;
+            set=> this.RaiseAndSetIfChanged(ref _newUserPrivate, value);
+        }
+
         Application currentApp;
+        
+        List<Account> allowedUsers;
+        #endregion
+        #region Developers
+        string _errorDeveloper;
+        public string errorDeveloper
+        {
+            get => _errorDeveloper;
+            set => this.RaiseAndSetIfChanged(ref _errorDeveloper, value);
+        }
+
+        string _newDeveloper;
+        public string newDeveloper
+        {
+            get => _newDeveloper;
+            set => this.RaiseAndSetIfChanged(ref _newDeveloper, value);
+        }
+        ObservableCollection<SingleAllowed> allowedDevelopers { get; set; }
+        List<Account> developers;
+        #endregion
+        #endregion
+
+        bool _isSuperDeveloper;
+        public bool isSuperDeveloper
+        {
+            get => _isSuperDeveloper;
+            set => this.RaiseAndSetIfChanged(ref _isSuperDeveloper, value);
+        }
+
         DeveloperViewModel developerVM;
 
         public ManageAppViewModel(DeveloperViewModel developerVM)
         {
+            users = new ObservableCollection<SingleAllowed>();
+            allowedDevelopers = new ObservableCollection<SingleAllowed>();
+
+            allowedUsers = new List<Account>();
+            developers = new List<Account>();   
+
             newVersionCurrentPath = "Current path: None";
             this.developerVM = developerVM;
         }
+
+        #region Allowance
+        #region Private
+        public void IsCheckedHandle()
+        {
+            if (currentApp.isPrivate == isPrivate.ToString())
+                return;
+
+            Application update = new Application()
+            {
+                ID = 0,
+                name = "",
+                quickDescription = "",
+                description = "",
+                isPrivate = isPrivate.ToString(),
+                mainDeveloper = 0,
+                downloadNumber = 0,
+                version = ""
+            };
+
+            ServerConnection.Put("/api/Applications/Update?name=" + currentApp.name, update);
+            currentApp.isPrivate = isPrivate.ToString();
+        }
+
+        public void AddUserPrivate()
+        {
+            var username = newUserPrivate.Split('#');
+
+            if(username.Length < 2)
+            {
+                errorPrivate = "Wrong username";
+                return;
+            }
+
+            allowedUsers.Add(new Account() 
+            {
+                ID = 0,
+                friendlyUsername = username[0],
+                friendly_ID = int.Parse(username[1]),
+                description = "",
+                isDeveloper = false,
+                password = "",
+                username = ""
+            });
+
+            UpdateDevelopersAllowed();
+        }
+
+        public void DeleteUserPrivate()
+        {
+            var username = newUserPrivate.Split('#');
+
+            allowedUsers.Remove(allowedUsers.Single(x=>x.friendlyUsername==username[0] && x.friendly_ID == int.Parse(username[1])));
+
+            UpdateDevelopersAllowed();
+        }
+
+        public void SwitchAllowedUser(string name) => newUserPrivate = name;
+        #endregion
+        #region Developers
+        public void AddDeveloper()
+        {
+            var username = newDeveloper.Split('#');
+
+            if (username.Length < 2)
+            {
+                errorDeveloper = "Wrong username";
+                return;
+            }
+
+            developers.Add(new Account()
+            {
+                ID = 0,
+                friendlyUsername = username[0],
+                friendly_ID = int.Parse(username[1]),
+                description = "",
+                isDeveloper = false,
+                password = "",
+                username = ""
+            });
+
+            UpdateDevelopersAllowed(true);
+        }
+
+        public void DeleteDeveloper()
+        {
+            var username = newDeveloper.Split('#');
+
+            developers.Remove(developers.Single(x => x.friendlyUsername == username[0] && x.friendly_ID == int.Parse(username[1])));
+
+            UpdateDevelopersAllowed(true);
+        }
+
+        public void SwitchDeveloper(string name) => newDeveloper = name;
+        #endregion
+        void UpdateDevelopersAllowed(bool isDeveloper = false)
+        {
+            Allowed allowed = new Allowed()
+            {
+                name = currentApp.name,
+                allowedDevelopers = developers.ToArray(),
+                allowedUsers = allowedUsers.ToArray()
+            };
+
+            var response = ServerConnection.Put("/api/Applications/UpdateAllowed", allowed);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+                if (isDeveloper)
+                    errorDeveloper = "User not found";
+                else
+                    errorPrivate = "User not found";
+            else
+                if(isDeveloper)
+                    errorDeveloper = "Added";
+                else
+                    errorPrivate = "Added";
+
+            SetAllowedUsers(currentApp);
+            
+        }
+
+        public void SetAllowedUsers(Application app)
+        {
+            isPrivate = bool.Parse(app.isPrivate);
+
+            newUserPrivate = "";
+            errorPrivate = "";
+
+            newDeveloper = "";
+            errorDeveloper = "";
+
+            for (int i = users.Count - 1; i > -1; i--)
+                users.RemoveAt(i); 
+            
+            for (int i = allowedDevelopers.Count - 1; i > -1; i--)
+                allowedDevelopers.RemoveAt(i);
+
+            var response = ServerConnection.Get("/api/Applications/GetAllowed?name=" + app.name);
+
+            var bank = JsonConverter.Deserialize<Allowed>(response.Content.ReadAsStringAsync().Result);
+
+            allowedUsers.Clear();
+            if (bank.allowedUsers is not null)
+            {
+                allowedUsers.AddRange(bank.allowedUsers);
+
+                foreach (Account user in bank.allowedUsers)
+                    users.Add(new SingleAllowed() { name = user.friendlyUsername + "#" + user.friendly_ID.ToString() });
+            }
+
+            developers.Clear();
+            if (bank.allowedDevelopers is not null)
+            {
+                developers.AddRange(bank.allowedDevelopers);
+
+                foreach (Account user in bank.allowedDevelopers)
+                    allowedDevelopers.Add(new SingleAllowed() { name = user.friendlyUsername + "#" + user.friendly_ID.ToString() });
+            }
+        }
+        #endregion
 
         #region Basic app information 
         public void SwitchChanges()
@@ -260,14 +485,7 @@ namespace Forester.ViewModels.App.Developer
         #endregion
 
         #region Upload New Version
-        public void SetApp(Application app)
-        {
-            switchChangesButtonContent = "Make changes";
-            makeChanges = false;
-            currentApp = app;
 
-            SetBasicInformation(app);
-        }
 
         public async void SelectPath()
         {
@@ -352,5 +570,22 @@ namespace Forester.ViewModels.App.Developer
             versionPBValue = (float)Math.Round(progress * 100, 2);
         }
         #endregion
+
+        public void SetApp(Application app)
+        {
+            switchChangesButtonContent = "Make changes";
+            makeChanges = false;
+            currentApp = app;
+
+            isSuperDeveloper = app.mainDeveloper == Data.account.ID;
+
+            SetAllowedUsers(app);
+            SetBasicInformation(app);
+        }
+    }
+
+    public struct SingleAllowed
+    {
+        public string name { get; set; }
     }
 }
