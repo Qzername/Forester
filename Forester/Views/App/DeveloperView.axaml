@@ -8,7 +8,7 @@
 	<DockPanel Margin="10,10,0,10">
 		<!--Choose app-->
 		<DockPanel>
-			<Button Command="{Binding AddNew}" DockPanel.Dock="Top" Margin="0,0,0,5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">Add new</Button>
+			<Button IsVisible="{Binding isSuperDeveloper}" IsEnabled="{Binding isSuperDeveloper}" Command="{Binding AddNew}" DockPanel.Dock="Top" Margin="0,0,0,5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">Add new</Button>
 			<ScrollViewer Width="200" Background="#151515">
 				<StackPanel>
 					

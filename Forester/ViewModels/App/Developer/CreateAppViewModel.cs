@@ -110,7 +110,9 @@ namespace Forester.ViewModels.App.Developer
 
         private void Client_UploadFileCompleted(object sender, UploadFileCompletedEventArgs e)
         {
-            error = "Uploading completed.";
+            error = "";
+            percent = 0f;
+
             AppFileManager.Clear();
             pathToFolder = "None";
 

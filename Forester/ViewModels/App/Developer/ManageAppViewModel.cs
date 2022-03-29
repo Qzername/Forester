@@ -208,6 +208,7 @@ namespace Forester.ViewModels.App.Developer
 
             ServerConnection.Put("/api/Applications/Update?name=" + currentApp.name, update);
             currentApp.isPrivate = isPrivate.ToString();
+            developerVM.RefreshList();
         }
 
         public void AddUserPrivate()
@@ -415,7 +416,7 @@ namespace Forester.ViewModels.App.Developer
 
             developerVM.RefreshList();
 
-            var response = ServerConnection.Get("/api/Applications/Get?name=" + appName);
+            var response = ServerConnection.Get("/api/Applications/GetSingle?name=" + appName);
             SetApp(JsonConverter.Deserialize<Application[]>(response.Content.ReadAsStringAsync().Result)[0]);
         }
 

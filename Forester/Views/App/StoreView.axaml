@@ -4,5 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Forester.Views.App.StoreView">
-  Store
+	<StackPanel>
+
+
+		<ItemsControl Items="{Binding apps}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<StackPanel IsEnabled="{Binding !isInLibrary}" Orientation="Horizontal">
+						<Label Margin="10,0,0,0" Content="{Binding app.name}" HorizontalAlignment="Center" FontSize="24"/>
+						<Button Content="Dodaj do biblioteki" Command="{Binding $parent[ItemsControl].DataContext.AddToLibrary}" CommandParameter="{Binding app.name}" HorizontalAlignment="Center"/>
+					</StackPanel>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+
+	</StackPanel>
 </UserControl>

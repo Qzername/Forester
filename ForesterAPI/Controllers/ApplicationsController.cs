@@ -28,17 +28,23 @@ namespace ForesterAPI.Controllers
                 applications.AddRange(SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE mainDeveloper = {loginToken.ID} AND isPrivate = \"True\""));
 
             //Dodanie aplikacji gdzie użytkownik jest deweloperem (od razu sprawdzam czy są prywatne)
-            applications.AddRange(SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Developers.ID_User = {loginToken.ID} AND Applications.isPrivate = \"True\""));
+            applications.AddRange(SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Developers.ID_User = {loginToken.ID} AND Applications.ID = Developers.ID_Application AND Applications.isPrivate = \"True\""));
+
+            //Dodanie prywatnych aplikacji gdzie użytkownik ma dostęp
+            applications.AddRange(SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, AllowedUsers WHERE AllowedUsers.ID_User = {loginToken.ID} AND Applications.ID = AllowedUsers.ID_Application AND Applications.isPrivate = \"True\""));
 
             //Dodanie reszty aplikacji
             applications.AddRange(SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE isPrivate=\"False\""));
 
+            //Usuwanie duplikatów
+            applications = applications.Distinct().ToList();
+
             return Ok(JSONManager.Serialize(applications.ToArray()));
         }
 
-        // GET api/<ApplicationsController>/Get/<name>
-        [HttpGet("[action]/{name}")]
-        public IActionResult Get([FromHeader] string token, [FromQuery] string name)
+        // GET api/<ApplicationsController>/GetSingle
+        [HttpGet("[action]")]
+        public IActionResult GetSingle([FromHeader] string token, [FromQuery] string? name, [FromQuery] string? id)
         {
             //Deserializacja tokenu
             string decoded = JWTManager.Decode(token);
@@ -48,8 +54,16 @@ namespace ForesterAPI.Controllers
 
             var loginToken = JSONManager.Deserialize<LoginToken>(decoded);
 
+            bool nameIsNull = string.IsNullOrEmpty(name);
+            bool idIsNull = string.IsNullOrEmpty(id);
+
+            if (nameIsNull && idIsNull)
+                return StatusCode(403);
+
+            string query = "SELECT * FROM Applications WHERE " + (nameIsNull ? "" : $"name =\"{name}\"") + (!idIsNull && !nameIsNull ? " AND " : "") + (idIsNull ? "" : $"id={id}");
+
             //Wyciągnięcie aplikacji
-            var apps = SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE name=\"{name}\"");
+            var apps = SQLDatabase.Select<Application>(query);
 
             if (apps.Length == 0)
                 return StatusCode(404);
@@ -82,7 +96,7 @@ namespace ForesterAPI.Controllers
             applications.AddRange(SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE mainDeveloper = {loginToken.ID}"));
 
             //Dodanie aplikacji gdzie użytkownik jest deweloperem
-            applications.AddRange(SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Developers.ID_User = {loginToken.ID}"));
+            applications.AddRange(SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Developers.ID_User = {loginToken.ID}  AND Applications.ID = Developers.ID_Application"));
 
             return Ok(JSONManager.Serialize(applications.ToArray()));
         }

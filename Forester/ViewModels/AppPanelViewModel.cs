@@ -115,8 +115,11 @@ namespace Forester.ViewModels
 
         public AppPanelViewModel(MainWindowViewModel mainWindowVM)
         {
-            storeVM = new StoreViewModel();
             libraryVM = new LibraryViewModel();
+            storeVM = new StoreViewModel(libraryVM);
+
+            //nie lubię faktu że muszę to zrobić
+            libraryVM.storeVM = storeVM;    
 
             var response = ServerConnection.Get("/api/Applications/GetDeveloped");
 

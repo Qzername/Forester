@@ -26,6 +26,11 @@ namespace Forester.ViewModels.App
             set => this.RaiseAndSetIfChanged(ref _content, value);
         }
 
+        public bool isSuperDeveloper
+        {
+            get => Data.account.isDeveloper;
+        }
+
         public DeveloperViewModel()
         {
             apps = new ObservableCollection<Application>();

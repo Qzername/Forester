@@ -4,5 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Forester.Views.App.LibraryView">
-  Library
+
+	<StackPanel>
+
+
+		<ItemsControl Items="{Binding apps}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<Label Margin="10,0,0,0" Content="{Binding name}" HorizontalAlignment="Center" FontSize="24"/>
+						<Button Content="Pobierz" Command="{Binding $parent[ItemsControl].DataContext.Download}" CommandParameter="{Binding name}" HorizontalAlignment="Center"/>
+						<Button Content="Usuń z bilioteki" Command="{Binding $parent[ItemsControl].DataContext.DeleteApp}" CommandParameter="{Binding name}" HorizontalAlignment="Center"/>
+					</StackPanel>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+
+	</StackPanel>
 </UserControl>
