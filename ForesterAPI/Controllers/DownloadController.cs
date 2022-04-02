@@ -30,7 +30,7 @@ namespace ForesterAPI.Controllers
 
             if (!ApplicationManager.CheckIfExist(app.name))
                 return StatusCode(404);
-
+            
             return File(ApplicationManager.GetFiles(name, files), "application/force-download", app.name + ".zip");
         }
 

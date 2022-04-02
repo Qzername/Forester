@@ -18,6 +18,32 @@ namespace Forester
             return "./tempApp.zip";
         }
 
+        public static void AppDownloaded(string appName)
+        {
+            string currentZipLocation = $"./Apps/{appName}/";
+
+            Directory.CreateDirectory(currentZipLocation);
+            File.Move("./tempApp.zip", currentZipLocation + "tempApp.zip", true);
+            ZipFile.ExtractToDirectory(currentZipLocation + "tempApp.zip", currentZipLocation, true);
+            File.Delete(currentZipLocation + "tempApp.zip");
+        }
+
+        public static void AppDelete(string appName)
+        {
+            string currentZipLocation = $"./Apps/{appName}/";
+
+            if(Directory.Exists(currentZipLocation))
+                Directory.Delete(currentZipLocation, true);
+        }
+
+        public static Dictionary<string, string> ReadAppConfig(string appName)
+        {
+            if(File.Exists($"./Apps/{appName}/ForesterConfig/config.json"))
+                return JsonConverter.Deserialize<Dictionary<string, string>>(FileReader.ReadText($"./Apps/{appName}/ForesterConfig/config.json"));
+
+            return new Dictionary<string, string>();
+        }
+
         public static void Clear()
         {
             if (File.Exists("./tempApp.zip"))

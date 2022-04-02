@@ -61,11 +61,8 @@ namespace ForesterAPI
 
             //usunięcie plików bez zmian, oznaczenie niepotrzebnych jako do usuniecia
             foreach (KeyValuePair<string, string> key in alreadyExist)
-                if (config.ContainsKey(key.Key))
-                {
-                    if (config[key.Key] != key.Value || config[key.Key].StartsWith("ForesterConfig"))
-                        filesToRemove.Add(key.Key);
-                }
+                if (config.ContainsKey(key.Key) && config[key.Key] == key.Value)
+                    filesToRemove.Add(key.Key);
                 else
                     config[key.Key] = "REMOVE";
 
@@ -78,9 +75,20 @@ namespace ForesterAPI
 
             using (ZipArchive archive = ZipFile.Open(pathToTemp + "app.zip", ZipArchiveMode.Update))
             {
-                foreach (var item in archive.Entries)
-                    if (filesToRemove.Contains(item.Name))
-                        item.Delete();
+                var entriesToRemove = archive.Entries.Where(x => filesToRemove.Contains(x.FullName)).ToList();
+
+                for (int i = 0; i < entriesToRemove.Count; i++)
+                    entriesToRemove[i].Delete();
+
+                archive.CreateEntry("ForesterConfig/");
+                var entry = archive.CreateEntry("ForesterConfig/config.json");
+                using(Stream stream = entry.Open())
+                {
+                    var sw = new StreamWriter(stream);
+                    sw.Write(JsonConvert.SerializeObject(config));
+                    sw.Flush();
+                    sw.Close();
+                }
             }
 
             byte[] data = File.ReadAllBytes(pathToTemp + "app.zip");
