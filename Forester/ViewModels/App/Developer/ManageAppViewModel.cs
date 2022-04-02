@@ -417,7 +417,7 @@ namespace Forester.ViewModels.App.Developer
             developerVM.RefreshList();
 
             var response = ServerConnection.Get("/api/Applications/GetSingle?name=" + appName);
-            SetApp(JsonConverter.Deserialize<Application[]>(response.Content.ReadAsStringAsync().Result)[0]);
+            SetApp(JsonConverter.Deserialize<Application>(response.Content.ReadAsStringAsync().Result));
         }
 
         void UpdateBasicInformation()
