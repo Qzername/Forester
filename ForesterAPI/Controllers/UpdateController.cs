@@ -1,6 +1,9 @@
 ﻿using ForesterAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.IO;
+using System.IO.Compression;
+using System.Security.Cryptography;
 
 namespace ForesterAPI.Controllers
 {
@@ -13,15 +16,94 @@ namespace ForesterAPI.Controllers
         public IActionResult VersionForester() => Ok(System.IO.File.ReadAllText("./Database/Update/Forester/version.json"));
 
         [HttpGet("Forester/Download")]
-        public FileContentResult DownloadForester() => File(System.IO.File.ReadAllBytes("./Database/Update/Forester/app.zip"), "application/force-download", "forester.zip");
-        #endregion
+        public FileContentResult DownloadForester([FromBody] Dictionary<string, string> files) 
+        {
+            //Zawiera wszystkie pliki wraz z ich wielkością
+            var config = JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText($"./Database/Update/Forester/config.json"));
 
-        #region Updater
-        [HttpGet("Updater/Version")]
-        public IActionResult VersionUpdater() => Ok(System.IO.File.ReadAllText("./Database/Update/Updater/version.json"));
+            List<string> filesToRemove = new List<string>();
 
-        [HttpGet("Updater/Download")]
-        public FileContentResult DownloadUpdater() => File(System.IO.File.ReadAllBytes("./Database/Update/Updater/app.zip"), "application/force-download", "updater.zip");
+            //usunięcie plików bez zmian, oznaczenie niepotrzebnych jako do usuniecia
+            foreach (KeyValuePair<string, string> key in files)
+                if (config.ContainsKey(key.Key) && config[key.Key] == key.Value)
+                    filesToRemove.Add(key.Key);
+                else
+                    config[key.Key] = "REMOVE";
+
+            //Skopiowanie zipa do tempa, usunięcie plików, przesłanie dalej
+            string pathToTemp = $"./Database/Temp/{new Random().Next(0, 100000)}/";
+            string pathToAppZip = $"./Database/Update/Forester/forester.zip";
+
+            Directory.CreateDirectory(pathToTemp);
+            System.IO.File.Copy(pathToAppZip, pathToTemp + "app.zip");
+
+            using (ZipArchive archive = ZipFile.Open(pathToTemp + "app.zip", ZipArchiveMode.Update))
+            {
+                var entriesToRemove = archive.Entries.Where(x => filesToRemove.Contains(x.FullName)).ToList();
+
+                for (int i = 0; i < entriesToRemove.Count; i++)
+                    entriesToRemove[i].Delete();
+
+                var entry = archive.CreateEntry("config.json");
+                using (Stream stream = entry.Open())
+                {
+                    var sw = new StreamWriter(stream);
+                    sw.Write(JsonConvert.SerializeObject(config));
+                    sw.Flush();
+                    sw.Close();
+                }
+            }
+
+            byte[] data = System.IO.File.ReadAllBytes(pathToTemp + "app.zip");
+
+            Directory.Delete(pathToTemp, true);
+
+            return File(data, "application/force-download", "forester.zip"); 
+        }
+
+        [HttpPost("Forester/UploadNewVersion")]
+        [DisableRequestSizeLimit]
+        public IActionResult UploadNewVersionForester([FromHeader] string token, [FromQuery] string name, IFormFile file)
+        {
+            //Folder -> ./Database/Update/Forester/
+
+            if (token != "dfsfgopsd jgoeiow iodfw f0wef ihjegfr8d;g uesf iesdoifjcsdfc oerhgcv oeuic awgf78w6fepbgj krhe uef ewkjfj eru gfux nevge ruygzayurbvz,oerbtvyzetyrvbtezmbuvi")
+                return StatusCode(403);
+
+            if (System.IO.File.Exists("./Database/Update/Forester/forester.zip"))
+                System.IO.File.Delete("./Database/Update/Forester/forester.zip");
+
+            FileStream stream = new FileStream("./Database/Update/Forester/forester.zip", FileMode.Create);
+            file.CopyTo(stream);
+            stream.Close();
+
+            ZipArchive zip = ZipFile.Open("./Database/Update/Forester/forester.zip", ZipArchiveMode.Read);
+
+            Dictionary<string, string> json = new Dictionary<string, string>();
+
+            foreach (var entry in zip.Entries)
+            {
+                string hash;
+
+                var md5 = MD5.Create();
+
+                var streamAnother = entry.Open();
+
+                var hashMD5 = md5.ComputeHash(streamAnother);
+
+                hash = BitConverter.ToString(hashMD5).Replace("-", "").ToLowerInvariant();
+
+                streamAnother.Close();
+
+                json.Add(entry.FullName, hash);
+            }
+
+            zip.Dispose();
+
+            System.IO.File.WriteAllText("./Database/Update/Forester/config.json", JSONManager.Serialize(json));
+
+            return Ok();
+        }
         #endregion
 
         #region Picture
