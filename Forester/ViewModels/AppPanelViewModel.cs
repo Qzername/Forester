@@ -134,8 +134,6 @@ namespace Forester.ViewModels
 
             profilePicture = ServerConnection.GetImage(username,0,0);
 
-            SetTheme(); 
-
             this.mainWindowVM = mainWindowVM;
             mainWindowVM.toolBarHeight = 20;
 
@@ -176,34 +174,6 @@ namespace Forester.ViewModels
         public void Minimalize(Window window) => window.WindowState = WindowState.Minimized;
         public void WindowSize(Window window) => window.WindowState = (window.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized);
         public void Exit(Window window)=>window.Close();
-        #endregion
-        #region theme
-        /// <summary>
-        /// Ustawienie kolorów
-        /// </summary>
-        void SetTheme()
-        {
-            first = new SolidColorBrush(HexToColor(Data.config.theme.colorFirst));
-            second = new SolidColorBrush(HexToColor(Data.config.theme.colorSecond));
-            third = new SolidColorBrush(HexToColor(Data.config.theme.colorThird));
-        }
-
-        /// <summary>
-        /// Zamiana hex na kolor (hex może ale nie musi zawierać #)
-        /// </summary>
-        Color HexToColor(string hexString)
-        {
-            if (hexString.IndexOf('#') != -1)
-                hexString = hexString.Replace("#", "");
-
-            byte r, g, b;
-
-            r = byte.Parse(hexString.Substring(0, 2), NumberStyles.AllowHexSpecifier);
-            g = byte.Parse(hexString.Substring(2, 2), NumberStyles.AllowHexSpecifier);
-            b = byte.Parse(hexString.Substring(4, 2), NumberStyles.AllowHexSpecifier);
-
-            return Color.FromArgb(255, r, g, b);
-        }
         #endregion
     }
 }
