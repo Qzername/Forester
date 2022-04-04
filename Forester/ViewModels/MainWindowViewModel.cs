@@ -1,7 +1,9 @@
+using Avalonia.Media;
 using Forester.Models.API;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 /*  name rules
@@ -16,6 +18,10 @@ namespace Forester.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        public static SolidColorBrush first;
+        public static SolidColorBrush second;
+        public static SolidColorBrush third;
+
         ViewModelBase _content;
         public ViewModelBase content
         {
@@ -50,6 +56,7 @@ namespace Forester.ViewModels
             height = 720;
 
             Data.ReadConfig();
+            SetTheme();
 
             //funkcja Remember me 
             if (!string.IsNullOrEmpty(Data.config.autoLogin) && !string.IsNullOrEmpty(Data.config.autoPassword))
@@ -79,6 +86,32 @@ namespace Forester.ViewModels
             Data.account = JsonConverter.Deserialize<Account>(response.Content.ReadAsStringAsync().Result);
             content = new AppPanelViewModel(this);
         }
-        
+
+        /// <summary>
+        /// Ustawienie kolorów
+        /// </summary>
+        void SetTheme()
+        {
+            first = new SolidColorBrush(HexToColor(Data.config.theme.colorFirst));
+            second = new SolidColorBrush(HexToColor(Data.config.theme.colorSecond));
+            third = new SolidColorBrush(HexToColor(Data.config.theme.colorThird));
+        }
+
+        /// <summary>
+        /// Zamiana hex na kolor (hex mo¿e ale nie musi zawieraæ #)
+        /// </summary>
+        Color HexToColor(string hexString)
+        {
+            if (hexString.IndexOf('#') != -1)
+                hexString = hexString.Replace("#", "");
+
+            byte r, g, b;
+
+            r = byte.Parse(hexString.Substring(0, 2), NumberStyles.AllowHexSpecifier);
+            g = byte.Parse(hexString.Substring(2, 2), NumberStyles.AllowHexSpecifier);
+            b = byte.Parse(hexString.Substring(4, 2), NumberStyles.AllowHexSpecifier);
+
+            return Color.FromArgb(255, r, g, b);
+        }
     }
 }

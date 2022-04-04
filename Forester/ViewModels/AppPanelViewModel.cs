@@ -17,26 +17,19 @@ namespace Forester.ViewModels
     public class AppPanelViewModel : ViewModelBase
     {
         #region theme
-        SolidColorBrush _first;
-        SolidColorBrush _second;
-        SolidColorBrush _third;
-
         public SolidColorBrush first
         {
-            get => _first;
-            set => this.RaiseAndSetIfChanged(ref _first, value);
+            get => MainWindowViewModel.first;
         }
 
         public SolidColorBrush second
         {
-            get => _second;
-            set => this.RaiseAndSetIfChanged(ref _second, value);
+            get => MainWindowViewModel.second;
         }
 
         public SolidColorBrush third
         {
-            get => _third;
-            set => this.RaiseAndSetIfChanged(ref _third, value);
+            get => MainWindowViewModel.third;
         }
         #endregion
 
