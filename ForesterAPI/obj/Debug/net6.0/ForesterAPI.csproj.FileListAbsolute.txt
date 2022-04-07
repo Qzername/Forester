@@ -59,4 +59,3 @@ D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Newtonsoft.Json.
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Database\Applications\string\config.json
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Database\database.db
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Database\Applications\Testowa Aplikacja\config.json
-D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Database\Applications\testApp1\config.json

@@ -6,8 +6,9 @@
              x:Class="Forester.Views.DownloadUpdateView">
 	<Panel VerticalAlignment="Center" HorizontalAlignment="Center">
 		<StackPanel>
-			<TextBlock Foreground="{Binding third}" FontSize="28" Text="Forester is currently updating"/>
-			<ProgressBar Height="5" Margin="0,13,0,0" Value="50"/>
+			<TextBlock TextAlignment="Center" Foreground="{Binding third}" FontSize="34" Text="Forester"/>
+			<TextBlock TextAlignment="Center" Foreground="{Binding first}" FontSize="22" Text="is currently updating"/>
+			<ProgressBar Width="300" Height="5" Margin="0,13,0,0" Value="{Binding progress}"/>
 		</StackPanel>
 	</Panel>
 </UserControl>

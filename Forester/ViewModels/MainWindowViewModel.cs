@@ -58,6 +58,19 @@ namespace Forester.ViewModels
             Data.ReadConfig();
             SetTheme();
 
+            var version = JsonConverter.Deserialize<Models.API.Version>(ServerConnection.Get("/api/Update/Forester/Version").Content.ReadAsStringAsync().Result);
+
+            if(version.version != Data.config.version)
+            {
+                Data.config.version = version.version;
+                Data.SaveConfig(Data.config);
+
+                var download = new DownloadUpdateViewModel();
+                download.Download();
+                content = download;
+                return;
+            }
+
             //funkcja Remember me 
             if (!string.IsNullOrEmpty(Data.config.autoLogin) && !string.IsNullOrEmpty(Data.config.autoPassword))
             {

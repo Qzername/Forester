@@ -1,0 +1,15 @@
+D:\Projekty\aktywne teraz\Forester\Updater\bin\Debug\net6.0\Updater.exe
+D:\Projekty\aktywne teraz\Forester\Updater\bin\Debug\net6.0\Updater.deps.json
+D:\Projekty\aktywne teraz\Forester\Updater\bin\Debug\net6.0\Updater.runtimeconfig.json
+D:\Projekty\aktywne teraz\Forester\Updater\bin\Debug\net6.0\Updater.dll
+D:\Projekty\aktywne teraz\Forester\Updater\bin\Debug\net6.0\ref\Updater.dll
+D:\Projekty\aktywne teraz\Forester\Updater\bin\Debug\net6.0\Updater.pdb
+D:\Projekty\aktywne teraz\Forester\Updater\obj\Debug\net6.0\Updater.csproj.AssemblyReference.cache
+D:\Projekty\aktywne teraz\Forester\Updater\obj\Debug\net6.0\Updater.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projekty\aktywne teraz\Forester\Updater\obj\Debug\net6.0\Updater.AssemblyInfoInputs.cache
+D:\Projekty\aktywne teraz\Forester\Updater\obj\Debug\net6.0\Updater.AssemblyInfo.cs
+D:\Projekty\aktywne teraz\Forester\Updater\obj\Debug\net6.0\Updater.csproj.CoreCompileInputs.cache
+D:\Projekty\aktywne teraz\Forester\Updater\obj\Debug\net6.0\Updater.dll
+D:\Projekty\aktywne teraz\Forester\Updater\obj\Debug\net6.0\ref\Updater.dll
+D:\Projekty\aktywne teraz\Forester\Updater\obj\Debug\net6.0\Updater.pdb
+D:\Projekty\aktywne teraz\Forester\Updater\obj\Debug\net6.0\Updater.genruntimeconfig.cache

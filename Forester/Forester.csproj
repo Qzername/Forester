@@ -41,7 +41,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Update="config.json">
+    <None Update="dataConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="libraryConfig.json">

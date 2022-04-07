@@ -23,7 +23,7 @@ namespace Forester
         /// <summary>
         /// Read config
         /// </summary>
-        public static void ReadConfig() => config = JsonConverter.Deserialize<Config>(FileReader.ReadText("./config.json"));
+        public static void ReadConfig() => config = JsonConverter.Deserialize<Config>(FileReader.ReadText("./dataConfig.json"));
 
         /// <summary>
         /// Save config
@@ -31,7 +31,7 @@ namespace Forester
         public static void SaveConfig(Config config) 
         {
             Data.config = config;
-            FileReader.SaveText("./config.json", JsonConverter.Serialize(config)); 
+            FileReader.SaveText("./dataConfig.json", JsonConverter.Serialize(config)); 
         }
     }
 

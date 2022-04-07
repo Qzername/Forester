@@ -30,7 +30,12 @@
       "ProjectGuid": "32112663-597f-472f-a47a-c8c1b2305ca0",
       "DisplayName": "Forester",
       "ColorIndex": 4
+    },
+    "20f7a538-e779-42bb-b649-0bab3c33db56": {
+      "ProjectGuid": "20f7a538-e779-42bb-b649-0bab3c33db56",
+      "DisplayName": "Updater",
+      "ColorIndex": 5
     }
   },
-  "NextColorIndex": 5
+  "NextColorIndex": 6
 }

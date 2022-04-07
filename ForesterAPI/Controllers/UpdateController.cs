@@ -15,7 +15,7 @@ namespace ForesterAPI.Controllers
         [HttpGet("Forester/Version")]
         public IActionResult VersionForester() => Ok(System.IO.File.ReadAllText("./Database/Update/Forester/version.json"));
 
-        [HttpGet("Forester/Download")]
+        [HttpPost("Forester/Download")]
         public FileContentResult DownloadForester([FromBody] Dictionary<string, string> files) 
         {
             //Zawiera wszystkie pliki wraz z ich wielkością
@@ -63,7 +63,7 @@ namespace ForesterAPI.Controllers
 
         [HttpPost("Forester/UploadNewVersion")]
         [DisableRequestSizeLimit]
-        public IActionResult UploadNewVersionForester([FromHeader] string token, [FromQuery] string name, IFormFile file)
+        public IActionResult UploadNewVersionForester([FromHeader] string token, [FromQuery] string version, IFormFile file)
         {
             //Folder -> ./Database/Update/Forester/
 
@@ -101,6 +101,7 @@ namespace ForesterAPI.Controllers
             zip.Dispose();
 
             System.IO.File.WriteAllText("./Database/Update/Forester/config.json", JSONManager.Serialize(json));
+            System.IO.File.WriteAllText("./Database/Update/Forester/version.json", "{ \"version\":\"" + version + "\"}");
 
             return Ok();
         }
