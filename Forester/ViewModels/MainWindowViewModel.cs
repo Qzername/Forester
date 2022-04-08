@@ -85,6 +85,7 @@ namespace Forester.ViewModels
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     Data.token = JsonConverter.Deserialize<Token>(response.Content.ReadAsStringAsync().Result);
+                    ServerConnection.SetToken(Data.token.token);
                     ChangeToApp(loginC.username);
                     return;
                 }

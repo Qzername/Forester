@@ -34,10 +34,6 @@ namespace Forester.ViewModels.App
                     isInLibrary = libraryVM.isInLibrary(app.ID)
                 });
 
-            foreach (StoreElement item in apps)
-                System.Diagnostics.Debug.WriteLine(item.app.name);
-
-
             this.libraryVM = libraryVM;
         }
 

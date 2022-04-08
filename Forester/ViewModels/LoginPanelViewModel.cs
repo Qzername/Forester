@@ -257,6 +257,7 @@ namespace Forester.ViewModels
                 Data.token = JsonConverter.Deserialize<Token>(response.Content.ReadAsStringAsync().Result);
 
                 timer.Stop();
+                ServerConnection.SetToken(Data.token.token);
                 mainWindowVM.ChangeToApp(loginC.username);
             }
             else

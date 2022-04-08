@@ -25,51 +25,35 @@ namespace Forester
     public static class ServerConnection
     {
         //Base link to api
-        //public static string api = "http://***REMOVED***:5000";
-        public static string api = "http://localhost:5000";
+        public static string api = "http://***REMOVED***:5000";
+        //public static string api = "http://localhost:5000";
 
-        public static HttpResponseMessage Get(string URI)
+        static HttpClient client;
+
+        static ServerConnection()
         {
-            HttpClient client = new HttpClient();
-
-            if (!string.IsNullOrWhiteSpace(Data.token.token))
-                client.DefaultRequestHeaders.Add("token", Data.token.token);
-
+            client = new HttpClient();
             client.BaseAddress = new Uri(api);
-
-            HttpResponseMessage message = client.GetAsync(URI).Result;
-
-            return message;
         }
+
+        public static void SetToken(string token)
+        {
+            if(!client.DefaultRequestHeaders.Contains("token"))
+                client.DefaultRequestHeaders.Add("token", token);
+        }
+
+        public static HttpResponseMessage Get(string URI) => client.GetAsync(URI).Result;
 
         public static HttpResponseMessage Put(string URI, object body)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(api);
-
-            if (!string.IsNullOrWhiteSpace(Data.token.token))
-                client.DefaultRequestHeaders.Add("token", Data.token.token);
-
             var data = new StringContent(JsonConverter.Serialize(body), Encoding.UTF8, "application/json");
-
-            var response = client.PutAsync(URI, data).Result;
-
-            return response;
+            return client.PutAsync(URI, data).Result;
         }
 
         public static HttpResponseMessage Post(string URI, object body)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(api);
-
-            if (!string.IsNullOrWhiteSpace(Data.token.token))
-                client.DefaultRequestHeaders.Add("token", Data.token.token);
-
             var data = new StringContent(JsonConverter.Serialize(body), Encoding.UTF8, "application/json");
-
-            var response = client.PostAsync(URI, data).Result;
-
-            return response;
+            return client.PostAsync(URI, data).Result;
         }
 
         /// <summary>
