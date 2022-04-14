@@ -66,8 +66,8 @@ namespace Forester.ViewModels
                 Data.SaveConfig(Data.config);
 
                 var download = new DownloadUpdateViewModel();
-                download.Download();
                 content = download;
+                download.Download();
                 return;
             }
 

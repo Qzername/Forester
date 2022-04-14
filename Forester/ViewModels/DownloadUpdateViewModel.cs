@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Forester.ViewModels
@@ -36,21 +37,37 @@ namespace Forester.ViewModels
         }
 
         HttpClientDownloadWithProgress client;
+        Thread downloadThread;
+
+        public DownloadUpdateViewModel()
+        {
+            client = new HttpClientDownloadWithProgress();
+        }
 
         public async void Download()
         {
-            client = new HttpClientDownloadWithProgress();
+            downloadThread = new Thread(DownloadThread);
+
+            downloadThread.Start();
+        }
+
+        async void DownloadThread()
+        {
+
+            var client = new HttpClientDownloadWithProgress();
 
             client.ProgressChanged += Client_ProgressChanged;
             client.DownloadFinished += Client_DownloadFinished;
 
-            client.DownloadFileFromHttpResponseMessage(ServerConnection.Post("/api/Update/Forester/Download",new Dictionary<string,string>()));
+            Dictionary<string,string> config = JsonConverter.Deserialize<Dictionary<string, string>>(FileReader.ReadText("./config.json"));
+            await client.DownloadFileFromHttpResponseMessage(ServerConnection.Post("/api/Update/Forester/Download", config));
         }
 
         private void Client_DownloadFinished()
         {
             if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
+                downloadThread = null;
                 client = null;
 
                 var process = new Process

@@ -14,5 +14,3 @@ var process = new Process
 };
 
 process.Start();
-
-File.Delete("./tempApp.zip");
