@@ -5,10 +5,10 @@
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="720" 
              x:Class="Forester.Views.App.DeveloperView">
 	
-	<DockPanel Margin="10,10,0,10">
+	<DockPanel>
 		<!--Choose app-->
 		<DockPanel>
-			<Button IsVisible="{Binding isSuperDeveloper}" IsEnabled="{Binding isSuperDeveloper}" Command="{Binding AddNew}" DockPanel.Dock="Top" Margin="0,0,0,5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">Add new</Button>
+			<Button CornerRadius="0" IsVisible="{Binding isSuperDeveloper}" IsEnabled="{Binding isSuperDeveloper}" Command="{Binding AddNew}" DockPanel.Dock="Top" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">Add new</Button>
 			<ScrollViewer Width="200" Background="#151515">
 				<StackPanel>
 					

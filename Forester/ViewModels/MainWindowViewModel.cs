@@ -1,4 +1,5 @@
 using Avalonia.Media;
+using Forester.Models;
 using Forester.Models.API;
 using ReactiveUI;
 using System;
@@ -18,9 +19,11 @@ namespace Forester.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public static SolidColorBrush first;
-        public static SolidColorBrush second;
-        public static SolidColorBrush third;
+        public static MainWindowViewModel current;
+
+        public SolidColorBrush first;
+        public SolidColorBrush second;
+        public SolidColorBrush third;
 
         ViewModelBase _content;
         public ViewModelBase content
@@ -35,7 +38,7 @@ namespace Forester.ViewModels
             get => _width;
             set => this.RaiseAndSetIfChanged(ref _width, value);
         }
-        
+
         float _height;
         public float height
         {
@@ -50,10 +53,37 @@ namespace Forester.ViewModels
             set => this.RaiseAndSetIfChanged(ref _toolBarHeight, value);
         }
 
+        //Pop-up
+        PopupConfig _popupConfig;
+        public PopupConfig popupConfig
+        {
+            get => _popupConfig;
+            set => this.RaiseAndSetIfChanged(ref _popupConfig, value);
+        }
+
+        bool _popupIsEnabled;
+        public bool popupIsEnabled
+        {
+            get => _popupIsEnabled;
+            set => this.RaiseAndSetIfChanged(ref _popupIsEnabled, value);
+        }
+
+        public float _popupOpacity;
+        public float popupOpacity
+        {
+            get => Convert.ToSingle(popupIsEnabled);
+            set => this.RaiseAndSetIfChanged(ref _popupOpacity, value);
+        }
+
         public MainWindowViewModel()
         {
+            current = this;
+
             width = 1280;
             height = 720;
+
+            popupIsEnabled = false;
+            popupConfig = new PopupConfig() { margin = new Avalonia.Thickness(0, 20, 0, 0)};
 
             Data.ReadConfig();
             SetTheme();
@@ -91,9 +121,32 @@ namespace Forester.ViewModels
                 }
             }
                 
-            content = new LoginPanelViewModel(this);
+            content = new LoginPanelViewModel();
         }
 
+        /// <summary>
+        /// Tworzenie pop-upu
+        /// </summary>
+        public void CreatePopup(PopupConfig popupConfig)
+        {
+            this.popupConfig = popupConfig;
+            ChangeVisibilityPopup(true);
+        }
+
+        /// <summary>
+        /// zamykanie popupu
+        /// </summary>
+        public void ClosePopup() => ChangeVisibilityPopup(false);
+
+        /// <summary>
+        /// Zmiana widocznoœci okna
+        /// </summary>
+        public void ChangeVisibilityPopup(bool isVisible) => popupIsEnabled = isVisible;
+
+        /// <summary>
+        /// Zmienienie widoku na widok aplikacji
+        /// </summary>
+        /// <param name="login">nazwa u¿ytkownika</param>
         public void ChangeToApp(string login)
         {
             var response = ServerConnection.Get($"/api/Accounts/GetUser?username={login}");

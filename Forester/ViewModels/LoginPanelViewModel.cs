@@ -18,17 +18,17 @@ namespace Forester.ViewModels
     {
         public SolidColorBrush first
         {
-            get => MainWindowViewModel.first;
+            get => MainWindowViewModel.current.first;
         }
 
         public SolidColorBrush second
         {
-            get => MainWindowViewModel.second;
+            get => MainWindowViewModel.current.second;
         }
 
         public SolidColorBrush third
         {
-            get => MainWindowViewModel.third;
+            get => MainWindowViewModel.current.third;
         }
 
         public string _login;
@@ -117,12 +117,10 @@ namespace Forester.ViewModels
 
         double currentOffset = 0;
 
-        MainWindowViewModel mainWindowVM;
 
-        public LoginPanelViewModel(MainWindowViewModel mainWindowVM)
+        public LoginPanelViewModel()
         {
-            this.mainWindowVM = mainWindowVM;
-            this.mainWindowVM.toolBarHeight = 50;
+            MainWindowViewModel.current.toolBarHeight = 50;
 
             isLogin = true;
             loginIsEnabled = true;
@@ -145,9 +143,9 @@ namespace Forester.ViewModels
             Geometry tempWave3 = wave3;
 
             //Offsety są już ustawione
-            GeneratePath(new Point(0 + currentOffset * 0.3, mainWindowVM.height - 420), 500, 150, ref tempWave1, false);
-            GeneratePath(new Point(0 + currentOffset * 0.6, mainWindowVM.height - 250), 600, 100, ref tempWave2, true);
-            GeneratePath(new Point(400 + currentOffset, mainWindowVM.height - 100), 800, 50, ref tempWave3, false);
+            GeneratePath(new Point(0 + currentOffset * 0.3, MainWindowViewModel.current.height - 420), 500, 150, ref tempWave1, false);
+            GeneratePath(new Point(0 + currentOffset * 0.6, MainWindowViewModel.current.height - 250), 600, 100, ref tempWave2, true);
+            GeneratePath(new Point(400 + currentOffset, MainWindowViewModel.current.height - 100), 800, 50, ref tempWave3, false);
 
             wave1 = tempWave1;
             wave2 = tempWave2;
@@ -169,34 +167,34 @@ namespace Forester.ViewModels
             //W związku z tym że render dla ułatwienia animacji rysowana jest od prawego rogu okna,
             //Do starting point dodaje całą szerokośc okna
             PathFigure pathFigure = new PathFigure();
-            pathFigure.StartPoint = new Point(mainWindowVM.width + offset.X, offset.Y);
+            pathFigure.StartPoint = new Point(MainWindowViewModel.current.width + offset.X, offset.Y);
             pathFigure.IsClosed = true;
             pathGeometry.Figures.Add(pathFigure);
 
             //Segmenty fali, rysowanie na całej płaszczyźnie ekranu
-            for (int i = 0; i < (mainWindowVM.width + offset.X) / width; i++)
+            for (int i = 0; i < (MainWindowViewModel.current.width + offset.X) / width; i++)
             {
                 BezierSegment bezierSegment = new BezierSegment();
-                bezierSegment.Point3 = new Point(mainWindowVM.width - width * (i + 1) + offset.X, offset.Y);
+                bezierSegment.Point3 = new Point(MainWindowViewModel.current.width - width * (i + 1) + offset.X, offset.Y);
                 bezierSegment.Point2 = new Point(bezierSegment.Point3.X + width / 2, offset.Y + height * (i % 2 == Convert.ToInt32(startUpside) ? -1 : 1));
-                bezierSegment.Point1 = new Point(mainWindowVM.width - width * i + offset.X, offset.Y);
+                bezierSegment.Point1 = new Point(MainWindowViewModel.current.width - width * i + offset.X, offset.Y);
 
                 pathFigure.Segments.Add(bezierSegment);
             }
 
             //Łączenie ostatniego segmentu z lewym dolnym rogiem okna
             LineSegment lineSegment = new LineSegment();
-            lineSegment.Point = new Point(0, mainWindowVM.height);
+            lineSegment.Point = new Point(0, MainWindowViewModel.current.height);
             pathFigure.Segments.Add(lineSegment);
 
             //Następnie przeciągniecie linii do prawego dolnego
             LineSegment lineSegment2 = new LineSegment();
-            lineSegment2.Point = new Point(mainWindowVM.width, mainWindowVM.height);
+            lineSegment2.Point = new Point(MainWindowViewModel.current.width, MainWindowViewModel.current.height);
             pathFigure.Segments.Add(lineSegment2);
 
             //i na koniec do punktu startowego
             LineSegment lineSegment3 = new LineSegment();
-            lineSegment3.Point = new Point(mainWindowVM.width + offset.X, offset.Y);
+            lineSegment3.Point = new Point(MainWindowViewModel.current.width + offset.X, offset.Y);
             pathFigure.Segments.Add(lineSegment3);
 
             Path path = new Path();
@@ -258,7 +256,7 @@ namespace Forester.ViewModels
 
                 timer.Stop();
                 ServerConnection.SetToken(Data.token.token);
-                mainWindowVM.ChangeToApp(loginC.username);
+                MainWindowViewModel.current.ChangeToApp(loginC.username);
             }
             else
                 error = "Login or password is incorrect";

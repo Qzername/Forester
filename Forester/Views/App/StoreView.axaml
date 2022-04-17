@@ -6,7 +6,8 @@
              x:Class="Forester.Views.App.StoreView">
 	<StackPanel>
 
-
+		<Button Command="{Binding Refresh}" Margin="10,10,0,0">Refresh shop</Button>
+		
 		<ItemsControl Items="{Binding apps}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>

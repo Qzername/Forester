@@ -1,5 +1,6 @@
 using Avalonia.Media.Imaging;
 using Forester.Models;
+using Forester.ViewModels.Popup.Library;
 using ReactiveUI;
 using System.Collections.Generic;
 
@@ -35,6 +36,13 @@ namespace Forester.ViewModels.App.Library
             set=> this.RaiseAndSetIfChanged(ref _progress, value);
         }
 
+        bool _canDownload;
+        public bool canDownload
+        {
+            get => _canDownload;
+            set => this.RaiseAndSetIfChanged(ref _canDownload, value);
+        }
+
         LibraryElement currentApp;
         LibraryViewModel libraryVM;
         HttpClientDownloadWithProgress progressDownload;
@@ -49,7 +57,7 @@ namespace Forester.ViewModels.App.Library
 
         private void ProgressDownload_DownloadFinished()
         {
-            AppFileManager.AppDownloaded(currentApp.app.name);
+            AppFileManager.AppDownloaded(currentApp.appConfig,currentApp.app.name);
         }
 
         private void ProgressDownload_ProgressChanged(long? totalFileSize, long totalBytesDownloaded, double? progressPercentage)
@@ -64,20 +72,52 @@ namespace Forester.ViewModels.App.Library
             appName = currentApp.app.name;
             backgroundPicture = currentApp.backgroundPicture;
             description = currentApp.app.description;
+
+            canDownload = !AppFileManager.IsAppDownloaded(app.appConfig, appName);
         }
 
-        public void Run()
+        public void Update() => DownloadApp();
+
+        public void Download()
         {
-            
+            PopupConfig config = new PopupConfig()
+            {
+                content = new DownloadSettingsViewModel(this),
+                height = 300,
+                width = 600,
+                margin = new Avalonia.Thickness(0, 20, 0, 0)
+            };
+
+            MainWindowViewModel.current.CreatePopup(config);
         }
 
-        public async void Download()
+        public void ConfirmedDownload(bool isDefaultPath, string path, bool deleteNotNecessary)
         {
-            Dictionary<string, string> dict = AppFileManager.ReadAppConfig(currentApp.app.name);
+            currentApp.appConfig = new AppConfig()
+            {
+                id = currentApp.appConfig.id,
+                isDefaultPath = isDefaultPath,
+                path = path,
+                deleteNotNecessaryFiles = deleteNotNecessary,
+            };
+
+            canDownload = false;
+            libraryVM.SetConfig(currentApp.appConfig);
+
+            DownloadApp();
+        }
+
+        async void DownloadApp()
+        {
+            Dictionary<string, string> dict = AppFileManager.ReadAppConfig(currentApp.appConfig,currentApp.app.name);
             await progressDownload.DownloadFileFromHttpResponseMessage(ServerConnection.Post("/api/Download/Load?name=" + currentApp.app.name, dict));
         }
 
-        public void Delete() => AppFileManager.AppDelete(currentApp.app.name);
+        public void Delete() 
+        { 
+            AppFileManager.AppDelete(currentApp.appConfig, currentApp.app.name);
+            canDownload = true;
+        }
 
         public void DeleteFromLibrary()
         {

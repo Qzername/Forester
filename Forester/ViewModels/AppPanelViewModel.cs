@@ -19,17 +19,17 @@ namespace Forester.ViewModels
         #region theme
         public SolidColorBrush first
         {
-            get => MainWindowViewModel.first;
+            get => MainWindowViewModel.current.first;
         }
 
         public SolidColorBrush second
         {
-            get => MainWindowViewModel.second;
+            get => MainWindowViewModel.current.second;
         }
 
         public SolidColorBrush third
         {
-            get => MainWindowViewModel.third;
+            get => MainWindowViewModel.current.third;
         }
         #endregion
 

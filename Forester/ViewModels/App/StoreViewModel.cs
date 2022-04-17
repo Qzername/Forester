@@ -23,20 +23,15 @@ namespace Forester.ViewModels.App
 
         public StoreViewModel(LibraryViewModel libraryVM)
         {
-            var response = ServerConnection.Get("/api/Applications/Get");
-
             apps = new ObservableCollection<StoreElement>();
-
-            foreach (Application app in JsonConverter.Deserialize<Application[]>(response.Content.ReadAsStringAsync().Result))
-                apps.Add(new StoreElement()
-                {
-                    app = app,
-                    isInLibrary = libraryVM.isInLibrary(app.ID)
-                });
-
             this.libraryVM = libraryVM;
+            Refresh();
         }
 
+        /// <summary>
+        /// Dodawanie do biblioteki aplikacje, od razu zaznaczanie jej "już w bibliotece"
+        /// </summary>
+        /// <param name="name"></param>
         public void AddToLibrary(string name)
         {
             var app = apps.Single(x => x.app.name == name);
@@ -48,6 +43,9 @@ namespace Forester.ViewModels.App
             apps[index] = app;
         }
 
+        /// <summary>
+        /// Zmiana widoczności w sklepie aplikacji "już w bibliotece" na przeciwną do obecnej
+        /// </summary>
         public void ChangeAllowance(Application app)
         {
             int index = apps.IndexOf(apps.Single(x => x.app.ID == app.ID));
@@ -55,6 +53,24 @@ namespace Forester.ViewModels.App
             var selectedApp = apps[index];
             selectedApp.isInLibrary = !selectedApp.isInLibrary;
             apps[index] = selectedApp;
+        }
+
+        /// <summary>
+        /// Odświeżanie aplikacji dostępnych w sklepie
+        /// </summary>
+        public void Refresh()
+        {
+            var response = ServerConnection.Get("/api/Applications/Get");
+
+            for (int i = apps.Count - 1; i > -1; i--)
+                apps.RemoveAt(i);
+
+            foreach (Application app in JsonConverter.Deserialize<Application[]>(response.Content.ReadAsStringAsync().Result))
+                apps.Add(new StoreElement()
+                {
+                    app = app,
+                    isInLibrary = libraryVM.isInLibrary(app.ID)
+                });
         }
     }
 }

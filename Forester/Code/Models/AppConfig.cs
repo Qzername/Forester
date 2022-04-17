@@ -9,6 +9,8 @@ namespace Forester.Models
     public struct AppConfig
     {
         public int id { get; set; }
+        public bool isDefaultPath { get; set; }
         public string path { get; set; }
+        public bool deleteNotNecessaryFiles { get; set; }
     }
 }

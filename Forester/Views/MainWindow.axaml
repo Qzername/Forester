@@ -5,10 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Forester.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/forester-logo.ico"
         Title="Forester"
 		DataContext="Forester.ViewModels.MainWindowViewModel"
-		Content="{Binding content}"
 		ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="{Binding toolBarHeight}"
@@ -17,5 +16,15 @@
 		Width="{Binding width, Mode=TwoWay}" Height="{Binding height, Mode=TwoWay}"
 		MaxWidth="1600" MaxHeight="900">
 
-	
+	<Panel>
+		<ContentControl Content="{Binding content}"/>
+		
+		<Panel Margin="{Binding popupConfig.margin}"  IsEnabled="{Binding popupIsEnabled}" IsVisible="{Binding popupIsEnabled}">
+			<Border Background="#101010" Opacity="0.7"/>
+			<Border Width="{Binding popupConfig.width}" Height="{Binding popupConfig.height}" Background="Black" CornerRadius="20">
+				<ContentControl Content="{Binding popupConfig.content}"/>
+			</Border>
+		</Panel>
+	</Panel>
+
 </Window>

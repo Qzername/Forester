@@ -3,6 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <ApplicationIcon>Assets\forester-logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
@@ -12,6 +13,9 @@
 	  <AvaloniaXaml Include="Views\Style\Login.axaml">
 		  <Generator>MSBuild:Compile</Generator>
 	  </AvaloniaXaml>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\forester-logo.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.10" />
@@ -35,6 +39,9 @@
     </Compile>
     <Compile Update="Views\AppPanelView.axaml.cs">
       <DependentUpon>AppPanelView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Popup\Library\DownloadSettingsView.axaml.cs">
+      <DependentUpon>DownloadSettingsView.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\TestView.axaml.cs">
       <DependentUpon>TestView.axaml</DependentUpon>

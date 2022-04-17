@@ -35,6 +35,9 @@ namespace Forester.ViewModels.App
             ReadConfig();
         }
 
+        /// <summary>
+        /// Dodawanie aplikacji do biblioteki
+        /// </summary>
         public void AddApp(Application app)
         {
             apps.Add(new LibraryElement()
@@ -42,6 +45,8 @@ namespace Forester.ViewModels.App
                 appConfig = new AppConfig()
                 {
                     id = app.ID,
+                    isDefaultPath = false,
+                    deleteNotNecessaryFiles = false,
                     path = "null"
                 },
                 app = app,
@@ -52,16 +57,27 @@ namespace Forester.ViewModels.App
             SaveConfig();
         }
 
+        /// <summary>
+        /// Ustawianie obecnie wyświetlanej aplikacji w bibliotece
+        /// </summary>
         public void SetApp(string appName)
         {
             if(content != appVM)
                 content = appVM;
 
             var app = apps.Single(x => x.app.name == appName);
+            int index = apps.IndexOf(app);
+
+            //Odświeżanie informacji o aplikacji
+            var response = ServerConnection.Get("/api/Applications/GetSingle?id=" + app.app.ID);
+            app.app = JsonConverter.Deserialize<Application>(response.Content.ReadAsStringAsync().Result);
 
             appVM.SetApp(app);
         }
 
+        /// <summary>
+        /// Usuwanie aplikacji z bilioteki
+        /// </summary>
         public void DeleteApp(string name)
         {
             var single = apps.Single(x => x.app.name == name);
@@ -72,8 +88,33 @@ namespace Forester.ViewModels.App
             storeVM.ChangeAllowance(single.app);
         }
 
+        /// <summary>
+        /// Sprawdzanie czy aplikacja znajduje się obecnie w bibliotece
+        /// </summary>
+        /// <param name="idApp">ID aplikacji</param>
         public bool isInLibrary(int idApp) => apps.Any(x=>x.appConfig.id == idApp);   
+        
+        /// <summary>
+        /// Ustawianie configu aplikacji do bazy biblioteki
+        /// </summary>
+        /// <param name="appConfig"></param>
+        public void SetConfig(AppConfig appConfig)
+        {
+            int index = apps.IndexOf(apps.Single(x => x.appConfig.id == appConfig.id));
+            var element = apps[index];
 
+            apps[index] = new LibraryElement()
+            {
+                app = element.app,
+                appConfig = appConfig,
+                backgroundPicture = element.backgroundPicture,
+                profilePicture = element.profilePicture
+            }; 
+
+            SaveConfig();
+        }
+
+        //Czytanie configu z bibloteki
         void ReadConfig()
         {
             var config = new List<AppConfig>();
@@ -89,7 +130,9 @@ namespace Forester.ViewModels.App
                     appConfig = new AppConfig()
                     {
                         id = c.id,
-                        path = c.path
+                        path = c.path,
+                        deleteNotNecessaryFiles = c.deleteNotNecessaryFiles,
+                        isDefaultPath = c.isDefaultPath
                     },
                     app = app,
                     profilePicture = ServerConnection.GetImage(app.name, 1, 0),
@@ -98,6 +141,7 @@ namespace Forester.ViewModels.App
             }    
         }
 
+        //Zapis configu z biblioteki
         void SaveConfig()
         {
             List<AppConfig> configs = new List<AppConfig>();

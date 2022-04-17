@@ -5,12 +5,12 @@
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="650"
              x:Class="Forester.Views.App.Developer.ManageAppView">
 	<ScrollViewer IsEnabled="True" Opacity="1">
-		<StackPanel Margin="5,0,10,0">
+		<StackPanel Margin="0,0,10,0">
 			<!--Basic information-->
 			<StackPanel IsEnabled="{Binding isSuperDeveloper}">
 				<Label HorizontalAlignment="Center" Margin="0,10" Content="Basic information" FontSize="25"/>
 
-				<Panel Margin="0,0,0,10" Height="100">
+				<Panel Margin="0,0,0,10" Height="200">
 					<Image Source="{Binding backgroundPicture}" Stretch="UniformToFill" />
 					<Border Width="70" Height="70" BorderBrush="White" BorderThickness="2">
 						<Image Source="{Binding profilePicture}" Stretch="UniformToFill" Width="66" Height="66" Margin="2"/>

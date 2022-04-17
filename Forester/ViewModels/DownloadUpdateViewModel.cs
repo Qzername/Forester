@@ -16,17 +16,17 @@ namespace Forester.ViewModels
     {
         public SolidColorBrush first
         {
-            get => MainWindowViewModel.first;
+            get => MainWindowViewModel.current.first;
         }
 
         public SolidColorBrush second
         {
-            get => MainWindowViewModel.second;
+            get => MainWindowViewModel.current.second;
         }
 
         public SolidColorBrush third
         {
-            get => MainWindowViewModel.third;
+            get => MainWindowViewModel.current.third;
         }
 
         float _progress;
@@ -53,7 +53,6 @@ namespace Forester.ViewModels
 
         async void DownloadThread()
         {
-
             var client = new HttpClientDownloadWithProgress();
 
             client.ProgressChanged += Client_ProgressChanged;
