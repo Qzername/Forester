@@ -25,7 +25,9 @@ namespace ForesterAPI.Controllers
 
             var app = apps[0];
 
-            if (app.isPrivate == "True" && app.mainDeveloper != loginToken.ID && SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Applications.ID = {app.ID} AND Developers.ID_User = {loginToken.ID}").Length == 0)
+            if (app.isPrivate == "True" && app.mainDeveloper != loginToken.ID
+                 && SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Applications.ID = {app.ID} AND Developers.ID_User = {loginToken.ID}").Length == 0
+                 && SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, AllowedUsers WHERE Applications.ID = {app.ID} AND AllowedUsers.ID_User = {loginToken.ID}").Length == 0)
                 return StatusCode(404);
 
             if (!ApplicationManager.CheckIfExist(app.name))

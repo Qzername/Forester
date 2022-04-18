@@ -72,6 +72,8 @@ namespace Forester.ViewModels.App
             var response = ServerConnection.Get("/api/Applications/GetSingle?id=" + app.app.ID);
             app.app = JsonConverter.Deserialize<Application>(response.Content.ReadAsStringAsync().Result);
 
+            System.Diagnostics.Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
+
             appVM.SetApp(app);
         }
 

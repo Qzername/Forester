@@ -213,6 +213,8 @@ namespace Forester.ViewModels.App.Developer
 
         public void AddUserPrivate()
         {
+            errorPrivate = "";
+
             var username = newUserPrivate.Split('#');
 
             if(username.Length < 2)
@@ -237,7 +239,15 @@ namespace Forester.ViewModels.App.Developer
 
         public void DeleteUserPrivate()
         {
+            errorPrivate = "";
+
             var username = newUserPrivate.Split('#');
+
+            if(!allowedUsers.Any(x => x.friendlyUsername == username[0] && x.friendly_ID == int.Parse(username[1])))
+            {
+                errorPrivate = "Wrong username";
+                return;
+            }    
 
             allowedUsers.Remove(allowedUsers.Single(x=>x.friendlyUsername==username[0] && x.friendly_ID == int.Parse(username[1])));
 
@@ -249,6 +259,8 @@ namespace Forester.ViewModels.App.Developer
         #region Developers
         public void AddDeveloper()
         {
+            errorDeveloper = "";
+
             var username = newDeveloper.Split('#');
 
             if (username.Length < 2)
@@ -273,7 +285,15 @@ namespace Forester.ViewModels.App.Developer
 
         public void DeleteDeveloper()
         {
+            errorDeveloper = "";
+
             var username = newDeveloper.Split('#');
+
+            if(!developers.Any(x=> x.friendlyUsername == username[0] && x.friendly_ID == int.Parse(username[1])))
+            {
+                errorDeveloper = "Wrong username";
+                return;
+            }
 
             developers.Remove(developers.Single(x => x.friendlyUsername == username[0] && x.friendly_ID == int.Parse(username[1])));
 

@@ -71,7 +71,9 @@ namespace ForesterAPI.Controllers
             var app = apps[0];
 
             //Aplikacja jest prywatna, wymagana jest weryfikacja czy użytkownik ma do niej dostęp
-            if (app.isPrivate == "True" && app.mainDeveloper != loginToken.ID && SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Applications.ID = {app.ID} AND Developers.ID_User = {loginToken.ID}").Length == 0)
+            if (app.isPrivate == "True" && app.mainDeveloper != loginToken.ID 
+                && SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, Developers WHERE Applications.ID = {app.ID} AND Developers.ID_User = {loginToken.ID}").Length == 0
+                && SQLDatabase.Select<Application>($"SELECT Applications.* FROM Applications, AllowedUsers WHERE Applications.ID = {app.ID} AND AllowedUsers.ID_User = {loginToken.ID}").Length == 0)
                 return StatusCode(404); //Serwer zwraca wartość że nie wie o jaką aplikacje chodzi w celu ochrony danych o istnieniu aplikacji w bazach
 
             return Ok(JSONManager.Serialize(app));
@@ -224,7 +226,7 @@ namespace ForesterAPI.Controllers
             if (SQLDatabase.Select<Application>($"SELECT * FROM Applications WHERE name=\"{app.name}\"").Length > 0)
                 return StatusCode(499);
 
-            SQLDatabase.NoReturnQuery($"INSERT INTO Applications(name, version, isPrivate, mainDeveloper) VALUES(\"{app.name}\", \"{app.version}\", \"False\", {loginToken.ID})");
+            SQLDatabase.NoReturnQuery($"INSERT INTO Applications(name, version, isPrivate, mainDeveloper) VALUES(\"{app.name}\", \"{app.version}\", \"True\", {loginToken.ID})");
 
             return Ok();
         }
