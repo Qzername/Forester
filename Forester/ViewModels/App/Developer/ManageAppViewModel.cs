@@ -539,17 +539,20 @@ namespace Forester.ViewModels.App.Developer
             uploadThread.Start();
         }
 
-        public void UploadThread()
+        public async void UploadThread()
         {
+            errorNewVersion = "Preparing...";
+
             string path = AppFileManager.PrepareApp(pathToFile);
 
-            WebClient client = new WebClient();
+            /*WebClient client = new WebClient();
             client.UploadProgressChanged += Client_UploadProgressChanged;
-            client.UploadFileCompleted += Client_UploadFileCompleted;
+            client.UploadFileCompleted += Client_UploadFileCompleted;*/
 
             errorNewVersion = "Uploading...";
 
-            ServerConnection.Upload(ref client, "/api/Download/Upload?name=" + currentApp.name, path);
+            await ServerConnection.Upload(path, "/api/Download/Upload?name=" + currentApp.name);
+            Client_UploadFileCompleted(null, null);
         }
 
         private void Client_UploadFileCompleted(object sender, UploadFileCompletedEventArgs e)

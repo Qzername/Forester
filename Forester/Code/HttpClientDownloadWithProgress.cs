@@ -73,4 +73,6 @@ namespace Forester
             ProgressChanged(totalDownloadSize, totalBytesRead, progressPercentage);
         }
     }
+
+
 }

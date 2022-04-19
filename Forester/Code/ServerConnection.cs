@@ -119,6 +119,35 @@ namespace Forester
             return Task.CompletedTask;
         }
 
+        public static Task Upload(string filePath, string uri)
+        {
+            HttpClient httpClient = new HttpClient();
+
+            if (!string.IsNullOrWhiteSpace(Data.token.token))
+                httpClient.DefaultRequestHeaders.Add("token", Data.token.token);
+
+            httpClient.Timeout = new TimeSpan(7, 0, 0, 0);
+
+            using (var multipartFormContent = new MultipartFormDataContent())
+            {
+                //Load the file and set the file's Content-Type header
+                var fileStreamContent = new StreamContent(File.OpenRead(filePath));
+                fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+                //Add the file
+                multipartFormContent.Add(fileStreamContent, name: "file", fileName: "app.zip");
+
+                //Send it
+                var response = httpClient.PostAsync(api+uri, multipartFormContent);
+
+                System.Diagnostics.Debug.WriteLine(response.Result.Content.ReadAsStringAsync().Result);
+
+                response.Result.EnsureSuccessStatusCode();
+            }
+
+            return Task.CompletedTask;
+        }
+
         public static string Crypt(string rawData)
         {
             // Create a SHA256   
