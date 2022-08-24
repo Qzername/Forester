@@ -14,11 +14,26 @@ namespace Forester.ViewModels
 {
     public class DownloadUpdateViewModel : ViewModelBase
     {
-        float progress;
-        public float Progress
+        public SolidColorBrush first
         {
-            get => progress;
-            set => this.RaiseAndSetIfChanged(ref progress, value);
+            get => MainWindowViewModel.current.first;
+        }
+
+        public SolidColorBrush second
+        {
+            get => MainWindowViewModel.current.second;
+        }
+
+        public SolidColorBrush third
+        {
+            get => MainWindowViewModel.current.third;
+        }
+
+        float _progress;
+        public float progress
+        {
+            get => _progress;
+            set => this.RaiseAndSetIfChanged(ref _progress, value);
         }
 
         HttpClientDownloadWithProgress client;
@@ -70,7 +85,7 @@ namespace Forester.ViewModels
 
         private void Client_ProgressChanged(long? totalFileSize, long totalBytesDownloaded, double? progressPercentage)
         {
-            Progress = Convert.ToSingle(progressPercentage);
+            progress = Convert.ToSingle(progressPercentage);
         }
     }
 }

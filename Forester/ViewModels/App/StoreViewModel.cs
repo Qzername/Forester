@@ -12,18 +12,18 @@ namespace Forester.ViewModels.App
 {
     public class StoreViewModel : ViewModelBase
     {
-        ObservableCollection<StoreElement> apps;
-        ObservableCollection<StoreElement> Apps
+        ObservableCollection<StoreElement> _apps;
+        ObservableCollection<StoreElement> apps
         {
-            get => apps;
-            set => this.RaiseAndSetIfChanged(ref apps, value);
+            get => _apps;
+            set => this.RaiseAndSetIfChanged(ref _apps, value);
         }
 
         LibraryViewModel libraryVM;
 
         public StoreViewModel(LibraryViewModel libraryVM)
         {
-            Apps = new ObservableCollection<StoreElement>();
+            apps = new ObservableCollection<StoreElement>();
             this.libraryVM = libraryVM;
             Refresh();
         }
@@ -34,13 +34,13 @@ namespace Forester.ViewModels.App
         /// <param name="name"></param>
         public void AddToLibrary(string name)
         {
-            var app = Apps.Single(x => x.app.name == name);
-            int index = Apps.IndexOf(app);
+            var app = apps.Single(x => x.app.name == name);
+            int index = apps.IndexOf(app);
 
             libraryVM.AddApp(app.app);
 
             app.isInLibrary = true;
-            Apps[index] = app;
+            apps[index] = app;
         }
 
         /// <summary>
@@ -48,11 +48,11 @@ namespace Forester.ViewModels.App
         /// </summary>
         public void ChangeAllowance(Application app)
         {
-            int index = Apps.IndexOf(Apps.Single(x => x.app.ID == app.ID));
+            int index = apps.IndexOf(apps.Single(x => x.app.ID == app.ID));
 
-            var selectedApp = Apps[index];
+            var selectedApp = apps[index];
             selectedApp.isInLibrary = !selectedApp.isInLibrary;
-            Apps[index] = selectedApp;
+            apps[index] = selectedApp;
         }
 
         /// <summary>
@@ -62,11 +62,11 @@ namespace Forester.ViewModels.App
         {
             var response = ServerConnection.Get("/api/Applications/Get");
 
-            for (int i = Apps.Count - 1; i > -1; i--)
-                Apps.RemoveAt(i);
+            for (int i = apps.Count - 1; i > -1; i--)
+                apps.RemoveAt(i);
 
             foreach (Application app in JsonConverter.Deserialize<Application[]>(response.Content.ReadAsStringAsync().Result))
-                Apps.Add(new StoreElement()
+                apps.Add(new StoreElement()
                 {
                     app = app,
                     isInLibrary = libraryVM.isInLibrary(app.ID)

@@ -12,25 +12,25 @@ namespace Forester.ViewModels.Popup.Library
 {
     public class DownloadSettingsViewModel : ViewModelBase
     {
-        bool useDefaultPath;
-        public bool UseDefaultPath
+        bool _useDefaultPath;
+        public bool useDefaultPath
         {
-            get => useDefaultPath;
-            set => this.RaiseAndSetIfChanged(ref useDefaultPath, value);
+            get => _useDefaultPath;
+            set => this.RaiseAndSetIfChanged(ref _useDefaultPath, value);
         }
 
-        string path;
-        public string Path
+        string _path;
+        public string path
         {
-            get => path;
-            set => this.RaiseAndSetIfChanged(ref path, value);
+            get => _path;
+            set => this.RaiseAndSetIfChanged(ref _path, value);
         }
        
-        bool deleteNotNecessary;
-        public bool DeleteNotNecessary
+        bool _deleteNotNecessary;
+        public bool deleteNotNecessary
         {
-            get => deleteNotNecessary;
-            set => this.RaiseAndSetIfChanged(ref deleteNotNecessary, value);
+            get => _deleteNotNecessary;
+            set => this.RaiseAndSetIfChanged(ref _deleteNotNecessary, value);
         }
 
         AppViewModel aVM;
@@ -51,18 +51,18 @@ namespace Forester.ViewModels.Popup.Library
                 if (result is null)
                     return;
 
-                Path = result;
+                path = result;
             }
         }
 
         public void Close()
         {
-            MainWindowViewModel.Current.ClosePopup();
+            MainWindowViewModel.current.ClosePopup();
         }
         
         public void Approve()
         {
-            aVM.ConfirmedDownload(UseDefaultPath, Path, DeleteNotNecessary);
+            aVM.ConfirmedDownload(useDefaultPath, path, deleteNotNecessary);
             Close();
         }
     }

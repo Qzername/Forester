@@ -1,55 +1,81 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Forester.ViewModels.App;
 using ReactiveUI;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Forester.ViewModels
 {
     public class AppPanelViewModel : ViewModelBase
     {
-        SolidColorBrush storeColor;
-        SolidColorBrush libraryColor;
-        SolidColorBrush developerColor;
-
-        public SolidColorBrush StoreColor
+        #region theme
+        public SolidColorBrush first
         {
-            get => storeColor;
-            set => this.RaiseAndSetIfChanged(ref storeColor, value);
+            get => MainWindowViewModel.current.first;
         }
 
-        public SolidColorBrush LibraryColor
+        public SolidColorBrush second
         {
-            get => libraryColor;
-            set => this.RaiseAndSetIfChanged(ref libraryColor, value);
+            get => MainWindowViewModel.current.second;
         }
 
-        public SolidColorBrush DeveloperColor
+        public SolidColorBrush third
         {
-            get => developerColor;
-            set => this.RaiseAndSetIfChanged(ref developerColor, value);
+            get => MainWindowViewModel.current.third;
+        }
+        #endregion
+
+        SolidColorBrush _storeColor;
+        SolidColorBrush _libraryColor;
+        SolidColorBrush _developerColor;
+
+        public SolidColorBrush storeColor
+        {
+            get => _storeColor;
+            set => this.RaiseAndSetIfChanged(ref _storeColor, value);
         }
 
-        IImage profilePicture;
-        public IImage ProfilePicture
+        public SolidColorBrush libraryColor
         {
-            get => profilePicture;
-            set => this.RaiseAndSetIfChanged(ref profilePicture, value);
+            get => _libraryColor;
+            set => this.RaiseAndSetIfChanged(ref _libraryColor, value);
+        }
+
+        public SolidColorBrush developerColor
+        {
+            get => _developerColor;
+            set => this.RaiseAndSetIfChanged(ref _developerColor, value);
+        }
+
+        IImage _profilePicture;
+        public IImage profilePicture
+        {
+            get => _profilePicture;
+            set => this.RaiseAndSetIfChanged(ref _profilePicture, value);
         }
 
         SolidColorBrush white = new SolidColorBrush(new Color(255, 255, 255, 255));
 
-        string username;
-        public string Username
+        string _username;
+        public string username
         {
-            get => username;
-            set => this.RaiseAndSetIfChanged(ref username, value);
+            get => _username;
+            set => this.RaiseAndSetIfChanged(ref _username, value);
         }
 
-        ViewModelBase content;
-        public ViewModelBase Content
+        ViewModelBase _content;
+        public ViewModelBase content
         {
-            get => content;
-            set => this.RaiseAndSetIfChanged(ref content, value);
+            get => _content;
+            set => this.RaiseAndSetIfChanged(ref _content, value);
         }
 
         float _developerOpacity;
@@ -59,11 +85,11 @@ namespace Forester.ViewModels
             set => this.RaiseAndSetIfChanged(ref _developerOpacity, value);
         }
 
-        bool developerIsEnabled;
-        public bool DeveloperIsEnabled
+        bool _developerIsEnabled;
+        public bool developerIsEnabled
         {
-            get => developerIsEnabled;
-            set => this.RaiseAndSetIfChanged(ref developerIsEnabled, value);
+            get => _developerIsEnabled;
+            set => this.RaiseAndSetIfChanged(ref _developerIsEnabled, value);
         }
 
         MainWindowViewModel mainWindowVM;
@@ -72,6 +98,13 @@ namespace Forester.ViewModels
         StoreViewModel storeVM; //ID = 0
         LibraryViewModel libraryVM; //ID = 1
         DeveloperViewModel developerVM; //ID = 2
+
+        float _height;
+        public float height
+        {
+            get => _height;
+            set => this.RaiseAndSetIfChanged(ref _height, value);
+        }
 
         public AppPanelViewModel(MainWindowViewModel mainWindowVM)
         {
@@ -86,27 +119,27 @@ namespace Forester.ViewModels
             if(Data.account.isDeveloper || JsonConverter.Deserialize<Models.API.Application[]>(response.Content.ReadAsStringAsync().Result).Length > 0)
             {
                 developerOpacity = 1;
-                DeveloperIsEnabled = true;
+                developerIsEnabled = true;
                 developerVM = new DeveloperViewModel();
             }
             else
             {
                 developerOpacity = 0;
-                DeveloperIsEnabled = false;
+                developerIsEnabled = false;
             }
 
-            Content = storeVM;
+            content = storeVM;
 
-            Username = string.Format("{0}#{1}", Data.account.friendlyUsername, Data.account.friendly_ID);
+            username = string.Format("{0}#{1}", Data.account.friendlyUsername, Data.account.friendly_ID);
 
-            ProfilePicture = ServerConnection.GetImage(Username,0,0);
+            profilePicture = ServerConnection.GetImage(username,0,0);
 
             this.mainWindowVM = mainWindowVM;
-            mainWindowVM.ToolBarHeight = 20;
+            mainWindowVM.toolBarHeight = 20;
 
-            StoreColor = First;
-            LibraryColor = white;
-            DeveloperColor = white;
+            storeColor = first;
+            libraryColor = white;
+            developerColor = white;
         }
 
         public void ChangePage(int pageID)
@@ -114,27 +147,33 @@ namespace Forester.ViewModels
             switch(pageID)
             {
                 case 0:
-                    StoreColor = First;
-                    LibraryColor = white;
-                    DeveloperColor = white;
+                    storeColor = first;
+                    libraryColor = white;
+                    developerColor = white;
 
-                    Content = storeVM;
+                    content = storeVM;
                     break;
                 case 1:
-                    StoreColor = white;
-                    LibraryColor = First;
-                    DeveloperColor = white;
+                    storeColor = white;
+                    libraryColor = first;
+                    developerColor = white;
 
-                    Content = libraryVM;
+                    content = libraryVM;
                     break;
                 case 2:
-                    StoreColor = white;
-                    LibraryColor = white;
-                    DeveloperColor = First;
+                    storeColor = white;
+                    libraryColor = white;
+                    developerColor = first;
 
-                    Content = developerVM;
+                    content = developerVM;
                     break;
             }
         }
+
+        #region toolbar
+        public void Minimalize(Window window) => window.WindowState = WindowState.Minimized;
+        public void WindowSize(Window window) => window.WindowState = (window.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized);
+        public void Exit(Window window)=>window.Close();
+        #endregion
     }
 }

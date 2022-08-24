@@ -16,86 +16,101 @@ namespace Forester.ViewModels
 {
     public class LoginPanelViewModel : ViewModelBase
     {
-        public string login;
-        public string username;
-        public string password;
-        public string error;
-        public bool rememberMe;
-
-        public string Login
+        public SolidColorBrush first
         {
-            get => login;
-            set => this.RaiseAndSetIfChanged(ref login, value);
+            get => MainWindowViewModel.current.first;
         }
 
-        public string Username
+        public SolidColorBrush second
         {
-            get => username;
-            set => this.RaiseAndSetIfChanged(ref username, value);
+            get => MainWindowViewModel.current.second;
         }
 
-        public string Password
+        public SolidColorBrush third
         {
-            get => password;
-            set => this.RaiseAndSetIfChanged(ref password, value);
+            get => MainWindowViewModel.current.third;
         }
 
-        public string Error
+        public string _login;
+        public string _username;
+        public string _password;
+        public string _error;
+        public bool _rememberMe;
+
+        public string login
         {
-            get => error;
-            set => this.RaiseAndSetIfChanged(ref error, value);
+            get => _login;
+            set => this.RaiseAndSetIfChanged(ref _login, value);
         }
 
-        public bool RememberMe
+        public string username
         {
-            get => rememberMe;
-            set => this.RaiseAndSetIfChanged(ref rememberMe, value);
+            get => _username;
+            set => this.RaiseAndSetIfChanged(ref _username, value);
+        }
+
+        public string password
+        {
+            get => _password;
+            set => this.RaiseAndSetIfChanged(ref _password, value);
+        }
+
+        public string error
+        {
+            get => _error;
+            set => this.RaiseAndSetIfChanged(ref _error, value);
+        }
+
+        public bool rememberMe
+        {
+            get => _rememberMe;
+            set => this.RaiseAndSetIfChanged(ref _rememberMe, value);
         }
 
         bool isLogin;
 
-        bool loginIsEnabled, registerIsEnabled;
-        float loginOpacity, registerOpacity;
+        bool _loginIsEnabled, _registerIsEnabled;
+        float _loginOpacity, _registerOpacity;
 
-        public bool LoginIsEnabled
+        public bool loginIsEnabled
         {
-            get => loginIsEnabled;
-            set => this.RaiseAndSetIfChanged(ref loginIsEnabled, value);
-        }
-
-        public bool RegisterIsEnabled
-        {
-            get => registerIsEnabled;
-            set => this.RaiseAndSetIfChanged(ref registerIsEnabled, value);
+            get => _loginIsEnabled;
+            set => this.RaiseAndSetIfChanged(ref _loginIsEnabled, value);
         }
 
-        public float LoginOpacity
+        public bool registerIsEnabled
         {
-            get => loginOpacity;
-            set => this.RaiseAndSetIfChanged(ref loginOpacity, value);
+            get => _registerIsEnabled;
+            set => this.RaiseAndSetIfChanged(ref _registerIsEnabled, value);
         }
 
-        public float RegisterOpacity
+        public float loginOpacity
         {
-            get => registerOpacity;
-            set => this.RaiseAndSetIfChanged(ref registerOpacity, value);
+            get => _loginOpacity;
+            set => this.RaiseAndSetIfChanged(ref _loginOpacity, value);
         }
 
-        public Geometry wave1, wave2, wave3;
-        public Geometry Wave1
+        public float registerOpacity
         {
-            get => wave1;
-            set => this.RaiseAndSetIfChanged(ref wave1, value);
+            get => _registerOpacity;
+            set => this.RaiseAndSetIfChanged(ref _registerOpacity, value);
         }
-        public Geometry Wave2
+
+        public Geometry _wave1, _wave2, _wave3;
+        public Geometry wave1
         {
-            get => wave2;
-            set => this.RaiseAndSetIfChanged(ref wave2, value);
+            get => _wave1;
+            set => this.RaiseAndSetIfChanged(ref _wave1, value);
         }
-        public Geometry Wave3
+        public Geometry wave2
         {
-            get => wave3;
-            set => this.RaiseAndSetIfChanged(ref wave3, value);
+            get => _wave2;
+            set => this.RaiseAndSetIfChanged(ref _wave2, value);
+        }
+        public Geometry wave3
+        {
+            get => _wave3;
+            set => this.RaiseAndSetIfChanged(ref _wave3, value);
         }
 
         DispatcherTimer timer;
@@ -105,11 +120,11 @@ namespace Forester.ViewModels
 
         public LoginPanelViewModel()
         {
-            MainWindowViewModel.Current.ToolBarHeight = 50;
+            MainWindowViewModel.current.toolBarHeight = 50;
 
             isLogin = true;
-            LoginIsEnabled = true;
-            LoginOpacity = 1f;
+            loginIsEnabled = true;
+            loginOpacity = 1f;
 
             //Ustawienie zegaru do animacji
             timer = new DispatcherTimer();
@@ -123,18 +138,18 @@ namespace Forester.ViewModels
         {
             currentOffset += 5;
 
-            Geometry tempWave1 = Wave1;
-            Geometry tempWave2 = Wave2;
-            Geometry tempWave3 = Wave3;
+            Geometry tempWave1 = wave1;
+            Geometry tempWave2 = wave2;
+            Geometry tempWave3 = wave3;
 
             //Offsety są już ustawione
-            GeneratePath(new Point(0 + currentOffset * 0.3, MainWindowViewModel.Current.Height - 420), 500, 150, ref tempWave1, false);
-            GeneratePath(new Point(0 + currentOffset * 0.6, MainWindowViewModel.Current.Height - 250), 600, 100, ref tempWave2, true);
-            GeneratePath(new Point(400 + currentOffset, MainWindowViewModel.Current.Height - 100), 800, 50, ref tempWave3, false);
+            GeneratePath(new Point(0 + currentOffset * 0.3, MainWindowViewModel.current.height - 420), 500, 150, ref tempWave1, false);
+            GeneratePath(new Point(0 + currentOffset * 0.6, MainWindowViewModel.current.height - 250), 600, 100, ref tempWave2, true);
+            GeneratePath(new Point(400 + currentOffset, MainWindowViewModel.current.height - 100), 800, 50, ref tempWave3, false);
 
-            Wave1 = tempWave1;
-            Wave2 = tempWave2;
-            Wave3 = tempWave3;
+            wave1 = tempWave1;
+            wave2 = tempWave2;
+            wave3 = tempWave3;
         }
 
         /// <summary>
@@ -152,34 +167,34 @@ namespace Forester.ViewModels
             //W związku z tym że render dla ułatwienia animacji rysowana jest od prawego rogu okna,
             //Do starting point dodaje całą szerokośc okna
             PathFigure pathFigure = new PathFigure();
-            pathFigure.StartPoint = new Point(MainWindowViewModel.Current.Width + offset.X, offset.Y);
+            pathFigure.StartPoint = new Point(MainWindowViewModel.current.width + offset.X, offset.Y);
             pathFigure.IsClosed = true;
             pathGeometry.Figures.Add(pathFigure);
 
             //Segmenty fali, rysowanie na całej płaszczyźnie ekranu
-            for (int i = 0; i < (MainWindowViewModel.Current.Width + offset.X) / width; i++)
+            for (int i = 0; i < (MainWindowViewModel.current.width + offset.X) / width; i++)
             {
                 BezierSegment bezierSegment = new BezierSegment();
-                bezierSegment.Point3 = new Point(MainWindowViewModel.Current.Width - width * (i + 1) + offset.X, offset.Y);
+                bezierSegment.Point3 = new Point(MainWindowViewModel.current.width - width * (i + 1) + offset.X, offset.Y);
                 bezierSegment.Point2 = new Point(bezierSegment.Point3.X + width / 2, offset.Y + height * (i % 2 == Convert.ToInt32(startUpside) ? -1 : 1));
-                bezierSegment.Point1 = new Point(MainWindowViewModel.Current.Width - width * i + offset.X, offset.Y);
+                bezierSegment.Point1 = new Point(MainWindowViewModel.current.width - width * i + offset.X, offset.Y);
 
                 pathFigure.Segments.Add(bezierSegment);
             }
 
             //Łączenie ostatniego segmentu z lewym dolnym rogiem okna
             LineSegment lineSegment = new LineSegment();
-            lineSegment.Point = new Point(0, MainWindowViewModel.Current.Height);
+            lineSegment.Point = new Point(0, MainWindowViewModel.current.height);
             pathFigure.Segments.Add(lineSegment);
 
             //Następnie przeciągniecie linii do prawego dolnego
             LineSegment lineSegment2 = new LineSegment();
-            lineSegment2.Point = new Point(MainWindowViewModel.Current.Width, MainWindowViewModel.Current.Height);
+            lineSegment2.Point = new Point(MainWindowViewModel.current.width, MainWindowViewModel.current.height);
             pathFigure.Segments.Add(lineSegment2);
 
             //i na koniec do punktu startowego
             LineSegment lineSegment3 = new LineSegment();
-            lineSegment3.Point = new Point(MainWindowViewModel.Current.Width + offset.X, offset.Y);
+            lineSegment3.Point = new Point(MainWindowViewModel.current.width + offset.X, offset.Y);
             pathFigure.Segments.Add(lineSegment3);
 
             Path path = new Path();
@@ -193,34 +208,34 @@ namespace Forester.ViewModels
         {
             isLogin = !isLogin;
 
-            LoginIsEnabled = isLogin;
-            LoginOpacity = isLogin ? 1 : 0;
+            loginIsEnabled = isLogin;
+            loginOpacity = isLogin ? 1 : 0;
 
-            RegisterIsEnabled = !isLogin;
-            RegisterOpacity = isLogin ? 0 : 1;
+            registerIsEnabled = !isLogin;
+            registerOpacity = isLogin ? 0 : 1;
 
             button.Content = isLogin ? "Don't have an account?" : "Already have an account?";
 
-            Login = string.Empty;
-            Username = string.Empty;
-            Password = string.Empty;
-            Error = string.Empty;
+            login = string.Empty;
+            username = string.Empty;
+            password = string.Empty;
+            error = string.Empty;
         }
 
         public void Exit(Window window) => window.Close();
 
-        public void LoginIntoAccount()
+        public void Login()
         {
-            if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
-                Error = "Login and password cannot be empty.";
+                error = "Login and password cannot be empty.";
                 return;
             }
 
             LoginCredentials loginC = new LoginCredentials()
             {
-                username = Login,
-                password = Password
+                username = login,
+                password = password
             };
 
             var response = ServerConnection.Post("/api/Accounts/Login", loginC);
@@ -229,11 +244,11 @@ namespace Forester.ViewModels
             {
                 //zalogowano
                 //remember me
-                if (RememberMe)
+                if (rememberMe)
                 {
                     var config = Data.config;
-                    config.autoLogin = Login;
-                    config.autoPassword = Password;
+                    config.autoLogin = login;
+                    config.autoPassword = password;
                     Data.SaveConfig(config);
                 }
 
@@ -241,39 +256,39 @@ namespace Forester.ViewModels
 
                 timer.Stop();
                 ServerConnection.SetToken(Data.token.token);
-                MainWindowViewModel.Current.ChangeToApp(loginC.username);
+                MainWindowViewModel.current.ChangeToApp(loginC.username);
             }
             else
-                Error = "Login or password is incorrect";
+                error = "Login or password is incorrect";
         }
 
         public void Register()
         {
-            if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                Error = "All credentials must be fullfield.";
+                error = "All credentials must be fullfield.";
                 return;
             }
 
-            if(Login.Length > 20 || Username.Length > 20 || Password.Length > 20)
+            if(login.Length > 20 || username.Length > 20 || password.Length > 20)
             {
-                Error = "Max. length for credentials is 20";
+                error = "Max. length for credentials is 20";
                 return;
             }
 
             RegisterCredentials registerC = new RegisterCredentials()
             {
-                loginUsername = Login,
-                username = Username,
-                password = Password
+                loginUsername = login,
+                username = username,
+                password = password
             };
 
             var response = ServerConnection.Post("/api/Accounts/Register", registerC);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                LoginIntoAccount();
+                Login();
             else
-                Error = "Login is taken";
+                error = "Login is taken";
         }
     }
 }

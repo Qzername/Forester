@@ -8,39 +8,39 @@ namespace Forester.ViewModels.App.Library
 {
     public class AppViewModel : ViewModelBase
     {
-        Bitmap backgroundPicture; 
-        public Bitmap BackgroundPicture
+        Bitmap _backgroundPicture; 
+        public Bitmap backgroundPicture
         {
-            get => backgroundPicture;
-            set => this.RaiseAndSetIfChanged(ref backgroundPicture, value);
+            get => _backgroundPicture;
+            set => this.RaiseAndSetIfChanged(ref _backgroundPicture, value);
         }
 
-        string appName;
-        public string AppName
+        string _appName;
+        public string appName
         {
-            get=> appName;
-            set => this.RaiseAndSetIfChanged(ref appName, value);
+            get=> _appName;
+            set => this.RaiseAndSetIfChanged(ref _appName, value);
         }
 
-        string description;
-        public string Description
+        string _description;
+        public string description
         {
-            get => description;
-            set => this.RaiseAndSetIfChanged(ref description, value);
+            get => _description;
+            set => this.RaiseAndSetIfChanged(ref _description, value);
         }
 
-        float progress;
-        public float Progress
+        float _progress;
+        public float progress
         { 
-            get => progress;
-            set=> this.RaiseAndSetIfChanged(ref progress, value);
+            get => _progress;
+            set=> this.RaiseAndSetIfChanged(ref _progress, value);
         }
 
-        bool canDownload;
-        public bool CanDownload
+        bool _canDownload;
+        public bool canDownload
         {
-            get => canDownload;
-            set => this.RaiseAndSetIfChanged(ref canDownload, value);
+            get => _canDownload;
+            set => this.RaiseAndSetIfChanged(ref _canDownload, value);
         }
 
         LibraryElement currentApp;
@@ -62,18 +62,18 @@ namespace Forester.ViewModels.App.Library
 
         private void ProgressDownload_ProgressChanged(long? totalFileSize, long totalBytesDownloaded, double? progressPercentage)
         {
-            this.Progress = System.Convert.ToSingle(progressPercentage);
+            this.progress = System.Convert.ToSingle(progressPercentage);
         }
 
         public void SetApp(LibraryElement app)
         {
             currentApp = app;
 
-            AppName = currentApp.app.name;
-            BackgroundPicture = currentApp.backgroundPicture;
-            Description = currentApp.app.description;
+            appName = currentApp.app.name;
+            backgroundPicture = currentApp.backgroundPicture;
+            description = currentApp.app.description;
 
-            CanDownload = !AppFileManager.IsAppDownloaded(app.appConfig, AppName);
+            canDownload = !AppFileManager.IsAppDownloaded(app.appConfig, appName);
         }
 
         public void Update() => DownloadApp();
@@ -88,7 +88,7 @@ namespace Forester.ViewModels.App.Library
                 margin = new Avalonia.Thickness(0, 20, 0, 0)
             };
 
-            MainWindowViewModel.Current.CreatePopup(config);
+            MainWindowViewModel.current.CreatePopup(config);
         }
 
         public void ConfirmedDownload(bool isDefaultPath, string path, bool deleteNotNecessary)
@@ -101,7 +101,7 @@ namespace Forester.ViewModels.App.Library
                 deleteNotNecessaryFiles = deleteNotNecessary,
             };
 
-            CanDownload = false;
+            canDownload = false;
             libraryVM.SetConfig(currentApp.appConfig);
 
             DownloadApp();
@@ -116,14 +116,14 @@ namespace Forester.ViewModels.App.Library
         public void Delete() 
         { 
             AppFileManager.AppDelete(currentApp.appConfig, currentApp.app.name);
-            CanDownload = true;
+            canDownload = true;
         }
 
         public void DeleteFromLibrary()
         {
             Delete();
             libraryVM.DeleteApp(currentApp.app.name);
-            libraryVM.Content = new DefaultAppViewModel();
+            libraryVM.content = new DefaultAppViewModel();
         }
     }
 }

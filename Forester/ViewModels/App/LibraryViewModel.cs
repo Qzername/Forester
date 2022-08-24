@@ -14,13 +14,13 @@ namespace Forester.ViewModels.App
 {
     public class LibraryViewModel : ViewModelBase
     {
-        ObservableCollection<LibraryElement> Apps { get; set; }
+        ObservableCollection<LibraryElement> apps { get; set; }
 
-        ViewModelBase content;
-        public ViewModelBase Content
+        ViewModelBase _content;
+        public ViewModelBase content
         {
-            get => content;
-            set => this.RaiseAndSetIfChanged(ref content, value);
+            get => _content;
+            set => this.RaiseAndSetIfChanged(ref _content, value);
         }
 
         public StoreViewModel storeVM;
@@ -29,8 +29,8 @@ namespace Forester.ViewModels.App
         public LibraryViewModel()
         {
             appVM = new AppViewModel(this);
-            Content = new DefaultAppViewModel();
-            Apps = new ObservableCollection<LibraryElement>();
+            content = new DefaultAppViewModel();
+            apps = new ObservableCollection<LibraryElement>();
             
             ReadConfig();
         }
@@ -40,7 +40,7 @@ namespace Forester.ViewModels.App
         /// </summary>
         public void AddApp(Application app)
         {
-            Apps.Add(new LibraryElement()
+            apps.Add(new LibraryElement()
             {
                 appConfig = new AppConfig()
                 {
@@ -62,15 +62,17 @@ namespace Forester.ViewModels.App
         /// </summary>
         public void SetApp(string appName)
         {
-            if(Content != appVM)
-                Content = appVM;
+            if(content != appVM)
+                content = appVM;
 
-            var app = Apps.Single(x => x.app.name == appName);
-            int index = Apps.IndexOf(app);
+            var app = apps.Single(x => x.app.name == appName);
+            int index = apps.IndexOf(app);
 
             //Odświeżanie informacji o aplikacji
             var response = ServerConnection.Get("/api/Applications/GetSingle?id=" + app.app.ID);
             app.app = JsonConverter.Deserialize<Application>(response.Content.ReadAsStringAsync().Result);
+
+            System.Diagnostics.Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
 
             appVM.SetApp(app);
         }
@@ -80,9 +82,9 @@ namespace Forester.ViewModels.App
         /// </summary>
         public void DeleteApp(string name)
         {
-            var single = Apps.Single(x => x.app.name == name);
+            var single = apps.Single(x => x.app.name == name);
 
-            Apps.Remove(single);
+            apps.Remove(single);
 
             SaveConfig();
             storeVM.ChangeAllowance(single.app);
@@ -92,7 +94,7 @@ namespace Forester.ViewModels.App
         /// Sprawdzanie czy aplikacja znajduje się obecnie w bibliotece
         /// </summary>
         /// <param name="idApp">ID aplikacji</param>
-        public bool isInLibrary(int idApp) => Apps.Any(x=>x.appConfig.id == idApp);   
+        public bool isInLibrary(int idApp) => apps.Any(x=>x.appConfig.id == idApp);   
         
         /// <summary>
         /// Ustawianie configu aplikacji do bazy biblioteki
@@ -100,10 +102,10 @@ namespace Forester.ViewModels.App
         /// <param name="appConfig"></param>
         public void SetConfig(AppConfig appConfig)
         {
-            int index = Apps.IndexOf(Apps.Single(x => x.appConfig.id == appConfig.id));
-            var element = Apps[index];
+            int index = apps.IndexOf(apps.Single(x => x.appConfig.id == appConfig.id));
+            var element = apps[index];
 
-            Apps[index] = new LibraryElement()
+            apps[index] = new LibraryElement()
             {
                 app = element.app,
                 appConfig = appConfig,
@@ -125,7 +127,7 @@ namespace Forester.ViewModels.App
                 var response = ServerConnection.Get("/api/Applications/GetSingle?id=" + c.id);
                 var app = JsonConverter.Deserialize<Application>(response.Content.ReadAsStringAsync().Result);
 
-                Apps.Add(new LibraryElement()
+                apps.Add(new LibraryElement()
                 {
                     appConfig = new AppConfig()
                     {
@@ -146,7 +148,7 @@ namespace Forester.ViewModels.App
         {
             List<AppConfig> configs = new List<AppConfig>();
 
-            foreach (LibraryElement element in Apps)
+            foreach (LibraryElement element in apps)
                 configs.Add(element.appConfig);
 
             FileReader.SaveText("./libraryConfig.json", JsonConverter.Serialize(configs.ToArray()));

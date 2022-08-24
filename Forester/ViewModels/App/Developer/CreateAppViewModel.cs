@@ -12,36 +12,36 @@ namespace Forester.ViewModels.App.Developer
 {
     public class CreateAppViewModel : ViewModelBase
     {
-        string name;
-        string version;
-        string pathToFolder;
-        string error;
-        float percent;
+        string _name;
+        string _version;
+        string _pathToFolder;
+        string _error;
+        float _percent;
 
-        public string Name
+        public string name
         {
-            get => name;
-            set => this.RaiseAndSetIfChanged(ref name, value);
+            get => _name;
+            set => this.RaiseAndSetIfChanged(ref _name, value);
         }
-        public string Version
+        public string version
         {
-            get => version;
-            set => this.RaiseAndSetIfChanged(ref version, value);
+            get => _version;
+            set => this.RaiseAndSetIfChanged(ref _version, value);
         }
-        public string PathToFolder
+        public string pathToFolder
         {
-            get => pathToFolder;
-            set => this.RaiseAndSetIfChanged(ref pathToFolder, value);
+            get => _pathToFolder;
+            set => this.RaiseAndSetIfChanged(ref _pathToFolder, value);
         }
-        public string Error
+        public string error
         {
-            get => error;
-            set => this.RaiseAndSetIfChanged(ref error, value);
+            get => _error;
+            set => this.RaiseAndSetIfChanged(ref _error, value);
         }
-        public float Percent
+        public float percent
         {
-            get => percent;
-            set => this.RaiseAndSetIfChanged(ref percent, value);
+            get => _percent;
+            set => this.RaiseAndSetIfChanged(ref _percent, value);
         }
 
         DeveloperViewModel developerVM;
@@ -49,23 +49,23 @@ namespace Forester.ViewModels.App.Developer
         public CreateAppViewModel(DeveloperViewModel developerVM)
         {
             this.developerVM = developerVM;
-            PathToFolder = "None";
+            pathToFolder = "None";
         }
 
         public void Publish()
         {
-            Error = "";
-            Percent = 0f;
+            error = "";
+            percent = 0f;
 
-            if (string.IsNullOrEmpty(PathToFolder) || string.IsNullOrEmpty(Version) || string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(pathToFolder) || string.IsNullOrEmpty(version) || string.IsNullOrEmpty(name))
             {
-                Error = "All credentials needs to be fullfield";
+                error = "All credentials needs to be fullfield";
                 return;
             }
 
-            if(PathToFolder == "None")
+            if(pathToFolder == "None")
             {
-                Error = "Path cannot be empty";
+                error = "Path cannot be empty";
                 return;
             }
 
@@ -78,8 +78,8 @@ namespace Forester.ViewModels.App.Developer
             Application app = new Application()
             {
                 ID = 0,
-                name = Name,
-                version = Version,
+                name = name,
+                version = version,
                 isPrivate = "True",
                 description = "",
                 quickDescription = "",
@@ -91,15 +91,15 @@ namespace Forester.ViewModels.App.Developer
 
             if (!result.IsSuccessStatusCode)
             {
-                Error = "Something went wrong. Probably name is taken";
+                error = "Something went wrong. Probably name is taken";
                 return;
             }
 
             //Utworzono nową aplikacje, przeysłam pierwszą wersje
-            Error = "Preparing app...";
-            string path = AppFileManager.PrepareApp(PathToFolder);
+            error = "Preparing app...";
+            string path = AppFileManager.PrepareApp(pathToFolder);
 
-            Error = "Uploading...";
+            error = "Uploading...";
 
             await ServerConnection.Upload(path, "/api/Download/Upload?name=" + app.name);
             Client_UploadFileCompleted(null, null);
@@ -113,27 +113,27 @@ namespace Forester.ViewModels.App.Developer
 
         private void Client_UploadFileCompleted(object sender, UploadFileCompletedEventArgs e)
         {
-            Error = "";
-            Percent = 0f;
+            error = "";
+            percent = 0f;
 
             AppFileManager.Clear();
-            PathToFolder = "None";
+            pathToFolder = "None";
 
             developerVM.RefreshList();
-            developerVM.ChangeView(Name);
+            developerVM.ChangeView(name);
 
-            Name = string.Empty;
-            Version = string.Empty;
+            name = string.Empty;
+            version = string.Empty;
         }
 
         private void Client_UploadProgressChanged(object sender, UploadProgressChangedEventArgs e)
         {
             float progress = (float)e.BytesSent/ new FileInfo("./tempApp.zip").Length;
 
-            if (progress * 100 < Percent)
+            if (progress * 100 < percent)
                 return;
 
-            Percent = (float)Math.Round(progress *100,2);
+            percent = (float)Math.Round(progress *100,2);
         }
 
         public async void SelectFolder()
@@ -147,7 +147,7 @@ namespace Forester.ViewModels.App.Developer
                 if (result is null)
                     return;
 
-                PathToFolder = result;
+                pathToFolder = result;
             }
         }
     }
