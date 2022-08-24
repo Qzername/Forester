@@ -75,9 +75,6 @@ namespace Forester
 
         public static bool IsAppDownloaded(AppConfig appConfig, string appName)
         {
-            System.Diagnostics.Debug.WriteLine(appConfig.path + "/ForesterConfig/config.json");
-            System.Diagnostics.Debug.WriteLine(File.Exists(appConfig.path + "/ForesterConfig/config.json"));
-
             //older versions
             if (appConfig.path == "null")
                 return false;

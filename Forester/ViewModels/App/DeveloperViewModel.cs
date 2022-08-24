@@ -14,19 +14,19 @@ namespace Forester.ViewModels.App
 {
     public class DeveloperViewModel : ViewModelBase
     {
-        ViewModelBase _content;
+        ViewModelBase content;
         ManageAppViewModel manageAppVM;
         CreateAppViewModel createAppVM;
 
         ObservableCollection<Application> apps { get; set; }
         
-        public ViewModelBase content
+        public ViewModelBase Content
         {
-            get => _content;
-            set => this.RaiseAndSetIfChanged(ref _content, value);
+            get => content;
+            set => this.RaiseAndSetIfChanged(ref content, value);
         }
 
-        public bool isSuperDeveloper
+        public bool IsSuperDeveloper
         {
             get => Data.account.isDeveloper;
         }
@@ -40,7 +40,7 @@ namespace Forester.ViewModels.App
             manageAppVM = new ManageAppViewModel(this);
             createAppVM = new CreateAppViewModel(this);
 
-            content = new BasicInfoViewModel();
+            Content = new BasicInfoViewModel();
         }
 
         public void RefreshList()
@@ -60,10 +60,10 @@ namespace Forester.ViewModels.App
         {
             Application app = apps.Single(x=>x.name == name);
 
-            content = manageAppVM;
+            Content = manageAppVM;
             manageAppVM.SetApp(app);
         }
 
-        public void AddNew() => content = createAppVM;
+        public void AddNew() => Content = createAppVM;
     }
 }

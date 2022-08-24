@@ -3,9 +3,6 @@ using Forester.Models;
 using Forester.Models.API;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 
 /*  name rules
     private variables _[name]
@@ -19,71 +16,71 @@ namespace Forester.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public static MainWindowViewModel current;
+        public static MainWindowViewModel Current;
 
-        public SolidColorBrush first;
-        public SolidColorBrush second;
-        public SolidColorBrush third;
+        public SolidColorBrush FirstColor;
+        public SolidColorBrush SecondColor;
+        public SolidColorBrush ThirdColor;
 
         ViewModelBase _content;
-        public ViewModelBase content
+        public ViewModelBase Content
         {
             get => _content;
             private set => this.RaiseAndSetIfChanged(ref _content, value);
         }
 
-        float _width;
-        public float width
+        float width;
+        public float Width
         {
-            get => _width;
-            set => this.RaiseAndSetIfChanged(ref _width, value);
+            get => width;
+            set => this.RaiseAndSetIfChanged(ref width, value);
         }
 
-        float _height;
-        public float height
+        float height;
+        public float Height
         {
-            get => _height;
-            set => this.RaiseAndSetIfChanged(ref _height, value);
+            get => height;
+            set => this.RaiseAndSetIfChanged(ref height, value);
         }
 
-        float _toolBarHeight;
-        public float toolBarHeight
+        float toolBarHeight;
+        public float ToolBarHeight
         {
-            get => _toolBarHeight;
-            set => this.RaiseAndSetIfChanged(ref _toolBarHeight, value);
+            get => toolBarHeight;
+            set => this.RaiseAndSetIfChanged(ref toolBarHeight, value);
         }
 
         //Pop-up
-        PopupConfig _popupConfig;
-        public PopupConfig popupConfig
+        PopupConfig popupConfig;
+        public PopupConfig PopupConfig
         {
-            get => _popupConfig;
-            set => this.RaiseAndSetIfChanged(ref _popupConfig, value);
+            get => popupConfig;
+            set => this.RaiseAndSetIfChanged(ref popupConfig, value);
         }
 
-        bool _popupIsEnabled;
-        public bool popupIsEnabled
+        bool popupIsEnabled;
+        public bool PopupIsEnabled
         {
-            get => _popupIsEnabled;
-            set => this.RaiseAndSetIfChanged(ref _popupIsEnabled, value);
+            get => popupIsEnabled;
+            set => this.RaiseAndSetIfChanged(ref popupIsEnabled, value);
         }
 
-        public float _popupOpacity;
-        public float popupOpacity
+        public float popupOpacity;
+        public float PopupOpacity
         {
-            get => Convert.ToSingle(popupIsEnabled);
-            set => this.RaiseAndSetIfChanged(ref _popupOpacity, value);
+            get => Convert.ToSingle(PopupIsEnabled);
+            set => this.RaiseAndSetIfChanged(ref popupOpacity, value);
         }
 
         public MainWindowViewModel()
         {
-            current = this;
+            Current = this;
 
-            width = 1280;
-            height = 720;
+            Width = 1280;
+            Height = 720;
 
-            popupIsEnabled = false;
-            popupConfig = new PopupConfig() { margin = new Avalonia.Thickness(0, 20, 0, 0)};
+            PopupIsEnabled = false;
+            PopupConfig = new PopupConfig() { margin = new Avalonia.Thickness(0, 20, 0, 0)};
 
             Data.ReadConfig();
             SetTheme();
@@ -96,7 +93,7 @@ namespace Forester.ViewModels
                 Data.SaveConfig(Data.config);
 
                 var download = new DownloadUpdateViewModel();
-                content = download;
+                Content = download;
                 download.Download();
                 return;
             }
@@ -121,7 +118,7 @@ namespace Forester.ViewModels
                 }
             }
                 
-            content = new LoginPanelViewModel();
+            Content = new LoginPanelViewModel();
         }
 
         /// <summary>
@@ -129,7 +126,7 @@ namespace Forester.ViewModels
         /// </summary>
         public void CreatePopup(PopupConfig popupConfig)
         {
-            this.popupConfig = popupConfig;
+            this.PopupConfig = popupConfig;
             ChangeVisibilityPopup(true);
         }
 
@@ -141,7 +138,7 @@ namespace Forester.ViewModels
         /// <summary>
         /// Zmiana widocznoœci okna
         /// </summary>
-        public void ChangeVisibilityPopup(bool isVisible) => popupIsEnabled = isVisible;
+        public void ChangeVisibilityPopup(bool isVisible) => PopupIsEnabled = isVisible;
 
         /// <summary>
         /// Zmienienie widoku na widok aplikacji
@@ -151,7 +148,7 @@ namespace Forester.ViewModels
         {
             var response = ServerConnection.Get($"/api/Accounts/GetUser?username={login}");
             Data.account = JsonConverter.Deserialize<Account>(response.Content.ReadAsStringAsync().Result);
-            content = new AppPanelViewModel(this);
+            Content = new AppPanelViewModel(this);
         }
 
         /// <summary>
@@ -159,26 +156,9 @@ namespace Forester.ViewModels
         /// </summary>
         void SetTheme()
         {
-            first = new SolidColorBrush(HexToColor(Data.config.theme.colorFirst));
-            second = new SolidColorBrush(HexToColor(Data.config.theme.colorSecond));
-            third = new SolidColorBrush(HexToColor(Data.config.theme.colorThird));
-        }
-
-        /// <summary>
-        /// Zamiana hex na kolor (hex mo¿e ale nie musi zawieraæ #)
-        /// </summary>
-        Color HexToColor(string hexString)
-        {
-            if (hexString.IndexOf('#') != -1)
-                hexString = hexString.Replace("#", "");
-
-            byte r, g, b;
-
-            r = byte.Parse(hexString.Substring(0, 2), NumberStyles.AllowHexSpecifier);
-            g = byte.Parse(hexString.Substring(2, 2), NumberStyles.AllowHexSpecifier);
-            b = byte.Parse(hexString.Substring(4, 2), NumberStyles.AllowHexSpecifier);
-
-            return Color.FromArgb(255, r, g, b);
+            FirstColor = new SolidColorBrush(HexToColor(Data.config.theme.colorFirst));
+            SecondColor = new SolidColorBrush(HexToColor(Data.config.theme.colorSecond));
+            ThirdColor = new SolidColorBrush(HexToColor(Data.config.theme.colorThird));
         }
     }
 }

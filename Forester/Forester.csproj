@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ApplicationIcon>Assets\forester-logo.ico</ApplicationIcon>
   </PropertyGroup>
@@ -18,12 +18,12 @@
     <Content Include="Assets\forester-logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.10" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.10" />
+    <PackageReference Include="Avalonia" Version="0.10.15" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.15" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.10" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.10" />
-    <PackageReference Include="RestSharp" Version="107.3.0" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.15" />
+    <PackageReference Include="RestSharp" Version="108.0.1" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaXaml Update="Views\Style\App.axaml">

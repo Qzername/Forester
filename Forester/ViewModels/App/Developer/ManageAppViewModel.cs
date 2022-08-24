@@ -21,95 +21,95 @@ namespace Forester.ViewModels.App.Developer
     public class ManageAppViewModel : ViewModelBase
     {
         #region Basic App Information
-        public string _appName, _quickDescription, _description, _currentVersion;
+        public string appName, quickDescription, description, currentVersion;
 
-        public string appName
+        public string AppName
         {
-            get => _appName;
-            set => this.RaiseAndSetIfChanged(ref _appName, value);
+            get => appName;
+            set => this.RaiseAndSetIfChanged(ref appName, value);
         }
-        public string quickDescription
+        public string QuickDescription
         {
-            get => _quickDescription;
-            set => this.RaiseAndSetIfChanged(ref _quickDescription, value);
+            get => quickDescription;
+            set => this.RaiseAndSetIfChanged(ref quickDescription, value);
         }
-        public string description
+        public string Description
         {
-            get => _description;
-            set => this.RaiseAndSetIfChanged(ref _description, value);
+            get => description;
+            set => this.RaiseAndSetIfChanged(ref description, value);
         }
-        public string currentVersion
+        public string CurrentVersion
         {
-            get => _currentVersion;
-            set => this.RaiseAndSetIfChanged(ref _currentVersion, value);
-        }
-
-        Bitmap _profilePicture;
-        public Bitmap profilePicture
-        {
-            get => _profilePicture;
-            set => this.RaiseAndSetIfChanged(ref _profilePicture, value);
+            get => currentVersion;
+            set => this.RaiseAndSetIfChanged(ref currentVersion, value);
         }
 
-        Bitmap _backgroundPicture;
-        public Bitmap backgroundPicture
+        Bitmap profilePicture;
+        public Bitmap ProfilePicture
         {
-            get => _backgroundPicture;
-            set => this.RaiseAndSetIfChanged(ref _backgroundPicture, value);
+            get => profilePicture;
+            set => this.RaiseAndSetIfChanged(ref profilePicture, value);
+        }
+
+        Bitmap backgroundPicture;
+        public Bitmap BackgroundPicture
+        {
+            get => backgroundPicture;
+            set => this.RaiseAndSetIfChanged(ref backgroundPicture, value);
         }
 
         Bitmap tempProfilePicture, tempBackgroundPicture;
 
-        bool _makeChanges;
-        public bool makeChanges
+        bool makeChanges;
+        public bool MakeChanges
         {
-            get => _makeChanges;
-            set => this.RaiseAndSetIfChanged(ref _makeChanges, value);
+            get => makeChanges;
+            set => this.RaiseAndSetIfChanged(ref makeChanges, value);
         }
 
-        string _switchChangesButtonContent;
-        public string switchChangesButtonContent
+        string switchChangesButtonContent;
+        public string SwitchChangesButtonContent
         {
-            get => _switchChangesButtonContent;
-            set => this.RaiseAndSetIfChanged(ref _switchChangesButtonContent, value);
+            get => switchChangesButtonContent;
+            set => this.RaiseAndSetIfChanged(ref switchChangesButtonContent, value);
         }
 
-        string _errorSwitchChanges;
-        public string errorSwitchChanges
+        string errorSwitchChanges;
+        public string ErrorSwitchChanges
         {
-            get => _errorSwitchChanges;
-            set => this.RaiseAndSetIfChanged(ref _errorSwitchChanges, value);
+            get => errorSwitchChanges;
+            set => this.RaiseAndSetIfChanged(ref errorSwitchChanges, value);
         }
 
         #endregion
 
         #region Upload New Version
-        string _newVersion;
-        public string newVersion
+        string newVersion;
+        public string NewVersion
         {
-            get => _newVersion;
-            set => this.RaiseAndSetIfChanged(ref _newVersion, value);
+            get => newVersion;
+            set => this.RaiseAndSetIfChanged(ref newVersion, value);
         }
 
-        string _newVersionCurrentPath;
-        public string newVersionCurrentPath
+        string newVersionCurrentPath;
+        public string NewVersionCurrentPath
         {
-            get => _newVersionCurrentPath;
-            set => this.RaiseAndSetIfChanged(ref _newVersionCurrentPath, value);
+            get => newVersionCurrentPath;
+            set => this.RaiseAndSetIfChanged(ref newVersionCurrentPath, value);
         }
 
-        float _versionPBValue;
-        public float versionPBValue
+        float versionPBValue;
+        public float VersionPBValue
         {
-            get => _versionPBValue;
-            set => this.RaiseAndSetIfChanged(ref _versionPBValue, value);
+            get => versionPBValue;
+            set => this.RaiseAndSetIfChanged(ref versionPBValue, value);
         }
 
-        string _errorNewVersion;
-        public string errorNewVersion
+        string errorNewVersion;
+        public string ErrorNewVersion
         {
-            get => _errorNewVersion;
-            set => this.RaiseAndSetIfChanged(ref _errorNewVersion, value);
+            get => errorNewVersion;
+            set => this.RaiseAndSetIfChanged(ref errorNewVersion, value);
         }
 
         string pathToFile;
@@ -118,29 +118,29 @@ namespace Forester.ViewModels.App.Developer
         #region Allowance
         #region Private
         ObservableCollection<SingleAllowed> users { get; set; }
-        bool _isPrivate;
-        public bool isPrivate
+        bool isPrivate;
+        public bool IsPrivate
         {
-            get => _isPrivate;
+            get => isPrivate;
             set
             {
-                this.RaiseAndSetIfChanged(ref _isPrivate, value);
+                this.RaiseAndSetIfChanged(ref isPrivate, value);
                 IsCheckedHandle();
             }
         }
 
-        string _errorPrivate;
-        public string errorPrivate
+        string errorPrivate;
+        public string ErrorPrivate
         {
-            get => _errorPrivate;
-            set => this.RaiseAndSetIfChanged(ref _errorPrivate, value);
+            get => errorPrivate;
+            set => this.RaiseAndSetIfChanged(ref errorPrivate, value);
         }
 
-        string _newUserPrivate;
-        public string newUserPrivate
+        string newUserPrivate;
+        public string NewUserPrivate
         {
-            get => _newUserPrivate;
-            set=> this.RaiseAndSetIfChanged(ref _newUserPrivate, value);
+            get => newUserPrivate;
+            set=> this.RaiseAndSetIfChanged(ref newUserPrivate, value);
         }
 
         Application currentApp;
@@ -148,18 +148,18 @@ namespace Forester.ViewModels.App.Developer
         List<Account> allowedUsers;
         #endregion
         #region Developers
-        string _errorDeveloper;
-        public string errorDeveloper
+        string errorDeveloper;
+        public string ErrorDeveloper
         {
-            get => _errorDeveloper;
-            set => this.RaiseAndSetIfChanged(ref _errorDeveloper, value);
+            get => errorDeveloper;
+            set => this.RaiseAndSetIfChanged(ref errorDeveloper, value);
         }
 
-        string _newDeveloper;
-        public string newDeveloper
+        string newDeveloper;
+        public string NewDeveloper
         {
-            get => _newDeveloper;
-            set => this.RaiseAndSetIfChanged(ref _newDeveloper, value);
+            get => newDeveloper;
+            set => this.RaiseAndSetIfChanged(ref newDeveloper, value);
         }
         ObservableCollection<SingleAllowed> allowedDevelopers { get; set; }
         List<Account> developers;
@@ -183,7 +183,7 @@ namespace Forester.ViewModels.App.Developer
             allowedUsers = new List<Account>();
             developers = new List<Account>();   
 
-            newVersionCurrentPath = "Current path: None";
+            NewVersionCurrentPath = "Current path: None";
             this.developerVM = developerVM;
         }
 
@@ -191,7 +191,7 @@ namespace Forester.ViewModels.App.Developer
         #region Private
         public void IsCheckedHandle()
         {
-            if (currentApp.isPrivate == isPrivate.ToString())
+            if (currentApp.isPrivate == IsPrivate.ToString())
                 return;
 
             Application update = new Application()
@@ -200,26 +200,26 @@ namespace Forester.ViewModels.App.Developer
                 name = "",
                 quickDescription = "",
                 description = "",
-                isPrivate = isPrivate.ToString(),
+                isPrivate = IsPrivate.ToString(),
                 mainDeveloper = 0,
                 downloadNumber = 0,
                 version = ""
             };
 
             ServerConnection.Put("/api/Applications/Update?name=" + currentApp.name, update);
-            currentApp.isPrivate = isPrivate.ToString();
+            currentApp.isPrivate = IsPrivate.ToString();
             developerVM.RefreshList();
         }
 
         public void AddUserPrivate()
         {
-            errorPrivate = "";
+            ErrorPrivate = "";
 
-            var username = newUserPrivate.Split('#');
+            var username = NewUserPrivate.Split('#');
 
             if(username.Length < 2)
             {
-                errorPrivate = "Wrong username";
+                ErrorPrivate = "Wrong username";
                 return;
             }
 
@@ -239,13 +239,13 @@ namespace Forester.ViewModels.App.Developer
 
         public void DeleteUserPrivate()
         {
-            errorPrivate = "";
+            ErrorPrivate = "";
 
-            var username = newUserPrivate.Split('#');
+            var username = NewUserPrivate.Split('#');
 
             if(!allowedUsers.Any(x => x.friendlyUsername == username[0] && x.friendly_ID == int.Parse(username[1])))
             {
-                errorPrivate = "Wrong username";
+                ErrorPrivate = "Wrong username";
                 return;
             }    
 
@@ -254,18 +254,18 @@ namespace Forester.ViewModels.App.Developer
             UpdateDevelopersAllowed();
         }
 
-        public void SwitchAllowedUser(string name) => newUserPrivate = name;
+        public void SwitchAllowedUser(string name) => NewUserPrivate = name;
         #endregion
         #region Developers
         public void AddDeveloper()
         {
-            errorDeveloper = "";
+            ErrorDeveloper = "";
 
-            var username = newDeveloper.Split('#');
+            var username = NewDeveloper.Split('#');
 
             if (username.Length < 2)
             {
-                errorDeveloper = "Wrong username";
+                ErrorDeveloper = "Wrong username";
                 return;
             }
 
@@ -285,13 +285,13 @@ namespace Forester.ViewModels.App.Developer
 
         public void DeleteDeveloper()
         {
-            errorDeveloper = "";
+            ErrorDeveloper = "";
 
-            var username = newDeveloper.Split('#');
+            var username = NewDeveloper.Split('#');
 
             if(!developers.Any(x=> x.friendlyUsername == username[0] && x.friendly_ID == int.Parse(username[1])))
             {
-                errorDeveloper = "Wrong username";
+                ErrorDeveloper = "Wrong username";
                 return;
             }
 
@@ -300,7 +300,7 @@ namespace Forester.ViewModels.App.Developer
             UpdateDevelopersAllowed(true);
         }
 
-        public void SwitchDeveloper(string name) => newDeveloper = name;
+        public void SwitchDeveloper(string name) => NewDeveloper = name;
         #endregion
         void UpdateDevelopersAllowed(bool isDeveloper = false)
         {
@@ -315,14 +315,14 @@ namespace Forester.ViewModels.App.Developer
 
             if (response.StatusCode != HttpStatusCode.OK)
                 if (isDeveloper)
-                    errorDeveloper = "User not found";
+                    ErrorDeveloper = "User not found";
                 else
-                    errorPrivate = "User not found";
+                    ErrorPrivate = "User not found";
             else
                 if(isDeveloper)
-                    errorDeveloper = "Added";
+                    ErrorDeveloper = "Added";
                 else
-                    errorPrivate = "Added";
+                    ErrorPrivate = "Added";
 
             SetAllowedUsers(currentApp);
             
@@ -330,13 +330,13 @@ namespace Forester.ViewModels.App.Developer
 
         public void SetAllowedUsers(Application app)
         {
-            isPrivate = bool.Parse(app.isPrivate);
+            IsPrivate = bool.Parse(app.isPrivate);
 
-            newUserPrivate = "";
-            errorPrivate = "";
+            NewUserPrivate = "";
+            ErrorPrivate = "";
 
-            newDeveloper = "";
-            errorDeveloper = "";
+            NewDeveloper = "";
+            ErrorDeveloper = "";
 
             for (int i = users.Count - 1; i > -1; i--)
                 users.RemoveAt(i); 
@@ -371,15 +371,15 @@ namespace Forester.ViewModels.App.Developer
         #region Basic app information 
         public void SwitchChanges()
         {
-            if (makeChanges)
+            if (MakeChanges)
             {
-                switchChangesButtonContent = "Make changes";
+                SwitchChangesButtonContent = "Make changes";
                 SetBasicInformation(currentApp);
             }
             else
-                switchChangesButtonContent = "Cancel changes";
+                SwitchChangesButtonContent = "Cancel changes";
 
-            makeChanges = !makeChanges;
+            MakeChanges = !MakeChanges;
         }
 
         public async void UploadNewProfilePicture()
@@ -390,9 +390,9 @@ namespace Forester.ViewModels.App.Developer
                 return;
 
             if (tempProfilePicture is null)
-                tempProfilePicture = profilePicture;
+                tempProfilePicture = ProfilePicture;
 
-            profilePicture = photo;
+            ProfilePicture = photo;
         }
 
         public async void UploadNewBackgroundPicture()
@@ -403,9 +403,9 @@ namespace Forester.ViewModels.App.Developer
                 return;
 
             if(tempBackgroundPicture is null)
-                tempBackgroundPicture = backgroundPicture;
+                tempBackgroundPicture = BackgroundPicture;
 
-            backgroundPicture = photo;
+            BackgroundPicture = photo;
         }
 
         async Task<Bitmap> ReadPhoto()
@@ -429,14 +429,14 @@ namespace Forester.ViewModels.App.Developer
 
         public void SubmitChanges()
         {
-            errorSwitchChanges = "";
+            ErrorSwitchChanges = "";
 
             UpdatePhotos();
             UpdateBasicInformation();
 
             developerVM.RefreshList();
 
-            var response = ServerConnection.Get("/api/Applications/GetSingle?name=" + appName);
+            var response = ServerConnection.Get("/api/Applications/GetSingle?name=" + AppName);
             SetApp(JsonConverter.Deserialize<Application>(response.Content.ReadAsStringAsync().Result));
         }
 
@@ -454,21 +454,21 @@ namespace Forester.ViewModels.App.Developer
                 version = ""
             };
 
-            if (appName != currentApp.name)
-                update.name = appName;
+            if (AppName != currentApp.name)
+                update.name = AppName;
 
-            if (quickDescription != currentApp.quickDescription)
-                update.quickDescription = quickDescription;
+            if (QuickDescription != currentApp.quickDescription)
+                update.quickDescription = QuickDescription;
 
-            if (description != currentApp.description)
-                update.description = description;
+            if (Description != currentApp.description)
+                update.description = Description;
 
             var response = ServerConnection.Put("/api/Applications/Update?name=" + currentApp.name, update);
 
             if (!response.IsSuccessStatusCode)
             {
                 //kod 499 - nazwa jest już zajęta
-                errorSwitchChanges = "Name is taken.";
+                ErrorSwitchChanges = "Name is taken.";
                 return;
             }
         }
@@ -477,31 +477,31 @@ namespace Forester.ViewModels.App.Developer
         {
             //zdjęcia
             if (tempProfilePicture is not null)
-                ServerConnection.PostImage(currentApp.name, 1, 0, profilePicture);
+                ServerConnection.PostImage(currentApp.name, 1, 0, ProfilePicture);
 
             if (tempBackgroundPicture is not null)
-                ServerConnection.PostImage(currentApp.name, 1, 1, backgroundPicture);
+                ServerConnection.PostImage(currentApp.name, 1, 1, BackgroundPicture);
         }
 
         void SetBasicInformation(Application app)
         {
-            errorSwitchChanges = "";
+            ErrorSwitchChanges = "";
 
             if (tempProfilePicture is null)
-                profilePicture = ServerConnection.GetImage(app.name, 1, 0);
+                ProfilePicture = ServerConnection.GetImage(app.name, 1, 0);
             else
                 tempProfilePicture = null;
 
             if(tempBackgroundPicture is null)
-                backgroundPicture = ServerConnection.GetImage(app.name, 1, 1);
+                BackgroundPicture = ServerConnection.GetImage(app.name, 1, 1);
             else
                 tempBackgroundPicture = null;
 
-            appName = app.name;
-            quickDescription = app.quickDescription;
-            description = app.description;
+            AppName = app.name;
+            QuickDescription = app.quickDescription;
+            Description = app.description;
 
-            currentVersion = "Current version: " + app.version;
+            CurrentVersion = "Current version: " + app.version;
         }
         #endregion
 
@@ -520,18 +520,18 @@ namespace Forester.ViewModels.App.Developer
                     return;
 
                  pathToFile = result;
-                 newVersionCurrentPath = "Current path: " + pathToFile;
+                 NewVersionCurrentPath = "Current path: " + pathToFile;
             }
         }
 
         public void SubmitNewVersion()
         {
-            errorNewVersion = "";
-            versionPBValue = 0f;
+            ErrorNewVersion = "";
+            VersionPBValue = 0f;
 
             if (pathToFile == string.Empty)
             {
-                errorNewVersion = "Path cannot be empty";
+                ErrorNewVersion = "Path cannot be empty";
                 return;
             }
 
@@ -541,7 +541,7 @@ namespace Forester.ViewModels.App.Developer
 
         public async void UploadThread()
         {
-            errorNewVersion = "Preparing...";
+            ErrorNewVersion = "Preparing...";
 
             string path = AppFileManager.PrepareApp(pathToFile);
 
@@ -549,7 +549,7 @@ namespace Forester.ViewModels.App.Developer
             client.UploadProgressChanged += Client_UploadProgressChanged;
             client.UploadFileCompleted += Client_UploadFileCompleted;*/
 
-            errorNewVersion = "Uploading...";
+            ErrorNewVersion = "Uploading...";
 
             await ServerConnection.Upload(path, "/api/Download/Upload?name=" + currentApp.name);
             Client_UploadFileCompleted(null, null);
@@ -557,12 +557,12 @@ namespace Forester.ViewModels.App.Developer
 
         private void Client_UploadFileCompleted(object sender, UploadFileCompletedEventArgs e)
         {
-            errorNewVersion = "Uploading completed.";
+            ErrorNewVersion = "Uploading completed.";
             AppFileManager.Clear();
 
             developerVM.RefreshList();
 
-            currentVersion = "Current version: " + newVersion;
+            CurrentVersion = "Current version: " + NewVersion;
 
             Application update = new Application()
             {
@@ -573,13 +573,13 @@ namespace Forester.ViewModels.App.Developer
                 isPrivate = "",
                 mainDeveloper = 0,
                 downloadNumber = 0,
-                version = newVersion
+                version = NewVersion
             };
 
             ServerConnection.Put("/api/Applications/Update?name=" + currentApp.name, update);
 
-            newVersion = string.Empty;
-            newVersionCurrentPath = "Current path: None";
+            NewVersion = string.Empty;
+            NewVersionCurrentPath = "Current path: None";
 
             developerVM.RefreshList();
         }
@@ -588,17 +588,17 @@ namespace Forester.ViewModels.App.Developer
         {
             float progress = (float)e.BytesSent / new FileInfo("./tempApp.zip").Length;
 
-            if (progress * 100 < versionPBValue)
+            if (progress * 100 < VersionPBValue)
                 return;
 
-            versionPBValue = (float)Math.Round(progress * 100, 2);
+            VersionPBValue = (float)Math.Round(progress * 100, 2);
         }
         #endregion
 
         public void SetApp(Application app)
         {
-            switchChangesButtonContent = "Make changes";
-            makeChanges = false;
+            SwitchChangesButtonContent = "Make changes";
+            MakeChanges = false;
             currentApp = app;
 
             isSuperDeveloper = app.mainDeveloper == Data.account.ID;
