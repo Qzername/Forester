@@ -14,21 +14,6 @@ namespace Forester.ViewModels
 {
     public class DownloadUpdateViewModel : ViewModelBase
     {
-        public SolidColorBrush first
-        {
-            get => MainWindowViewModel.current.first;
-        }
-
-        public SolidColorBrush second
-        {
-            get => MainWindowViewModel.current.second;
-        }
-
-        public SolidColorBrush third
-        {
-            get => MainWindowViewModel.current.third;
-        }
-
         float _progress;
         public float progress
         {

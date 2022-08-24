@@ -57,7 +57,7 @@ namespace Forester.ViewModels.Popup.Library
 
         public void Close()
         {
-            MainWindowViewModel.current.ClosePopup();
+            MainWindowViewModel.Current.ClosePopup();
         }
         
         public void Approve()

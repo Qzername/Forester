@@ -88,7 +88,7 @@ namespace Forester.ViewModels.App.Library
                 margin = new Avalonia.Thickness(0, 20, 0, 0)
             };
 
-            MainWindowViewModel.current.CreatePopup(config);
+            MainWindowViewModel.Current.CreatePopup(config);
         }
 
         public void ConfirmedDownload(bool isDefaultPath, string path, bool deleteNotNecessary)

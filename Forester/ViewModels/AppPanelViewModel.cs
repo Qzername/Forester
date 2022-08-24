@@ -16,23 +16,6 @@ namespace Forester.ViewModels
 {
     public class AppPanelViewModel : ViewModelBase
     {
-        #region theme
-        public SolidColorBrush first
-        {
-            get => MainWindowViewModel.current.first;
-        }
-
-        public SolidColorBrush second
-        {
-            get => MainWindowViewModel.current.second;
-        }
-
-        public SolidColorBrush third
-        {
-            get => MainWindowViewModel.current.third;
-        }
-        #endregion
-
         SolidColorBrush _storeColor;
         SolidColorBrush _libraryColor;
         SolidColorBrush _developerColor;
@@ -169,11 +152,5 @@ namespace Forester.ViewModels
                     break;
             }
         }
-
-        #region toolbar
-        public void Minimalize(Window window) => window.WindowState = WindowState.Minimized;
-        public void WindowSize(Window window) => window.WindowState = (window.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized);
-        public void Exit(Window window)=>window.Close();
-        #endregion
     }
 }
