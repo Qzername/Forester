@@ -15,7 +15,7 @@ namespace Forester.ViewModels
         /// </summary>
         public SolidColorBrush first
         {
-            get => MainWindowViewModel.Current.first;
+            get => MainWindowViewModel.Current.firstMain;
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Forester.ViewModels
         /// </summary>
         public SolidColorBrush second
         {
-            get => MainWindowViewModel.Current.second;
+            get => MainWindowViewModel.Current.secondMain;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Forester.ViewModels
         /// </summary>
         public SolidColorBrush third
         {
-            get => MainWindowViewModel.Current.third;
+            get => MainWindowViewModel.Current.thirdMain;
         }
 
         /// <summary>

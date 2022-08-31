@@ -19,5 +19,22 @@
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
 
+		<DockPanel Width="230" Height="300" Background="#232323">
+			<Panel DockPanel.Dock="Top" Height="110" VerticalAlignment="Top">
+				<Panel Height="75" Background="Green" VerticalAlignment="Top"/>
+				<Border Width="70" Height="70" Background="#50FFFFFF"  BorderBrush="#50000000" BorderThickness="4"  VerticalAlignment="Bottom"/>
+			</Panel>
+
+			<TextBlock Height="30" Margin="0,15,0,0" DockPanel.Dock="Top" Text="ConverTube" FontSize="30" HorizontalAlignment="Center"/>
+			<Panel Margin="5" Height="105"  DockPanel.Dock="Top">		
+				<TextBlock VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="Aplikacja do pobierania wideo z youtube" FontSize="12" HorizontalAlignment="Center"/>
+			</Panel>
+
+			<Panel Height="20" DockPanel.Dock="Bottom" Margin="10" VerticalAlignment="Bottom">
+				<TextBlock FontSize="14" Text="Version: 1.1v"/>
+				<TextBlock FontSize="14" HorizontalAlignment="Right" Text="Downloads: 500"/>
+			</Panel>
+		</DockPanel>
+
 	</StackPanel>
 </UserControl>

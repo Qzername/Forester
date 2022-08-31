@@ -13,8 +13,7 @@
         ExtendClientAreaTitleBarHeightHint="{Binding toolBarHeight}"
 		CanResize="True"
 		MinWidth="1000" MinHeight="720" 
-		Width="{Binding width, Mode=TwoWay}" Height="{Binding height, Mode=TwoWay}"
-		MaxWidth="1600" MaxHeight="900">
+		Width="{Binding width, Mode=TwoWay}" Height="{Binding height, Mode=TwoWay}">
 
 	<Panel>
 		<ContentControl Content="{Binding content}"/>
