@@ -3,7 +3,8 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Forester;
+using Forester.Code.AppData;
+using Forester.Code.Models.Pictures;
 using Forester.Models.API;
 using ReactiveUI;
 using System;
@@ -488,12 +489,12 @@ namespace Forester.ViewModels.App.Developer
             errorSwitchChanges = "";
 
             if (tempProfilePicture is null)
-                profilePicture = ServerConnection.GetImage(app.name, 1, 0);
+                profilePicture = ImageData.GetImage(app.name, ObjectType.App, PictureType.ProfilePicture);
             else
                 tempProfilePicture = null;
 
             if(tempBackgroundPicture is null)
-                backgroundPicture = ServerConnection.GetImage(app.name, 1, 1);
+                backgroundPicture = ImageData.GetImage(app.name, ObjectType.App, PictureType.BackgroundPicture);
             else
                 tempBackgroundPicture = null;
 

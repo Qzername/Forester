@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="650"
+             x:Class="Forester.Views.App.Store.DetailedAppView"
+			 xmlns:local="using:Forester.Views.Elements">
+	<StackPanel>
+		<!--Top section-->
+		<Panel Height="400" Background="#050505">
+			<Image Source="{Binding CurrentElement.backgroundPicture}" Stretch="UniformToFill"/>
+			
+			<!--Profile picture-->
+			<Panel Width="120" Height="120">
+				<local:ProfilePicture/>
+				<Image Margin="4" Source="{Binding CurrentElement.profilePicture}"/>
+			</Panel>
+			
+			<!--Info Text-->
+			<StackPanel Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+				<TextBlock FontSize="24" Text="{Binding Path=app.version, StringFormat='Current Version: {0}'}"/>
+				<TextBlock FontSize="24" Text="{Binding Path=app.downloadNumber, StringFormat='Number of Downloads: {0}'}"/>
+			</StackPanel>
+			
+			<!--Back button-->
+			<Button Command="{Binding GoBack}" Margin="10" Padding="5" Width="70" Height="70" VerticalAlignment="Top" HorizontalAlignment="Left">
+				<Image Source="/Assets/GoBackIco.png"/>
+			</Button>
+			
+			<!--Add to library button-->
+			<Button Command="{Binding AddToLibrary}" IsEnabled="{Binding !CurrentElement.isInLibrary}" Content="Add to library" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="24"/>
+		</Panel>
+		<!--Bottom section-->
+		<StackPanel>
+			<TextBlock Text="{Binding CurrentElement.app.name}" FontSize="48" Padding="20" HorizontalAlignment="Center"/>
+			<TextBlock TextWrapping="Wrap" Text="{Binding CurrentElement.app.description}" FontSize="12" Padding="10,0,10,0" HorizontalAlignment="Center"/>
+		</StackPanel>
+	</StackPanel>
+</UserControl>

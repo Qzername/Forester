@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Forester.Code.AppData;
+using Forester.Code.Models.Pictures;
 using Forester.ViewModels.App;
 using ReactiveUI;
 using System;
@@ -94,9 +96,6 @@ namespace Forester.ViewModels
             libraryVM = new LibraryViewModel();
             storeVM = new StoreViewModel(libraryVM);
 
-            //nie lubię faktu że muszę to zrobić
-            libraryVM.storeVM = storeVM;    
-
             var response = ServerConnection.Get("/api/Applications/GetDeveloped");
 
             if(Data.account.isDeveloper || JsonConverter.Deserialize<Models.API.Application[]>(response.Content.ReadAsStringAsync().Result).Length > 0)
@@ -115,7 +114,7 @@ namespace Forester.ViewModels
 
             username = string.Format("{0}#{1}", Data.account.friendlyUsername, Data.account.friendly_ID);
 
-            profilePicture = ServerConnection.GetImage(username,0,0);
+            profilePicture = ImageData.GetImage(username, ObjectType.User, PictureType.ProfilePicture);
 
             this.mainWindowVM = mainWindowVM;
             mainWindowVM.toolBarHeight = 20;
@@ -135,6 +134,8 @@ namespace Forester.ViewModels
                     developerColor = white;
 
                     content = storeVM;
+
+                    storeVM.Refresh();
                     break;
                 case 1:
                     storeColor = white;

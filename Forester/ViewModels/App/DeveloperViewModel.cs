@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Forester.ViewModels.App.Developer;
 using Forester.Models.API;
 using System.Collections.ObjectModel;
+using Forester.Code.AppData;
 
 namespace Forester.ViewModels.App
 {

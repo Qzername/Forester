@@ -1,4 +1,6 @@
 ﻿using Forester.Code;
+using Forester.Code.AppData;
+using Forester.Code.Models.Pictures;
 using Forester.Models;
 using Forester.Models.API;
 using Forester.ViewModels.App.Library;
@@ -23,7 +25,6 @@ namespace Forester.ViewModels.App
             set => this.RaiseAndSetIfChanged(ref _content, value);
         }
 
-        public StoreViewModel storeVM;
         AppViewModel appVM;
 
         public LibraryViewModel()
@@ -50,8 +51,8 @@ namespace Forester.ViewModels.App
                     path = "null"
                 },
                 app = app,
-                profilePicture = ServerConnection.GetImage(app.name, 1, 0),
-                backgroundPicture = ServerConnection.GetImage(app.name, 1, 1)
+                profilePicture = ImageData.GetImage(app.name, ObjectType.App, PictureType.ProfilePicture),
+                backgroundPicture = ImageData.GetImage(app.name, ObjectType.App, PictureType.BackgroundPicture)
              });
 
             SaveConfig();
@@ -72,8 +73,6 @@ namespace Forester.ViewModels.App
             var response = ServerConnection.Get("/api/Applications/GetSingle?id=" + app.app.ID);
             app.app = JsonConverter.Deserialize<Application>(response.Content.ReadAsStringAsync().Result);
 
-            System.Diagnostics.Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
-
             appVM.SetApp(app);
         }
 
@@ -87,14 +86,13 @@ namespace Forester.ViewModels.App
             apps.Remove(single);
 
             SaveConfig();
-            storeVM.ChangeAllowance(single.app);
         }
 
         /// <summary>
         /// Sprawdzanie czy aplikacja znajduje się obecnie w bibliotece
         /// </summary>
         /// <param name="idApp">ID aplikacji</param>
-        public bool isInLibrary(int idApp) => apps.Any(x=>x.appConfig.id == idApp);   
+        public bool IsInLibrary(int idApp) => apps.Any(x=>x.appConfig.id == idApp);   
         
         /// <summary>
         /// Ustawianie configu aplikacji do bazy biblioteki
@@ -137,8 +135,8 @@ namespace Forester.ViewModels.App
                         isDefaultPath = c.isDefaultPath
                     },
                     app = app,
-                    profilePicture = ServerConnection.GetImage(app.name, 1, 0),
-                    backgroundPicture = ServerConnection.GetImage(app.name, 1, 1)
+                    profilePicture = ImageData.GetImage(app.name, ObjectType.App, PictureType.ProfilePicture),
+                    backgroundPicture = ImageData.GetImage(app.name, ObjectType.App, PictureType.BackgroundPicture)
                 });
             }    
         }

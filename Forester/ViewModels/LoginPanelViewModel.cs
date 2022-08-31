@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Avalonia.Threading;
+using Forester.Code.AppData;
 using Forester.Models.API;
 using ReactiveUI;
 using System;

@@ -34,6 +34,12 @@
     <Compile Update="Views\App\Developer\BasicInfoView.axaml.cs">
       <DependentUpon>BasicInfoView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\App\StoreView.axaml.cs">
+      <DependentUpon>StoreView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\App\Store\AppStoreView.axaml.cs">
+      <DependentUpon>AppStoreView.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\LoginPanelView.axaml.cs">
       <DependentUpon>LoginPanelView.axaml</DependentUpon>
     </Compile>

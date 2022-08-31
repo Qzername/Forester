@@ -1,5 +1,6 @@
 ﻿using Forester.Models;
 using Forester.Models.API;
+using Forester.ViewModels.App.Store;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -12,47 +13,34 @@ namespace Forester.ViewModels.App
 {
     public class StoreViewModel : ViewModelBase
     {
-        ObservableCollection<StoreElement> _apps;
-        ObservableCollection<StoreElement> apps
-        {
-            get => _apps;
-            set => this.RaiseAndSetIfChanged(ref _apps, value);
-        }
+        private ViewModelBase _content;
+        
+        AppStoreViewModel AppStoreVM;
+        DetailedAppViewModel DetailedAppVM;
 
-        LibraryViewModel libraryVM;
+        public ViewModelBase Content
+        {
+            get => _content;
+            set => this.RaiseAndSetIfChanged(ref _content, value);
+        }
 
         public StoreViewModel(LibraryViewModel libraryVM)
         {
-            apps = new ObservableCollection<StoreElement>();
-            this.libraryVM = libraryVM;
-            Refresh();
+            AppStoreVM = new AppStoreViewModel(libraryVM, this);
+            DetailedAppVM = new DetailedAppViewModel(libraryVM, this);
+
+            ChangeView();
         }
 
-        /// <summary>
-        /// Dodawanie do biblioteki aplikacje, od razu zaznaczanie jej "już w bibliotece"
-        /// </summary>
-        /// <param name="name"></param>
-        public void AddToLibrary(string name)
+        public void ChangeView(StoreElement? app = null)
         {
-            var app = apps.Single(x => x.app.name == name);
-            int index = apps.IndexOf(app);
-
-            libraryVM.AddApp(app.app);
-
-            app.isInLibrary = true;
-            apps[index] = app;
-        }
-
-        /// <summary>
-        /// Zmiana widoczności w sklepie aplikacji "już w bibliotece" na przeciwną do obecnej
-        /// </summary>
-        public void ChangeAllowance(Application app)
-        {
-            int index = apps.IndexOf(apps.Single(x => x.app.ID == app.ID));
-
-            var selectedApp = apps[index];
-            selectedApp.isInLibrary = !selectedApp.isInLibrary;
-            apps[index] = selectedApp;
+            if (app is null)
+                Content = AppStoreVM;
+            else
+            {
+                Content = DetailedAppVM;
+                DetailedAppVM.Set(app.Value);
+            }
         }
 
         /// <summary>
@@ -60,17 +48,7 @@ namespace Forester.ViewModels.App
         /// </summary>
         public void Refresh()
         {
-            var response = ServerConnection.Get("/api/Applications/Get");
-
-            for (int i = apps.Count - 1; i > -1; i--)
-                apps.RemoveAt(i);
-
-            foreach (Application app in JsonConverter.Deserialize<Application[]>(response.Content.ReadAsStringAsync().Result))
-                apps.Add(new StoreElement()
-                {
-                    app = app,
-                    isInLibrary = libraryVM.isInLibrary(app.ID)
-                });
+            AppStoreVM.Refresh();
         }
     }
 }

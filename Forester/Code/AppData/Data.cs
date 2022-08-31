@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forester
+namespace Forester.Code.AppData
 {
     /// <summary>
     /// Class that contains various data i.e. from config
@@ -28,10 +28,10 @@ namespace Forester
         /// <summary>
         /// Save config
         /// </summary>
-        public static void SaveConfig(Config config) 
+        public static void SaveConfig(Config config)
         {
             Data.config = config;
-            FileReader.SaveText("./dataConfig.json", JsonConverter.Serialize(config)); 
+            FileReader.SaveText("./dataConfig.json", JsonConverter.Serialize(config));
         }
     }
 

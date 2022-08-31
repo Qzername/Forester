@@ -1,4 +1,5 @@
-﻿using Forester.Models.API;
+﻿using Avalonia.Media.Imaging;
+using Forester.Models.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace Forester.Models
     {
         public bool isInLibrary { get; set; }
         public Application app { get; set; }
+        public Bitmap profilePicture { get; set; }
+        public Bitmap backgroundPicture { get; set; }
     }
 }
