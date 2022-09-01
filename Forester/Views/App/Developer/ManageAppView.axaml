@@ -3,117 +3,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="650"
-             x:Class="Forester.Views.App.Developer.ManageAppView">
+             x:Class="Forester.Views.App.Developer.ManageAppView"
+			 xmlns:local="using:Forester.Views.App.Developer.ManageApp">
 	<ScrollViewer IsEnabled="True" Opacity="1">
 		<StackPanel Margin="0,0,10,0">
-			<!--Basic information-->
-			<StackPanel IsEnabled="{Binding isSuperDeveloper}">
-				<Label HorizontalAlignment="Center" Margin="0,10" Content="Basic information" FontSize="25"/>
-
-				<Panel Margin="0,0,0,10" Height="200">
-					<Image Source="{Binding backgroundPicture}" Stretch="UniformToFill" />
-					<Border Width="70" Height="70" BorderBrush="White" BorderThickness="2">
-						<Image Source="{Binding profilePicture}" Stretch="UniformToFill" Width="66" Height="66" Margin="2"/>
-					</Border>
-				</Panel>
-
-				<UniformGrid IsEnabled="{Binding makeChanges}" Margin="100,0" HorizontalAlignment="Stretch" Rows="1" Columns="2">
-					<Button Command="{Binding UploadNewProfilePicture}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Upload new profile picture</Button>
-					<Button Command="{Binding UploadNewBackgroundPicture}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Upload new background picture</Button>
-				</UniformGrid>
-
-				<TextBox IsEnabled="{Binding makeChanges}" Text="{Binding appName}" Watermark="Name of App" Margin="5" MaxLength="100"/>
-				<TextBox IsEnabled="{Binding makeChanges}" Text="{Binding quickDescription}" Watermark="Quick description" Margin="5" MaxLength="100"/>
-				<TextBox IsEnabled="{Binding makeChanges}" Text="{Binding description}" Watermark="Description" AcceptsTab="True" TextWrapping="Wrap" AcceptsReturn="True" Margin="5" VerticalContentAlignment="Stretch" MaxLength="2000"/>
-
-				<UniformGrid HorizontalAlignment="Stretch" Rows="1" Columns="2">
-					<Button Command="{Binding SwitchChanges}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5" Content="{Binding switchChangesButtonContent}"/>
-					<Button Command="{Binding SubmitChanges}" IsEnabled="{Binding makeChanges}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Submit changes</Button>
-				</UniformGrid>
-
-				<Label HorizontalAlignment="Center" Content="{Binding errorSwitchChanges}" FontSize="18" Margin="5,3,0,0"/>
-				<Label HorizontalAlignment="Left" Content="{Binding currentVersion}" FontSize="14" Margin="5,3,0,0"/>
-			</StackPanel>
+			<local:BasicInformation/>
+			<local:UploadNewVersion/>
 			
-			<!--Upload new version-->
-			<Label HorizontalAlignment="Center" Content="Upload new version" FontSize="25"/>
-			<StackPanel Margin="50,0,50,0">
-				<TextBox Text="{Binding newVersion}" Watermark="Version (should be different than current)" AcceptsTab="True" TextWrapping="Wrap" AcceptsReturn="True" Margin="100,5" VerticalContentAlignment="Stretch" MaxLength="2000"/>
-				<Button Command="{Binding SelectPath}" Margin="100,5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Content="Select folder with app"/>
-				<Label Margin="100,5" Content="{Binding newVersionCurrentPath}"/>
-				<!--Current path: Not selected-->
-				<Button Command="{Binding SubmitNewVersion}" Margin="100,5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Content="Submit"/>
-				<ProgressBar Value="{Binding versionPBValue}" Height="10" Margin="100,5"/>
-				<Label HorizontalAlignment="Center" Content="{Binding errorNewVersion}" FontSize="20"/>
-			</StackPanel>
-
 			<StackPanel IsEnabled="{Binding isSuperDeveloper}">
-				<!--Privacy-->
-				<Label HorizontalAlignment="Center" Content="Privacy" FontSize="25"/>
-				<CheckBox IsChecked="{Binding isPrivate}" HorizontalAlignment="Center" Content="Private application" Margin="5,0,0,5">
-					<CheckBox.Resources>
-						<SolidColorBrush x:Key="CheckBoxCheckBackgroundFillCheckedPointerOver" Color="Gray" />
-						<SolidColorBrush x:Key="CheckBoxCheckBackgroundFillChecked" Color="Gray" />
-						<SolidColorBrush x:Key="CheckBoxCheckBackgroundFillCheckedPressed" Color="Gray" />
-						<SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeCheckedPressed" Color="Gray" />
-						<SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeCheckedPointerOver" Color="Gray" />
-					</CheckBox.Resources>
-				</CheckBox>
-				<DockPanel IsEnabled="{Binding isPrivate}">
-					<ScrollViewer DockPanel.Dock="Left" Height="320" Width="200" Margin="5" Background="#151515">
-						<StackPanel Margin="2">
-
-							<ItemsControl Items="{Binding users}">
-								<ItemsControl.ItemTemplate>
-									<DataTemplate>
-										<Button Command="{Binding $parent[ItemsControl].DataContext.SwitchAllowedUser}" CommandParameter="{Binding name}" Background="Transparent" Width="200" Content="{Binding name}" />
-									</DataTemplate>
-								</ItemsControl.ItemTemplate>
-							</ItemsControl>
-
-						</StackPanel>
-					</ScrollViewer>
-					<Panel>
-						<StackPanel VerticalAlignment="Center" Width="500" Margin="20">
-							<Label HorizontalAlignment="Center" FontSize="20" Content="Manage allowed users"/>
-							<TextBox Text="{Binding newUserPrivate}" Watermark="User" Margin="5,10,5,5"/>
-							<UniformGrid Rows="1" Columns="2">
-								<Button Command="{Binding AddUserPrivate}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Add user</Button>
-								<Button Command="{Binding DeleteUserPrivate}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Delete user</Button>
-							</UniformGrid>
-							<Label HorizontalAlignment="Center" Content="{Binding errorPrivate}"/>
-						</StackPanel>
-					</Panel>
-				</DockPanel>
-
-				<!--Co-developers-->
-				<Label HorizontalAlignment="Center" Content="Co-developers" FontSize="25"/>
-				<DockPanel>
-					<ScrollViewer DockPanel.Dock="Left" Height="320" Width="200" Margin="5" Background="#151515">
-						<StackPanel Margin="2">
-
-							<ItemsControl Items="{Binding allowedDevelopers}">
-								<ItemsControl.ItemTemplate>
-									<DataTemplate>
-										<Button Command="{Binding $parent[ItemsControl].DataContext.SwitchDeveloper}" CommandParameter="{Binding name}" Background="Transparent" Width="200" Content="{Binding name}" />
-									</DataTemplate>
-								</ItemsControl.ItemTemplate>
-							</ItemsControl>
-
-						</StackPanel>
-					</ScrollViewer>
-					<Panel>
-						<StackPanel VerticalAlignment="Center" Width="500" Margin="20">
-							<Label HorizontalAlignment="Center" FontSize="20" Content="Manage developers"/>
-							<TextBox Text="{Binding newDeveloper}" Watermark="Developer" Margin="5,10,5,5"/>
-							<UniformGrid Rows="1" Columns="2">
-								<Button Command="{Binding AddDeveloper}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Add developer</Button>
-								<Button Command="{Binding DeleteDeveloper}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Delete developer</Button>
-							</UniformGrid>
-							<Label HorizontalAlignment="Center" Content="{Binding errorDeveloper}"/>
-						</StackPanel>
-					</Panel>
-				</DockPanel>
+				<local:PrivateAccess/>				
+				<local:Codevelopers/>
 			</StackPanel>
 		</StackPanel>
 	</ScrollViewer>

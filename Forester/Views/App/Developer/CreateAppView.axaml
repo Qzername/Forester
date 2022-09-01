@@ -11,9 +11,11 @@
 			<TextBox Text="{Binding version}" Watermark="Initial Version" Margin="0,5,0,5" MaxLength="100"/>
 			
 			<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-				<Button Command="{Binding SelectFolder}" HorizontalAlignment="Center" Content="Select folder with app" />
-				<Label VerticalAlignment="Center" Content="Current path:" Margin="5,0,0,0"/>
-				<Label VerticalAlignment="Center" Content="{Binding pathToFolder}"/>
+				<Button Width="165" Command="{Binding SelectFolder}" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Content="Select folder with app" />
+
+				<ScrollViewer Width="435" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible">
+					<Label VerticalAlignment="Center" Content="{Binding Path=pathToFolder, StringFormat='Current path: {0}'}" Margin="5,0,0,0"/>
+				</ScrollViewer>
 			</StackPanel>
 
 			<Label HorizontalAlignment="Center" Margin="5" Content="Warning: your app at start will be set as private"/>
