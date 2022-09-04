@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Forester.Views.AppPanelView"
-			 Height="{Binding $parent[Window].Height}">
+			 Height="{Binding $parent[Window].Height}"
+			 xmlns:local="using:Forester.Views.Elements">
 	<UserControl.Styles>
 		<StyleInclude Source="/Views/Style/App.axaml" />
 	</UserControl.Styles>
@@ -25,16 +26,17 @@
 				<Button Command="{Binding ChangePage}" CommandParameter="2" Margin="15,0,0,0" Foreground="{Binding developerColor}" Classes="Choose" Content="Developer" Opacity="{Binding developerOpacity}" IsEnabled="{Binding developerIsEnabled}"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-				<Border VerticalAlignment="Center" BorderBrush="Black" BorderThickness="3" Width="38" Height="38" Margin="0,0,10,0">
-					<Image Source="{Binding profilePicture}"/>
-				</Border>
+				<Panel VerticalAlignment="Center" Width="40" Height="40" Margin="0,0,10,0">
+					<local:ProfilePicture/>
+					<Image Margin="4" Source="{Binding profilePicture}"/>
+				</Panel>
 				<Label VerticalContentAlignment="Center" FontSize="25" Margin="0,0,10,0" Content="{Binding username}"/>
 				<Button VerticalAlignment="Center" Content="U" Height="38" Width="38" Margin="0,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
 			</StackPanel>
 		</Panel>
 		<!--okno wybrane-->
 		<Panel DockPanel.Dock="Top">
-			<ContentControl Content="{Binding content}" />
+			<ContentControl Content="{Binding content}"/>
 		</Panel>
 	</DockPanel>
 </UserControl>
