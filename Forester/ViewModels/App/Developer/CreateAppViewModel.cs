@@ -44,11 +44,8 @@ namespace Forester.ViewModels.App.Developer
             set => this.RaiseAndSetIfChanged(ref _percent, value);
         }
 
-        DeveloperViewModel developerVM;
-
-        public CreateAppViewModel(DeveloperViewModel developerVM)
+        public CreateAppViewModel()
         {
-            this.developerVM = developerVM;
             pathToFolder = "None";
         }
 
@@ -119,8 +116,8 @@ namespace Forester.ViewModels.App.Developer
             AppFileManager.Clear();
             pathToFolder = "None";
 
-            developerVM.RefreshList();
-            developerVM.ChangeView(name);
+            DeveloperViewModel.Current.RefreshList();
+            DeveloperViewModel.Current.ChangeView(name);
 
             name = string.Empty;
             version = string.Empty;

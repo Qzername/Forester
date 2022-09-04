@@ -33,13 +33,6 @@ namespace Forester.ViewModels.Popup.Library
             set => this.RaiseAndSetIfChanged(ref _deleteNotNecessary, value);
         }
 
-        AppViewModel aVM;
-        
-        public DownloadSettingsViewModel(AppViewModel aVM)
-        {
-            this.aVM = aVM;
-        }
-
         public async void SelectPath()
         {
             var dialog = new OpenFolderDialog();
@@ -62,7 +55,7 @@ namespace Forester.ViewModels.Popup.Library
         
         public void Approve()
         {
-            aVM.ConfirmedDownload(useDefaultPath, path, deleteNotNecessary);
+            AppViewModel.Current.ConfirmedDownload(useDefaultPath, path, deleteNotNecessary);
             Close();
         }
     }

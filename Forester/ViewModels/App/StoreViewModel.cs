@@ -13,6 +13,8 @@ namespace Forester.ViewModels.App
 {
     public class StoreViewModel : ViewModelBase
     {
+        public static StoreViewModel Current;
+
         private ViewModelBase _content;
         
         AppStoreViewModel AppStoreVM;
@@ -24,10 +26,12 @@ namespace Forester.ViewModels.App
             set => this.RaiseAndSetIfChanged(ref _content, value);
         }
 
-        public StoreViewModel(LibraryViewModel libraryVM)
+        public StoreViewModel()
         {
-            AppStoreVM = new AppStoreViewModel(libraryVM, this);
-            DetailedAppVM = new DetailedAppViewModel(libraryVM, this);
+            Current = this;
+
+            AppStoreVM = new AppStoreViewModel();
+            DetailedAppVM = new DetailedAppViewModel();
 
             ChangeView();
         }

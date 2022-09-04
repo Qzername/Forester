@@ -152,7 +152,7 @@ namespace Forester.ViewModels
         {
             var response = ServerConnection.Get($"/api/Accounts/GetUser?username={login}");
             Data.account = JsonConverter.Deserialize<Account>(response.Content.ReadAsStringAsync().Result);
-            content = new AppPanelViewModel(this);
+            content = new AppPanelViewModel();
         }
 
         /// <summary>

@@ -77,8 +77,6 @@ namespace Forester.ViewModels
             set => this.RaiseAndSetIfChanged(ref _developerIsEnabled, value);
         }
 
-        MainWindowViewModel mainWindowVM;
-
         //Pages
         StoreViewModel storeVM; //ID = 0
         LibraryViewModel libraryVM; //ID = 1
@@ -91,10 +89,10 @@ namespace Forester.ViewModels
             set => this.RaiseAndSetIfChanged(ref _height, value);
         }
 
-        public AppPanelViewModel(MainWindowViewModel mainWindowVM)
+        public AppPanelViewModel()
         {
             libraryVM = new LibraryViewModel();
-            storeVM = new StoreViewModel(libraryVM);
+            storeVM = new StoreViewModel();
 
             var response = ServerConnection.Get("/api/Applications/GetDeveloped");
 
@@ -116,8 +114,7 @@ namespace Forester.ViewModels
 
             profilePicture = ImageData.GetImage(username, ObjectType.User, PictureType.ProfilePicture);
 
-            this.mainWindowVM = mainWindowVM;
-            mainWindowVM.toolBarHeight = 20;
+            MainWindowViewModel.Current.toolBarHeight = 20;
 
             storeColor = first;
             libraryColor = white;

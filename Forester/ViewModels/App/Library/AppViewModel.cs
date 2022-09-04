@@ -8,6 +8,8 @@ namespace Forester.ViewModels.App.Library
 {
     public class AppViewModel : ViewModelBase
     {
+        public static AppViewModel Current;
+
         Bitmap _backgroundPicture; 
         public Bitmap backgroundPicture
         {
@@ -44,12 +46,12 @@ namespace Forester.ViewModels.App.Library
         }
 
         LibraryElement currentApp;
-        LibraryViewModel libraryVM;
         HttpClientDownloadWithProgress progressDownload;
 
-        public AppViewModel(LibraryViewModel libraryVM)
+        public AppViewModel()
         {
-            this.libraryVM = libraryVM;
+            Current = this;
+
             progressDownload = new HttpClientDownloadWithProgress();
             progressDownload.ProgressChanged += ProgressDownload_ProgressChanged;
             progressDownload.DownloadFinished += ProgressDownload_DownloadFinished;
@@ -82,7 +84,7 @@ namespace Forester.ViewModels.App.Library
         {
             PopupConfig config = new PopupConfig()
             {
-                content = new DownloadSettingsViewModel(this),
+                content = new DownloadSettingsViewModel(),
                 height = 300,
                 width = 600,
                 margin = new Avalonia.Thickness(0, 20, 0, 0)
@@ -102,7 +104,7 @@ namespace Forester.ViewModels.App.Library
             };
 
             canDownload = false;
-            libraryVM.SetConfig(currentApp.appConfig);
+            LibraryViewModel.Current.SetConfig(currentApp.appConfig);
 
             DownloadApp();
         }
@@ -122,8 +124,8 @@ namespace Forester.ViewModels.App.Library
         public void DeleteFromLibrary()
         {
             Delete();
-            libraryVM.DeleteApp(currentApp.app.name);
-            libraryVM.content = new DefaultAppViewModel();
+            LibraryViewModel.Current.DeleteApp(currentApp.app.name);
+            LibraryViewModel.Current.content = new DefaultAppViewModel();
         }
     }
 }

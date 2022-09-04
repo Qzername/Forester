@@ -8,5 +8,10 @@ namespace Forester.ViewModels.Elements
 {
     internal class ProfilePictureViewModel :ViewModelBase
     {
+        public ProfilePictureViewModel()
+        {
+            System.Diagnostics.Debug.WriteLine("sdfsfdjkfdlgkjndf;lnkgdfk;lngdfknlfgkdnlkfgdn");
+        }
+
     }
 }

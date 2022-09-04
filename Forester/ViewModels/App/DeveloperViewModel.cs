@@ -15,6 +15,8 @@ namespace Forester.ViewModels.App
 {
     public class DeveloperViewModel : ViewModelBase
     {
+        public static DeveloperViewModel Current;
+
         ViewModelBase _content;
         ManageAppViewModel manageAppVM;
         CreateAppViewModel createAppVM;
@@ -38,8 +40,10 @@ namespace Forester.ViewModels.App
 
             RefreshList();
 
-            manageAppVM = new ManageAppViewModel(this);
-            createAppVM = new CreateAppViewModel(this);
+            Current = this;
+
+            manageAppVM = new ManageAppViewModel();
+            createAppVM = new CreateAppViewModel();
 
             content = new BasicInfoViewModel();
         }

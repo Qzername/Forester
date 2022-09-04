@@ -22,20 +22,15 @@ namespace Forester.ViewModels.App.Store
             set => this.RaiseAndSetIfChanged(ref _apps, value);
         }
 
-        LibraryViewModel libraryVM;
-        StoreViewModel StoreVM;
-
-        public AppStoreViewModel(LibraryViewModel libraryVM, StoreViewModel StoreVM)
+        public AppStoreViewModel()
         {
             apps = new ObservableCollection<StoreElement>();
-            this.libraryVM = libraryVM;
-            this.StoreVM = StoreVM;
             Refresh();
         }
 
         public void ChangeView(StoreElement app)
         {
-            StoreVM.ChangeView(app);
+            StoreViewModel.Current.ChangeView(app);
         }
 
         /// <summary>
@@ -64,7 +59,7 @@ namespace Forester.ViewModels.App.Store
                 apps.Add(new StoreElement()
                 {
                     app = app,
-                    isInLibrary = libraryVM.IsInLibrary(app.ID),
+                    isInLibrary = LibraryViewModel.Current.IsInLibrary(app.ID),
                     profilePicture = ImageData.GetImage(app.name, ObjectType.App, PictureType.ProfilePicture),
                     backgroundPicture = ImageData.GetImage(app.name, ObjectType.App, PictureType.BackgroundPicture)
                 });

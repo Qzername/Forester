@@ -16,6 +16,8 @@ namespace Forester.ViewModels.App
 {
     public class LibraryViewModel : ViewModelBase
     {
+        public static LibraryViewModel Current;
+
         ObservableCollection<LibraryElement> apps { get; set; }
 
         ViewModelBase _content;
@@ -29,7 +31,9 @@ namespace Forester.ViewModels.App
 
         public LibraryViewModel()
         {
-            appVM = new AppViewModel(this);
+            Current = this;
+
+            appVM = new AppViewModel();
             content = new DefaultAppViewModel();
             apps = new ObservableCollection<LibraryElement>();
             
