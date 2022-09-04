@@ -8,6 +8,8 @@ namespace Forester.Views.App.Developer.ManageApp
         public Codevelopers()
         {
             InitializeComponent();
+
+            DataContext = new ViewModels.App.Developer.ManageApp.Codevelopers();
         }
 
         private void InitializeComponent()

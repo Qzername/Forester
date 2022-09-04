@@ -70,5 +70,10 @@ namespace Forester.ViewModels.App
         }
 
         public void AddNew() => content = createAppVM;
+
+        public void DeveloperPanelClicked()
+        {
+            content = new BasicInfoViewModel();
+        }
     }
 }

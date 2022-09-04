@@ -8,6 +8,8 @@ namespace Forester.Views.App.Developer.ManageApp
         public UploadNewVersion()
         {
             InitializeComponent();
+
+            DataContext = new ViewModels.App.Developer.ManageApp.UploadNewVersion();
         }
 
         private void InitializeComponent()

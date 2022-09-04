@@ -15,8 +15,6 @@ namespace Forester.ViewModels.App.Developer.ManageApp
 
         public Allowance()
         {
-            System.Diagnostics.Debug.WriteLine("Allowence - Coś jest złego!!!!!!!!!!!!!!!!");
-
             Current = this;
         }
 

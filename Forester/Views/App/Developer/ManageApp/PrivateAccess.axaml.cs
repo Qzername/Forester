@@ -9,6 +9,8 @@ namespace Forester.Views.App.Developer.ManageApp
         public PrivateAccess()
         {
             InitializeComponent();
+
+            DataContext = new ViewModels.App.Developer.ManageApp.PrivateAccess();
         }
 
         private void InitializeComponent()

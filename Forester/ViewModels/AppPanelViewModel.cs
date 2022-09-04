@@ -147,6 +147,8 @@ namespace Forester.ViewModels
                     developerColor = first;
 
                     content = developerVM;
+
+                    developerVM.DeveloperPanelClicked();
                     break;
             }
         }
