@@ -13,9 +13,14 @@
 				<local:ProfilePicture Width="70" Height="70" VerticalAlignment="Bottom"/>
 				<Image Source="{Binding profilePicture}" VerticalAlignment="Bottom" Margin="0,0,0,4" Height="62" Width="62"/>
 
-				<Panel Background="#232323" Width="65" Height="20" IsVisible="{Binding isInLibrary}" VerticalAlignment="Top" HorizontalAlignment="Right">
-					<TextBlock VerticalAlignment="Top" HorizontalAlignment="Center" Text="In library"/>
-				</Panel>
+				<StackPanel>
+					<Panel Background="#232323" Width="104" Height="20" IsVisible="{Binding app.isPrivate}" VerticalAlignment="Top" HorizontalAlignment="Right">
+						<TextBlock VerticalAlignment="Top" HorizontalAlignment="Center" Text="Shared for you"/>
+					</Panel>
+					<Panel Background="#232323" Width="65" Height="20" IsVisible="{Binding isInLibrary}" VerticalAlignment="Top" HorizontalAlignment="Right">
+						<TextBlock VerticalAlignment="Top" HorizontalAlignment="Center" Text="In library"/>
+					</Panel>
+				</StackPanel>
 			</Panel>
 
 			<Viewbox Padding="5,0,5,0" DockPanel.Dock="Top" VerticalAlignment="Center"  Stretch="Uniform" Height="50">

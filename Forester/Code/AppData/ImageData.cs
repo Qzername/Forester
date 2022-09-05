@@ -40,10 +40,15 @@ namespace Forester.Code.AppData
         {
             if (!ImageDatabase.ContainsKey(search))
             {
+                var pp = ServerConnection.GetImage(search.Name, (int)search.ObjectType, 0);
+                var bp = ServerConnection.GetImage(search.Name, (int)search.ObjectType, 1);
+
                 ElementPicutres newElement = new ElementPicutres()
                 {
-                    ProfilePicture = ServerConnection.GetImage(search.Name, (int)search.ObjectType, 0),
-                    BackgroundPicture = ServerConnection.GetImage(search.Name, (int)search.ObjectType, 1)
+                    IsDefaultProfilePicture = pp.Item2,
+                    ProfilePicture = pp.Item1,
+                    IsDefaultBackgroundPicture = bp.Item2,
+                    BackgroundPicture = bp.Item1
                 };
 
                 ImageDatabase[search] = newElement;
@@ -55,5 +60,28 @@ namespace Forester.Code.AppData
                 return ImageDatabase[search].BackgroundPicture;
         }
 
+
+        /// <summary>
+        /// Sprawdzenie czy dana rzecz ma zdjęcie
+        /// </summary>
+        public static bool HasImage(string name, ObjectType objectType, PictureType pictureType)
+        {
+            ElementSearch search = new ElementSearch()
+            {
+                Name = name,
+                ObjectType = objectType,
+                PictureType = pictureType
+            };
+
+            bool returnValue;
+            var obj = ImageDatabase[search];
+
+            if (pictureType == PictureType.ProfilePicture)
+                returnValue = obj.IsDefaultProfilePicture;
+            else
+                returnValue = obj.IsDefaultBackgroundPicture;
+
+            return returnValue;
+        }
     }
 }

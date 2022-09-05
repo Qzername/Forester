@@ -64,7 +64,7 @@ namespace Forester
         /// <param name="objectType">Czego profilowe chcesz, aplikacji czy użytkownika; 0 = użytkownik, 1 = aplikacja</param>
         /// <param name="pictureType">Jaki rodzaj zdjęcia chcesz; 0 = profilowe, 1 = tło</param>
         /// <returns></returns>
-        public static Bitmap GetImage(string username, int objectType, int pictureType)
+        public static (Bitmap,bool) GetImage(string username, int objectType, int pictureType)
         {
             var response = Get($"/api/Update/GetPicture?objectType={objectType}&pictureType={pictureType}&name={username.Replace("#", "%23")}");
 
@@ -83,7 +83,7 @@ namespace Forester
                     bitmap = GenerateGradient();
             }
 
-            return bitmap;
+            return (bitmap, response.StatusCode == System.Net.HttpStatusCode.OK);
         }
 
         public static async void PostImage(string username, int objectType, int pictureType, Bitmap image)

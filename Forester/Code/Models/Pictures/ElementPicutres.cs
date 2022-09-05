@@ -9,7 +9,9 @@ namespace Forester.Code.Models.Pictures
 {
     public struct ElementPicutres
     {
+        public bool IsDefaultProfilePicture;
         public Bitmap ProfilePicture { get; set; }
+        public bool IsDefaultBackgroundPicture;
         public Bitmap BackgroundPicture { get; set; }
     }
 }
