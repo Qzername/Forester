@@ -10,10 +10,11 @@ using Forester.ViewModels.App.Developer;
 using Forester.Models.API;
 using System.Collections.ObjectModel;
 using Forester.Code.AppData;
+using Forester.Code;
 
 namespace Forester.ViewModels.App
 {
-    public class DeveloperViewModel : ViewModelBase
+    public class DeveloperViewModel : ViewModelBase, IPage
     {
         public static DeveloperViewModel Current;
 
@@ -75,5 +76,17 @@ namespace Forester.ViewModels.App
         {
             content = new BasicInfoViewModel();
         }
+
+        //IPage
+        public void PageOpened()
+        {
+            DeveloperPanelClicked();
+        }
+
+        public void PageClosed()
+        {
+        }
+
+        public ViewModelBase ReceiveContent() => this;
     }
 }

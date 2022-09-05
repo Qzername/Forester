@@ -1,4 +1,5 @@
-﻿using Forester.Models;
+﻿using Forester.Code;
+using Forester.Models;
 using Forester.Models.API;
 using Forester.ViewModels.App.Store;
 using ReactiveUI;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Forester.ViewModels.App
 {
-    public class StoreViewModel : ViewModelBase
+    public class StoreViewModel : ViewModelBase, IPage
     {
         public static StoreViewModel Current;
 
@@ -45,6 +46,8 @@ namespace Forester.ViewModels.App
                 Content = DetailedAppVM;
                 DetailedAppVM.Set(app.Value);
             }
+
+            Refresh();
         }
 
         /// <summary>
@@ -54,5 +57,18 @@ namespace Forester.ViewModels.App
         {
             AppStoreVM.Refresh();
         }
+
+        //IPage
+        public void PageOpened()
+        {
+            Refresh();
+        }
+
+        public void PageClosed()
+        {
+
+        }
+
+        public ViewModelBase ReceiveContent() => this;
     }
 }

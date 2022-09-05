@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Forester.ViewModels.App
 {
-    public class LibraryViewModel : ViewModelBase
+    public class LibraryViewModel : ViewModelBase, IPage
     {
         public static LibraryViewModel Current;
 
@@ -155,5 +155,16 @@ namespace Forester.ViewModels.App
 
             FileReader.SaveText("./libraryConfig.json", JsonConverter.Serialize(configs.ToArray()));
         }
+        
+        //IPage
+        public void PageOpened()
+        {
+        }
+
+        public void PageClosed()
+        {
+        }
+
+        public ViewModelBase ReceiveContent() => this;
     }
 }

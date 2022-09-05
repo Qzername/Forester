@@ -21,9 +21,19 @@
 		<Panel DockPanel.Dock="Top" Background="#151515" Height="60">
 			<!--Panel wyboru-->
 			<StackPanel Orientation="Horizontal">
-				<Button Command="{Binding ChangePage}" CommandParameter="0" Margin="15,0,0,0" Foreground="{Binding storeColor}" Classes="Choose" Content="Store"/>
-				<Button Command="{Binding ChangePage}" CommandParameter="1" Margin="15,0,0,0" Foreground="{Binding libraryColor}" Classes="Choose" Content="Library"/>
-				<Button Command="{Binding ChangePage}" CommandParameter="2" Margin="15,0,0,0" Foreground="{Binding developerColor}" Classes="Choose" Content="Developer" Opacity="{Binding developerOpacity}" IsEnabled="{Binding developerIsEnabled}"/>
+				<ItemsControl Items="{Binding Pages}" VerticalAlignment="Center" HorizontalAlignment="Center">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel />
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Button Command="{Binding $parent[ItemsControl].DataContext.ChangePage}" CommandParameter="{Binding}" Margin="15,0,0,0" Foreground="{Binding Color}" Classes="Choose" Content="{Binding Name}"/>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
 				<Panel VerticalAlignment="Center" Width="40" Height="40" Margin="0,0,10,0">

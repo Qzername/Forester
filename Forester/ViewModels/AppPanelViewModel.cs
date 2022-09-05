@@ -3,12 +3,14 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Forester.Code;
 using Forester.Code.AppData;
 using Forester.Code.Models.Pictures;
 using Forester.ViewModels.App;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -47,8 +49,6 @@ namespace Forester.ViewModels
             set => this.RaiseAndSetIfChanged(ref _profilePicture, value);
         }
 
-        SolidColorBrush white = new SolidColorBrush(new Color(255, 255, 255, 255));
-
         string _username;
         public string username
         {
@@ -63,24 +63,13 @@ namespace Forester.ViewModels
             set => this.RaiseAndSetIfChanged(ref _content, value);
         }
 
-        float _developerOpacity;
-        public float developerOpacity
-        {
-            get => _developerOpacity;
-            set => this.RaiseAndSetIfChanged(ref _developerOpacity, value);
-        }
-
-        bool _developerIsEnabled;
-        public bool developerIsEnabled
-        {
-            get => _developerIsEnabled;
-            set => this.RaiseAndSetIfChanged(ref _developerIsEnabled, value);
-        }
+        ObservableCollection<Page> _pages;
+        ObservableCollection<Page> Pages { get => _pages ; set => this.RaiseAndSetIfChanged(ref _pages, value); }
 
         //Pages
-        StoreViewModel storeVM; //ID = 0
-        LibraryViewModel libraryVM; //ID = 1
-        DeveloperViewModel developerVM; //ID = 2
+        //StoreViewModel ID = 0
+        //LibraryViewModel ID = 1
+        //DeveloperViewModel ID = 2
 
         float _height;
         public float height
@@ -91,24 +80,23 @@ namespace Forester.ViewModels
 
         public AppPanelViewModel()
         {
-            libraryVM = new LibraryViewModel();
-            storeVM = new StoreViewModel();
+            Pages = new ObservableCollection<Page>();
+
+            //konstruktor libraryVM musi się wywołac jako pierwszy
+            //Przez to że store w konstruktorze refreshuje się
+            var libraryVM = new LibraryViewModel();
+            var storeVM = new StoreViewModel();
+
+            Pages.Add(new Page("Store", storeVM));
+            Pages.Add(new Page("Library", libraryVM));
 
             var response = ServerConnection.Get("/api/Applications/GetDeveloped");
 
             if(Data.account.isDeveloper || JsonConverter.Deserialize<Models.API.Application[]>(response.Content.ReadAsStringAsync().Result).Length > 0)
             {
-                developerOpacity = 1;
-                developerIsEnabled = true;
-                developerVM = new DeveloperViewModel();
+                var developerVM = new DeveloperViewModel();
+                Pages.Add(new Page("Developer", developerVM));
             }
-            else
-            {
-                developerOpacity = 0;
-                developerIsEnabled = false;
-            }
-
-            content = storeVM;
 
             username = string.Format("{0}#{1}", Data.account.friendlyUsername, Data.account.friendly_ID);
 
@@ -116,40 +104,53 @@ namespace Forester.ViewModels
 
             MainWindowViewModel.Current.toolBarHeight = 20;
 
-            storeColor = first;
-            libraryColor = white;
-            developerColor = white;
+            ChangePage(0);
+        }
+        
+        public void ChangePage(Page page)
+        {
+            int pageID = Pages.IndexOf(page);
+            ChangePage(pageID);
         }
 
         public void ChangePage(int pageID)
         {
-            switch(pageID)
+            //turn off all pages that are not the chosen one
+            for(int i = 0; i < Pages.Count;i++)
             {
-                case 0:
-                    storeColor = first;
-                    libraryColor = white;
-                    developerColor = white;
+                if (i == pageID)
+                    continue;
 
-                    content = storeVM;
+                var copy = Pages[i];
+                copy.Color = Page.OffColor;
+                Pages[i] = copy;
 
-                    storeVM.Refresh();
-                    break;
-                case 1:
-                    storeColor = white;
-                    libraryColor = first;
-                    developerColor = white;
+                Pages[i].Content.PageClosed();
+            }
 
-                    content = libraryVM;
-                    break;
-                case 2:
-                    storeColor = white;
-                    libraryColor = white;
-                    developerColor = first;
+            //turining one that one page
+            var turnOnOne = Pages[pageID];
+            turnOnOne.Color = Page.OnColor;
+            Pages[pageID] = turnOnOne;
 
-                    content = developerVM;
+            Pages[pageID].Content.PageOpened();
+            content = Pages[pageID].Content.ReceiveContent();
+        }
 
-                    developerVM.DeveloperPanelClicked();
-                    break;
+        public struct Page
+        {
+            public static SolidColorBrush OnColor = MainWindowViewModel.Current.firstMain;
+            public static SolidColorBrush OffColor = new SolidColorBrush(new Color(255, 255, 255, 255));
+
+            public SolidColorBrush Color { get; set; }
+            public IPage Content { get; }
+            public string Name { get; }
+
+            public Page(string Name, IPage Content)
+            {
+                this.Name = Name;
+                this.Color = OffColor;
+                this.Content = Content;
             }
         }
     }
