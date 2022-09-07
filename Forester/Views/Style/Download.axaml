@@ -1,0 +1,43 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+		<StackPanel Margin="20" Spacing="10" Width="300" VerticalAlignment="Center" HorizontalAlignment="Right">
+			<TextBlock Text="Downloading" FontSize="32" HorizontalAlignment="Center" />
+
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+
+				<TextBlock Classes="DownloadGridSpeed" Text="50KB/s"/>
+				<TextBlock Classes="DownloadGridText" Grid.Row="1" Text="Now"/>
+				<TextBlock Classes="DownloadGridSpeed" Margin="0,4,0,0" Grid.Row="2" Text="512MB/1GB"/>
+				<TextBlock Classes="DownloadGridText" Grid.Row="3" Text="Downloaded"/>
+				<TextBlock Classes="DownloadGridSpeed" Grid.Column="1" Text="2MB/s"/>
+				<TextBlock Classes="DownloadGridText" Grid.Column="1" Grid.Row="1" Text="Max"/>
+				<TextBlock Classes="DownloadGridSpeed" Margin="0,4,0,0" Grid.Column="1" Grid.Row="2" Text="50%"/>
+				<TextBlock Classes="DownloadGridText" Grid.Column="1" Grid.Row="3" Text="Finished"/>
+			</Grid>
+
+			<ProgressBar Margin="0,10,0,0" Height="5" Value="50"/>
+		</StackPanel>
+    </Design.PreviewWith>
+	
+	<Style Selector="TextBlock.DownloadGridSpeed">
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+		<Setter Property="FontSize" Value="24"/>
+		<Setter Property="Margin" Value="2"/>
+	</Style>
+	
+	<Style Selector="TextBlock.DownloadGridText">
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+		<Setter Property="FontSize" Value="16"/>
+	</Style>
+</Styles>

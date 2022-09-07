@@ -69,7 +69,8 @@ namespace Forester.ViewModels
         //Pages
         //StoreViewModel ID = 0
         //LibraryViewModel ID = 1
-        //DeveloperViewModel ID = 2
+        //DownloadViewModel ID = 2
+        //DeveloperViewModel ID = 3
 
         float _height;
         public float height
@@ -86,9 +87,11 @@ namespace Forester.ViewModels
             //Przez to że store w konstruktorze refreshuje się
             var libraryVM = new LibraryViewModel();
             var storeVM = new StoreViewModel();
+            var downloadVM = new DownloadViewModel();
 
             Pages.Add(new Page("Store", storeVM));
             Pages.Add(new Page("Library", libraryVM));
+            Pages.Add(new Page("Download", downloadVM));
 
             var response = ServerConnection.Get("/api/Applications/GetDeveloped");
 

@@ -1,0 +1,84 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="650"
+             x:Class="Forester.Views.DownloadView"
+			 xmlns:local="using:Forester.Views.Elements">
+	
+	<UserControl.Styles>
+		<StyleInclude Source="/Views/Style/Download.axaml" />
+	</UserControl.Styles>
+	
+	<StackPanel>
+		<Panel Height="270" Background="Gray">
+			<!--Background effect-->
+			<Rectangle>
+				<Rectangle.Fill>
+					<LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%" >
+						<GradientStop Color="#55000000" Offset="0" />
+						<GradientStop Color="#FF000000" Offset="0.75" />
+					</LinearGradientBrush>
+				</Rectangle.Fill>
+			</Rectangle>
+
+			<!--Name and profile picture-->
+			<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="55">
+				<local:ProfilePicture Height="120" Width="120"/>
+				<TextBlock Text="ToolBox" FontSize="70" Padding="15,5,0,0" VerticalAlignment="Center"/>
+			</StackPanel>
+
+			<!--Download status-->
+			<StackPanel Margin="20" Spacing="10" Width="300" VerticalAlignment="Center" HorizontalAlignment="Right">
+				<TextBlock Text="Downloading" FontSize="36" HorizontalAlignment="Center" />
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition/>
+						<RowDefinition/>
+						<RowDefinition/>
+						<RowDefinition/>
+					</Grid.RowDefinitions>
+
+					<TextBlock Classes="DownloadGridSpeed" Text="50KB/s"/>
+					<TextBlock Classes="DownloadGridText" Grid.Row="1" Text="Now"/>
+					<TextBlock Classes="DownloadGridSpeed" Margin="0,4,0,0" Grid.Row="2" Text="512MB/1GB"/>
+					<TextBlock Classes="DownloadGridText" Grid.Row="3" Text="Downloaded"/>
+					<TextBlock Classes="DownloadGridSpeed" Grid.Column="1" Text="2MB/s"/>
+					<TextBlock Classes="DownloadGridText" Grid.Column="1" Grid.Row="1" Text="Max"/>
+					<TextBlock Classes="DownloadGridSpeed" Margin="0,4,0,0" Grid.Column="1" Grid.Row="2" Text="50%"/>
+					<TextBlock Classes="DownloadGridText" Grid.Column="1" Grid.Row="3" Text="Finished"/>
+				</Grid>
+
+				<ProgressBar Margin="0,10,0,0" Height="5" Value="50"/>
+			</StackPanel>
+		</Panel>
+		
+		<Panel Height="110" Background="Gray">
+			<StackPanel Orientation="Horizontal">
+				<local:ProfilePicture Width="110" HorizontalAlignment="Left"/>
+				<TextBlock Text="ToolBox" FontSize="55" Padding="15,5,0,0" VerticalAlignment="Center"/>
+			</StackPanel>
+
+			<Grid HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20,0" DockPanel.Dock="Right">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				
+				<TextBlock Margin="5" Classes="DownloadGridSpeed" Text="Update"/>
+				<TextBlock Margin="5,0" Classes="DownloadGridText" Grid.Row="1" Text="Type"/>
+				<TextBlock Margin="10,5" Classes="DownloadGridSpeed" Grid.Column="1" Text="100MB"/>
+				<TextBlock Margin="10,0" Classes="DownloadGridText" Grid.Column="1" Grid.Row="1" Text="Size"/>
+			</Grid>
+		</Panel>
+	</StackPanel>
+</UserControl>

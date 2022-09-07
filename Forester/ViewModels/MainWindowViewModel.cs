@@ -10,9 +10,9 @@ using System.Text;
 
 /*  name rules
     private variables _[name]
-    variables and properties [name]
+    variables and properties [Name] old: [name]
     struct and classes name [Name] 
-    struct and clases objects [name]
+    struct and clases objects [Name] old: [name]
     method names [Name]
  */
 
