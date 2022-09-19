@@ -57,6 +57,20 @@ namespace Forester
             return client.PostAsync(URI, data).Result;
         }
 
+        public static Task<HttpResponseMessage> AsyncPost(string URI, object body)
+        {
+            var data = new StringContent(JsonConverter.Serialize(body), Encoding.UTF8, "application/json");
+
+            HttpRequestMessage message = new HttpRequestMessage()
+            {
+                RequestUri = new Uri(URI, UriKind.Relative),
+                Content = data,
+                Method = HttpMethod.Post,
+            };
+
+            return client.SendAsync(message, HttpCompletionOption.ResponseHeadersRead);
+        }
+
         /// <summary>
         /// Wzięcie zdjęcia z serwera
         /// </summary>
@@ -120,6 +134,7 @@ namespace Forester
             return Task.CompletedTask;
         }
 
+        //Nie wiem kiedy to dodałem ani po co
         public static Task Upload(string filePath, string uri)
         {
             HttpClient httpClient = new HttpClient();
@@ -131,17 +146,12 @@ namespace Forester
 
             using (var multipartFormContent = new MultipartFormDataContent())
             {
-                //Load the file and set the file's Content-Type header
                 var fileStreamContent = new StreamContent(File.OpenRead(filePath));
                 fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
-                //Add the file
                 multipartFormContent.Add(fileStreamContent, name: "file", fileName: "app.zip");
 
-                //Send it
                 var response = httpClient.PostAsync(api+uri, multipartFormContent);
-
-                System.Diagnostics.Debug.WriteLine(response.Result.Content.ReadAsStringAsync().Result);
 
                 response.Result.EnsureSuccessStatusCode();
             }

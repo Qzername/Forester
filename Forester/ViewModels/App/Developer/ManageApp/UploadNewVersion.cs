@@ -87,14 +87,16 @@ namespace Forester.ViewModels.App.Developer.ManageApp
 
             string path = AppFileManager.PrepareApp(pathToFile);
 
-            /*WebClient client = new WebClient();
+            WebClient client = new WebClient();
             client.UploadProgressChanged += Client_UploadProgressChanged;
-            client.UploadFileCompleted += Client_UploadFileCompleted;*/
+            client.UploadFileCompleted += Client_UploadFileCompleted;
 
-            errorNewVersion = "Uploading...";
+            errorNewVersion = "Uploading... Forester is freezed until upload is completed...";
 
-            await ServerConnection.Upload(path, "/api/Download/Upload?name=" + ManageAppViewModel.Current.currentApp.name);
-            Client_UploadFileCompleted(null, null);
+            /*await ServerConnection.Upload(path, "/api/Download/Upload?name=" + ManageAppViewModel.Current.currentApp.name);
+            Client_UploadFileCompleted(null, null); więcej info w ServerConnection.Upload*/
+
+            await ServerConnection.Upload(ref client, "/api/Download/Upload?name=" + ManageAppViewModel.Current.currentApp.name, path);
         }
 
         private void Client_UploadFileCompleted(object sender, UploadFileCompletedEventArgs e)

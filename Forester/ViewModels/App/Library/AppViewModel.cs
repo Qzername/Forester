@@ -3,6 +3,7 @@ using Forester.Models;
 using Forester.ViewModels.Popup.Library;
 using ReactiveUI;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Forester.ViewModels.App.Library
 {
@@ -45,6 +46,8 @@ namespace Forester.ViewModels.App.Library
             set => this.RaiseAndSetIfChanged(ref _canDownload, value);
         }
 
+        bool isDownloading;
+
         LibraryElement currentApp;
         HttpClientDownloadWithProgress progressDownload;
 
@@ -55,11 +58,15 @@ namespace Forester.ViewModels.App.Library
             progressDownload = new HttpClientDownloadWithProgress();
             progressDownload.ProgressChanged += ProgressDownload_ProgressChanged;
             progressDownload.DownloadFinished += ProgressDownload_DownloadFinished;
+
+            isDownloading = false;
         }
 
         private void ProgressDownload_DownloadFinished()
         {
             AppFileManager.AppDownloaded(currentApp.appConfig,currentApp.app.name);
+            isDownloading = false;
+            SetApp(currentApp);
         }
 
         private void ProgressDownload_ProgressChanged(long? totalFileSize, long totalBytesDownloaded, double? progressPercentage)
@@ -69,6 +76,9 @@ namespace Forester.ViewModels.App.Library
 
         public void SetApp(LibraryElement app)
         {
+            if (isDownloading)
+                return;
+
             currentApp = app;
 
             appName = currentApp.app.name;
@@ -112,7 +122,11 @@ namespace Forester.ViewModels.App.Library
         async void DownloadApp()
         {
             Dictionary<string, string> dict = AppFileManager.ReadAppConfig(currentApp.appConfig,currentApp.app.name);
-            await progressDownload.DownloadFileFromHttpResponseMessage(ServerConnection.Post("/api/Download/Load?name=" + currentApp.app.name, dict));
+
+            isDownloading = true;
+
+            using (var response = await ServerConnection.AsyncPost("/api/Download/Load?name=" + currentApp.app.name, dict))
+                await progressDownload.DownloadFileFromHttpResponseMessage(response);
         }
 
         public void Delete() 

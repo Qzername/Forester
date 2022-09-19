@@ -41,7 +41,9 @@
 					<Image Margin="4" Source="{Binding profilePicture}"/>
 				</Panel>
 				<Label VerticalContentAlignment="Center" FontSize="25" Margin="0,0,10,0" Content="{Binding username}"/>
-				<Button VerticalAlignment="Center" Content="U" Height="38" Width="38" Margin="0,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+				<Button Command="{Binding SettingsClicked}" Background="Transparent" Padding="3" VerticalAlignment="Center" Height="38" Width="38" Margin="0,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+					<Image StretchDirection="Both" Source="/Assets/settings.png"/>
+				</Button>
 			</StackPanel>
 		</Panel>
 		<!--okno wybrane-->

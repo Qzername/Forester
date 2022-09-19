@@ -8,6 +8,7 @@
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
     <None Remove=".gitignore" />
+    <None Remove="Assets\settings.png" />
   </ItemGroup>
   <ItemGroup>
 	  <AvaloniaXaml Include="Views\Style\Login.axaml">
@@ -48,6 +49,9 @@
     </Compile>
     <Compile Update="Views\Popup\Library\DownloadSettingsView.axaml.cs">
       <DependentUpon>DownloadSettingsView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Popup\SettingsView.axaml.cs">
+      <DependentUpon>SettingsView.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\TestView.axaml.cs">
       <DependentUpon>TestView.axaml</DependentUpon>

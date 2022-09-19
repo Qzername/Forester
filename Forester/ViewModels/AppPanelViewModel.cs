@@ -7,6 +7,7 @@ using Forester.Code;
 using Forester.Code.AppData;
 using Forester.Code.Models.Pictures;
 using Forester.ViewModels.App;
+using Forester.ViewModels.Popup;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -87,11 +88,11 @@ namespace Forester.ViewModels
             //Przez to że store w konstruktorze refreshuje się
             var libraryVM = new LibraryViewModel();
             var storeVM = new StoreViewModel();
-            var downloadVM = new DownloadViewModel();
+            //var downloadVM = new DownloadViewModel();
 
             Pages.Add(new Page("Store", storeVM));
             Pages.Add(new Page("Library", libraryVM));
-            Pages.Add(new Page("Download", downloadVM));
+            //Pages.Add(new Page("Download", downloadVM));
 
             var response = ServerConnection.Get("/api/Applications/GetDeveloped");
 
@@ -110,6 +111,17 @@ namespace Forester.ViewModels
             ChangePage(0);
         }
         
+        public void SettingsClicked()
+        {
+            MainWindowViewModel.Current.CreatePopup(new Models.PopupConfig()
+            {
+                content = new SettingsViewModel(),
+                width = 800,
+                height = 500,
+                margin = new Thickness(0, 20, 0, 0)
+            }); 
+        }
+
         public void ChangePage(Page page)
         {
             int pageID = Pages.IndexOf(page);
