@@ -1,19 +1,17 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Forester.Views
+namespace Forester.Views.App.Download
 {
-    public partial class DownloadView : UserControl
+    public partial class AppInQueue : UserControl
     {
-        public DownloadView()
+        public AppInQueue()
         {
             InitializeComponent();
         }
-
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
         }
-
     }
 }

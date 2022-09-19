@@ -155,6 +155,11 @@ namespace Forester.ViewModels
             content = new AppPanelViewModel();
         }
 
+        public void ChangeToLogin()
+        {
+            content = new LoginPanelViewModel();
+        }
+
         /// <summary>
         /// Ustawienie kolorów
         /// </summary>

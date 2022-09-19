@@ -1,15 +1,14 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Forester.Views.Download
+namespace Forester.Views.Popup.SettingsPages
 {
-    public partial class CurrentDownloadedApp : UserControl
+    public partial class UserProfileView : UserControl
     {
-        public CurrentDownloadedApp()
+        public UserProfileView()
         {
             InitializeComponent();
         }
-
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);

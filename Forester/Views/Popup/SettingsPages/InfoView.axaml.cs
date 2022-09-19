@@ -1,11 +1,11 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Forester.Views.Download
+namespace Forester.Views.Popup.SettingsPages
 {
-    public partial class AppInQueue : UserControl
+    public partial class InfoView : UserControl
     {
-        public AppInQueue()
+        public InfoView()
         {
             InitializeComponent();
         }

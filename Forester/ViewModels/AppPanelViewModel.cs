@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace Forester.ViewModels
 {
-    public class AppPanelViewModel : ViewModelBase
+    public class AppPanelViewModel : PageChanger
     {
         SolidColorBrush _storeColor;
         SolidColorBrush _libraryColor;
@@ -57,16 +57,6 @@ namespace Forester.ViewModels
             set => this.RaiseAndSetIfChanged(ref _username, value);
         }
 
-        ViewModelBase _content;
-        public ViewModelBase content
-        {
-            get => _content;
-            set => this.RaiseAndSetIfChanged(ref _content, value);
-        }
-
-        ObservableCollection<Page> _pages;
-        ObservableCollection<Page> Pages { get => _pages ; set => this.RaiseAndSetIfChanged(ref _pages, value); }
-
         //Pages
         //StoreViewModel ID = 0
         //LibraryViewModel ID = 1
@@ -80,10 +70,8 @@ namespace Forester.ViewModels
             set => this.RaiseAndSetIfChanged(ref _height, value);
         }
 
-        public AppPanelViewModel()
+        public AppPanelViewModel() : base()
         {
-            Pages = new ObservableCollection<Page>();
-
             //konstruktor libraryVM musi się wywołac jako pierwszy
             //Przez to że store w konstruktorze refreshuje się
             var libraryVM = new LibraryViewModel();
@@ -116,40 +104,10 @@ namespace Forester.ViewModels
             MainWindowViewModel.Current.CreatePopup(new Models.PopupConfig()
             {
                 content = new SettingsViewModel(),
-                width = 800,
+                width = 1000,
                 height = 500,
                 margin = new Thickness(0, 20, 0, 0)
             }); 
-        }
-
-        public void ChangePage(Page page)
-        {
-            int pageID = Pages.IndexOf(page);
-            ChangePage(pageID);
-        }
-
-        public void ChangePage(int pageID)
-        {
-            //turn off all pages that are not the chosen one
-            for(int i = 0; i < Pages.Count;i++)
-            {
-                if (i == pageID)
-                    continue;
-
-                var copy = Pages[i];
-                copy.Color = Page.OffColor;
-                Pages[i] = copy;
-
-                Pages[i].Content.PageClosed();
-            }
-
-            //turining one that one page
-            var turnOnOne = Pages[pageID];
-            turnOnOne.Color = Page.OnColor;
-            Pages[pageID] = turnOnOne;
-
-            Pages[pageID].Content.PageOpened();
-            content = Pages[pageID].Content.ReceiveContent();
         }
 
         public struct Page

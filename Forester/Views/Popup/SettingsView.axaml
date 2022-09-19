@@ -9,15 +9,25 @@
 		<StyleInclude Source="/Views/Style/Settings.axaml" />
 	</UserControl.Styles>
 
-	<StackPanel Orientation="Horizontal">
+	<DockPanel>
 		<Panel Width="170" Margin="10,10,0,10">
 			<StackPanel Spacing="0" VerticalAlignment="Top">
-				<Button Content="Info" Classes="Settings"/>
-				<Button Content="User Profile" Classes="Settings"/>
-				<Button Content="Theme" Classes="Settings"/>
+				<StackPanel Orientation="Horizontal">
+					<ItemsControl Items="{Binding Pages}" VerticalAlignment="Center" HorizontalAlignment="Center">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Button Command="{Binding $parent[ItemsControl].DataContext.ChangePage}" CommandParameter="{Binding}" Foreground="{Binding Color}" Classes="Settings" Content="{Binding Name}"/>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
 			</StackPanel>
-			<Button VerticalAlignment="Bottom" Content="Logout" Classes="Settings"/>
+			<Button Foreground="Red" Command="{Binding LogOut}" VerticalAlignment="Bottom" Content="Logout" Classes="Settings"/>
 		</Panel>
-		<Border Margin="20,15" BorderBrush="White" BorderThickness="2" CornerRadius="8"/>
-	</StackPanel>
+		<Border Margin="20,15" BorderBrush="{Binding first}" BorderThickness="2" CornerRadius="8"/>
+		<Panel>
+			<Button Margin="15" Content="X" Command="{Binding ClosePopUp}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+			<ContentControl Content="{Binding Content}"/>
+		</Panel>
+	</DockPanel>
 </UserControl>

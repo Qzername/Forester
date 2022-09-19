@@ -48,7 +48,7 @@
 		</Panel>
 		<!--okno wybrane-->
 		<Panel DockPanel.Dock="Top">
-			<ContentControl Content="{Binding content}"/>
+			<ContentControl Content="{Binding Content}"/>
 		</Panel>
 	</DockPanel>
 </UserControl>

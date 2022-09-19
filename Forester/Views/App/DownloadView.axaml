@@ -3,8 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="650"
-             x:Class="Forester.Views.DownloadView"
-			 xmlns:local="using:Forester.Views.Download">
+             x:Class="Forester.Views.App.DownloadView"
+			 xmlns:local="using:Forester.Views.App.Download">
 	
 	<UserControl.Styles>
 		<StyleInclude Source="/Views/Style/Download.axaml" />

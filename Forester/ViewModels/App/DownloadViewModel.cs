@@ -5,10 +5,20 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 
-namespace Forester.ViewModels
+namespace Forester.ViewModels.App
 {
     internal class DownloadViewModel : ViewModelBase, IPage
     {
+        /*
+         Nie dokończyłem tego, brakuje mi chęci i czasu.
+         Dokańczam teraz panel ustawień i pewnie przejdę na BP
+         Jeżeli się pytasz co tutaj robiłem to design mam skończony, myślałęm jak to tylko zrobić i się poddałem
+         API nie jest przystosowane do uzyskiwania wielkości pobierania
+         Możliwe że to będzie trzeba usunąć.
+         Cały Server-side tej aplikacji jest do wyrzucenia jeżeli chcemy takie cos zrobić.
+         Może będzie użyteczny do tego ReactiveUI
+         */
+
         bool _isEmpty;
 
         DownloadQueueElement? CurrentDownloading;
@@ -44,7 +54,7 @@ namespace Forester.ViewModels
         //debug
         public void SampleToQueueAdd()
         {
-           
+
         }
 
         //IPage

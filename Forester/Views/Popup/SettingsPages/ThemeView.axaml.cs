@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Forester.Views.Popup.SettingsPages
 {
-    public partial class Info : UserControl
+    public partial class ThemeView : UserControl
     {
-        public Info()
+        public ThemeView()
         {
             InitializeComponent();
         }

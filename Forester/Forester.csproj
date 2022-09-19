@@ -50,6 +50,15 @@
     <Compile Update="Views\Popup\Library\DownloadSettingsView.axaml.cs">
       <DependentUpon>DownloadSettingsView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Popup\SettingsPages\InfoView.axaml.cs">
+      <DependentUpon>InfoView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Popup\SettingsPages\ThemeView.axaml.cs">
+      <DependentUpon>ThemeView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Popup\SettingsPages\UserProfileView.axaml.cs">
+      <DependentUpon>UserProfileView.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Popup\SettingsView.axaml.cs">
       <DependentUpon>SettingsView.axaml</DependentUpon>
     </Compile>
