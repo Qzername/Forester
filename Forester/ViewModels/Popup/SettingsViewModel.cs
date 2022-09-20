@@ -16,7 +16,7 @@ namespace Forester.ViewModels.Popup
         public SettingsViewModel() : base()
         {
             Pages.Add(new Page("Info", new InfoViewModel()));
-            Pages.Add(new Page("User Profile", new UserProfileViewModel()));
+            //Pages.Add(new Page("User Profile", new UserProfileViewModel()));
             Pages.Add(new Page("Theme", new ThemeViewModel()));
 
             ChangePage(0);

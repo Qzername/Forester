@@ -26,8 +26,8 @@
 		</Panel>
 		<Border Margin="20,15" BorderBrush="{Binding first}" BorderThickness="2" CornerRadius="8"/>
 		<Panel>
-			<Button Margin="15" Content="X" Command="{Binding ClosePopUp}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 			<ContentControl Content="{Binding Content}"/>
+			<Button Margin="15" Content="X" Command="{Binding ClosePopUp}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 		</Panel>
 	</DockPanel>
 </UserControl>

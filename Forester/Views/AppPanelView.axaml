@@ -36,10 +36,10 @@
 				</ItemsControl>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-				<Panel VerticalAlignment="Center" Width="40" Height="40" Margin="0,0,10,0">
+				<!--<Panel VerticalAlignment="Center" Width="40" Height="40" Margin="0,0,10,0">
 					<local:ProfilePicture/>
 					<Image Margin="4" Source="{Binding profilePicture}"/>
-				</Panel>
+				</Panel>-->
 				<Label VerticalContentAlignment="Center" FontSize="25" Margin="0,0,10,0" Content="{Binding username}"/>
 				<Button Command="{Binding SettingsClicked}" Background="Transparent" Padding="3" VerticalAlignment="Center" Height="38" Width="38" Margin="0,0,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
 					<Image StretchDirection="Both" Source="/Assets/settings.png"/>
