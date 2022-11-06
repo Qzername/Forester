@@ -33,7 +33,7 @@
 		<!--Bottom section-->
 		<StackPanel>
 			<TextBlock Text="{Binding CurrentElement.app.name}" FontSize="48" Padding="20" HorizontalAlignment="Center"/>
-			<TextBlock TextWrapping="Wrap" Text="{Binding CurrentElement.app.description}" FontSize="12" Padding="10,0,10,0" HorizontalAlignment="Center"/>
+			<TextBlock TextWrapping="Wrap" Text="{Binding CurrentElement.app.description}" FontSize="12" Padding="70,0"/>
 		</StackPanel>
 	</StackPanel>
 </UserControl>

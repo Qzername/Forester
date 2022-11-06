@@ -109,7 +109,7 @@ namespace Forester.ViewModels.App.Library
             {
                 id = currentApp.appConfig.id,
                 isDefaultPath = isDefaultPath,
-                path = path +(path.EndsWith("/") ? "" : "/")+ appName + "/",
+                path = isDefaultPath ? "" : path +(path.EndsWith("/") ? "" : "/")+ appName + "/",
                 deleteNotNecessaryFiles = deleteNotNecessary,
             };
 

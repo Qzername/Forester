@@ -46,7 +46,7 @@ namespace Forester.ViewModels
             Dictionary<string,string> config = JsonConverter.Deserialize<Dictionary<string, string>>(FileReader.ReadText("./config.json"));
 
             using (var response = await ServerConnection.AsyncPost("/api/Update/Forester/Download", config))
-                client.DownloadFileFromHttpResponseMessage(response);
+                await client.DownloadFileFromHttpResponseMessage(response);
         }
 
         private void Client_DownloadFinished()
