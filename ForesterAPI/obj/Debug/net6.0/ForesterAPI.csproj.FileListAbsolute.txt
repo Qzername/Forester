@@ -4,7 +4,6 @@ D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\ForesterAPI.exe
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\ForesterAPI.deps.json
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\ForesterAPI.runtimeconfig.json
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\ForesterAPI.dll
-D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\ref\ForesterAPI.dll
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\ForesterAPI.pdb
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\EntityFramework.SqlServer.dll
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\EntityFramework.dll
@@ -59,3 +58,4 @@ D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Newtonsoft.Json.
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Database\Applications\string\config.json
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Database\database.db
 D:\Projekty\aktywne teraz\Forester\ForesterAPI\bin\Debug\net6.0\Database\Applications\Testowa Aplikacja\config.json
+D:\Projekty\aktywne teraz\Forester\ForesterAPI\obj\Debug\net6.0\refint\ForesterAPI.dll
