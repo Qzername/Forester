@@ -175,7 +175,7 @@ namespace Forester.ViewModels
 
             //Następnie przeciągniecie linii do prawego dolnego
             LineSegment lineSegment2 = new LineSegment();
-            lineSegment2.Point = new Point(MainWindowViewModel.Current.width, MainWindowViewModel.Current.height);
+            lineSegment2.Point = new Point(MainWindowViewModel.Current.width + offset.X, MainWindowViewModel.Current.height);
             pathFigure.Segments.Add(lineSegment2);
 
             //i na koniec do punktu startowego
