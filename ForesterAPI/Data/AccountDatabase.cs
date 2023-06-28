@@ -5,6 +5,10 @@ using static System.Data.Entity.Infrastructure.Design.Executor;
 
 namespace ForesterAPI.Data
 {
+    /// <summary>
+    /// Every tool thats needed to communicate with account database
+    /// Does not verify data!
+    /// </summary>
     public class AccountDatabase
     {
         SQLManager sqlManager;
@@ -17,10 +21,6 @@ namespace ForesterAPI.Data
         public Account Get(string Login) => sqlManager.SelectSingle<Account>(@$"SELECT * FROM Accounts WHERE Login=""{Login}""");
         public Account Get(int ID) => sqlManager.SelectSingle<Account>(@$"SELECT * FROM Accounts WHERE ID=""{ID}""");
 
-        /// <summary>
-        /// Creates new account
-        /// - Does not verify if data is correct
-        /// </summary>
         public void Create(Account Account) => sqlManager.ExecuteNonQuery($"INSERT INTO Accounts(Login, Username, Password, IsDeveloper) " +
                                                                           @$"VALUES(""{Account.Login}"", ""{Account.Username}"", ""{Account.Password}"", 0");
         
@@ -31,7 +31,6 @@ namespace ForesterAPI.Data
         /// Updates info about account
         ///  - You can change only Username and Password
         ///  - If neither of those are changed, query will not be executed
-        ///  - Does not verify if data is correct
         /// </summary>
         public void Update(Account Account)
         {
