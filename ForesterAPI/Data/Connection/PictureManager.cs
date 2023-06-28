@@ -4,12 +4,12 @@
     {
         const string Prefix = "./ForesterDatabase/Pictures/";
 
-        public void Rename(string OldName, string NewName)
+        public void Rename(string oldName, string newName)
         {
-            if(Directory.Exists(GetDirectoryPath(OldName)))
-                Directory.Move(GetDirectoryPath(OldName), GetDirectoryPath(NewName));
+            if(Directory.Exists(GetDirectoryPath(oldName)))
+                Directory.Move(GetDirectoryPath(oldName), GetDirectoryPath(newName));
         }
 
-        string GetDirectoryPath(string Name) => Prefix + Name + "/";
+        string GetDirectoryPath(string name) => Prefix + name + "/";
     }
 }

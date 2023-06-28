@@ -19,84 +19,84 @@ namespace ForesterAPI.Data
 
         SQLManager sqlManager;
 
-        public ApplicationDatabase(SQLManager SQLManager)
+        public ApplicationDatabase(SQLManager sqlManager)
         {
-            sqlManager = SQLManager;
+            this.sqlManager = sqlManager;
         }
 
         public Application[] Get() => sqlManager.SelectMany<Application>("SELECT * FROM Applications");
-        public Application Get(int ID) => sqlManager.SelectSingle<Application>($"SELECT * FROM Applications WHERE ID={ID}");
-        public Application Get(string Name) => sqlManager.SelectSingle<Application>(@$"SELECT * FROM Applications WHERE Name=""{Name}""");
+        public Application Get(int id) => sqlManager.SelectSingle<Application>($"SELECT * FROM Applications WHERE ID={id}");
+        public Application Get(string name) => sqlManager.SelectSingle<Application>(@$"SELECT * FROM Applications WHERE Name=""{name}""");
         
         /// <summary>
         /// By default, applications will be set to private
         /// </summary>
-        public void Create(Application Application) => sqlManager.ExecuteNonQuery(@$"INSERT INTO Applications(Owner, Name, Version, IsPrivate) VALUES(""{Application.Owner}"", ""{Application.Name}"", ""None"", 0)");
+        public void Create(Application application) => sqlManager.ExecuteNonQuery(@$"INSERT INTO Applications(Owner, Name, Version, IsPrivate) VALUES(""{application.Owner}"", ""{application.Name}"", ""None"", 0)");
 
-        public void Update(Application Application)
+        public void Update(Application application)
         {
             string query = "UPDATE Applications SET ";
 
-            if (!string.IsNullOrEmpty(Application.Name))
-                if (sqlManager.SelectSingle<int>(@$"SELECT COUNT(Name) FROM Applications WHERE Name=""{Application.Name}""") > 0)
+            if (!string.IsNullOrEmpty(application.Name))
+                if (sqlManager.SelectSingle<int>(@$"SELECT COUNT(Name) FROM Applications WHERE Name=""{application.Name}""") > 0)
                     throw new Exception("User requested application's name change but name is taken");
                 else
-                    query += @$"Name = ""{Application.Name}"",";
+                    query += @$"Name = ""{application.Name}"",";
 
-            if (!string.IsNullOrEmpty(Application.Description))
-                query += @$"Description = ""{Application.Description}"",";
+            if (!string.IsNullOrEmpty(application.Description))
+                query += @$"Description = ""{application.Description}"",";
 
-            if (!string.IsNullOrEmpty(Application.ShortDescription))
-                query += @$"ShortDescription = ""{Application.ShortDescription}"",";
+            if (!string.IsNullOrEmpty(application.ShortDescription))
+                query += @$"ShortDescription = ""{application.ShortDescription}"",";
 
-            if (!string.IsNullOrEmpty(Application.Version))
-                query += @$"Version = ""{Application.Version}"",";
+            if (!string.IsNullOrEmpty(application.Version))
+                query += @$"Version = ""{application.Version}"",";
 
-            if(sqlManager.SelectSingle<bool>($"SELECT IsPrivate FROM Applications WHERE Name = {Application.Name}"))
-                query += $@"IsPrivate = ""{Convert.ToInt32(Application.IsPrivate)}"",";
+            if(sqlManager.SelectSingle<bool>($"SELECT IsPrivate FROM Applications WHERE Name = {application.Name}"))
+                query += $@"IsPrivate = ""{Convert.ToInt32(application.IsPrivate)}"",";
 
             if (query[^1] != ',')
                 return;
 
             query = query.Remove(query.Length - 1);
-            query += $@" WHERE Name = ""{Application.Name}""";
+            query += $@" WHERE Name = ""{application.Name}""";
 
             sqlManager.ExecuteNonQuery(query);
         }
 
-        public void IncrementDownloadNumber(Application Application) => sqlManager.ExecuteNonQuery(@$"UPDATE Applications SET DownloadNumber = DownloadNumber + 1 WHERE Name=""{Application.Name}""");
+        public void IncrementDownloadNumber(Application application) => sqlManager.ExecuteNonQuery(@$"UPDATE Applications SET DownloadNumber = DownloadNumber + 1 WHERE Name=""{application.Name}""");
 
         /// <summary>
         /// Gets every application that user owns
         /// </summary>
-        public Application[] GetDeveloped(Account Owner)
+        public Application[] GetDeveloped(Account owner)
         {
             List<Application> applications = new List<Application>();
 
             //where user is owner
-            applications.AddRange(sqlManager.SelectMany<Application>($"SELECT * FROM Applications WHERE Owner={Owner.ID}"));
+            applications.AddRange(sqlManager.SelectMany<Application>($"SELECT * FROM Applications WHERE Owner={owner.ID}"));
 
             //where user is developer
-            applications.AddRange(sqlManager.SelectMany<Application>($"SELECT Applications.* FROM Applications, Permissions WHERE Permissions.AccountID = {Owner.ID} AND Applications.ID = Permissions.ApplicationID AND Permission=1"));
+            applications.AddRange(sqlManager.SelectMany<Application>($"SELECT Applications.* FROM Applications, Permissions WHERE Permissions.AccountID = {owner.ID} AND Applications.ID = Permissions.ApplicationID AND Permission=1"));
             //about section "Permission=1" please read note at the start of class
 
             return applications.ToArray();
         }
 
-        public bool DoesDevelop(Application Application, Account Account) => GetDeveloped(Account).Any(x=>x.Name ==  Application.Name);
+        public bool DoesDevelop(Application application, Account account) => GetDeveloped(account).Any(x=>x.Name ==  application.Name);
 
         /// <summary>
         /// Gets every application that user is allowed to see
         /// Counts also applications where user is developer
         /// </summary>
-        public Application[] GetAllowed(Account Account)
+        public Application[] GetAllowed(Account account)
         {
             List<Application> applications = new List<Application>();
 
-            applications.AddRange(GetDeveloped(Account));
+            applications.AddRange(GetDeveloped(account));
 
             //where user is allowed
-            applications.AddRange(sqlManager.SelectMany<Application>($"SELECT Applications.* FROM Applications, Permissions WHERE Permissions.AccountID = {Account.ID} AND Applications.ID = Permissions.ApplicationID AND Permission=0"));
+            applications.AddRange(sqlManager.SelectMany<Application>($"SELECT Applications.* FROM Applications, Permissions WHERE Permissions.AccountID = {account.ID} AND Applications.ID = Permissions.ApplicationID AND Permission=0"));
             //about section "Permission=1" please read note at the start of class
 
             return applications.ToArray();
@@ -105,20 +105,20 @@ namespace ForesterAPI.Data
         /// <summary>
         /// Can also remove permissions with Permission.Remove
         /// </summary>
-        public void ChangePermission(Application Application, Account Account, Permission Permission)
+        public void ChangePermission(Application application, Account account, Permission permission)
         {
-            if(Permission == Permission.Remove)
+            if(permission == Permission.Remove)
             {
-                sqlManager.ExecuteNonQuery($"DELETE FROM Permissions WHERE ApplicationID = {Application.ID} AND AccountID = {Account.ID}");
+                sqlManager.ExecuteNonQuery($"DELETE FROM Permissions WHERE ApplicationID = {application.ID} AND AccountID = {account.ID}");
                 return;
             }
 
-            if (PermissionExists(Application, Account))
-                sqlManager.ExecuteNonQuery($"UPDATE Permissions SET Permission = {(int)Permission} WHERE ApplicationID = {Application.ID} AND AccountID = {Account.ID}"); //update current permission
+            if (PermissionExists(application, account))
+                sqlManager.ExecuteNonQuery($"UPDATE Permissions SET Permission = {(int)permission} WHERE ApplicationID = {application.ID} AND AccountID = {account.ID}"); //update current permission
             else
-                sqlManager.ExecuteNonQuery($"INSERT INTO Permissions(ApplicationID, AccountID, Permission) VALUES({Application.ID},{Account.ID},{(int)Permission})"); //create new permission
+                sqlManager.ExecuteNonQuery($"INSERT INTO Permissions(ApplicationID, AccountID, Permission) VALUES({application.ID},{account.ID},{(int)permission})"); //create new permission
         }
 
-        bool PermissionExists(Application Application, Account Account) => Convert.ToBoolean(sqlManager.SelectSingle<int>(@$"SELECT COUNT(ApplicationID) FROM Permissions WHERE ApplicationID = {Application.ID} AND AccountID = {Account.ID}"));
+        bool PermissionExists(Application application, Account account) => Convert.ToBoolean(sqlManager.SelectSingle<int>(@$"SELECT COUNT(ApplicationID) FROM Permissions WHERE ApplicationID = {application.ID} AND AccountID = {account.ID}"));
     }
 }

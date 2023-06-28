@@ -24,9 +24,9 @@ namespace ForesterAPI.Data.Connection
 
         void CloseConnection() => connection.Close();
 
-        public  T[] SelectMany<T>(string Query) where T : struct
+        public  T[] SelectMany<T>(string query) where T : struct
         {
-            var command = new SQLiteCommand(Query, connection);
+            var command = new SQLiteCommand(query, connection);
             SQLiteDataReader reader = command.ExecuteReader();
 
             List<T> final = new List<T>();
@@ -55,9 +55,9 @@ namespace ForesterAPI.Data.Connection
             return final.ToArray();
         }
 
-        public T SelectSingle<T>(string Query) where T : struct
+        public T SelectSingle<T>(string query) where T : struct
         {
-            var objects = SelectMany<T>(Query);
+            var objects = SelectMany<T>(query);
 
             if (objects.Length > 0)
                 throw new Exception("Detected more than one value");
@@ -65,9 +65,9 @@ namespace ForesterAPI.Data.Connection
             return objects[0];
         }
 
-        public void ExecuteNonQuery(string Command)
+        public void ExecuteNonQuery(string command)
         {
-            var command = new SQLiteCommand(Command, connection);
+            var command = new SQLiteCommand(command, connection);
             command.ExecuteNonQuery();
         }
     }
