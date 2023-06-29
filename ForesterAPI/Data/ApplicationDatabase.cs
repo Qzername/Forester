@@ -64,6 +64,8 @@ namespace ForesterAPI.Data
             sqlManager.ExecuteNonQuery(query);
         }
 
+        public void Delete(string name) => sqlManager.ExecuteNonQuery(@$"DELETE FROM Applications WHERE Name=""{name}""");
+
         public void IncrementDownloadNumber(Application application) => sqlManager.ExecuteNonQuery(@$"UPDATE Applications SET DownloadNumber = DownloadNumber + 1 WHERE Name=""{application.Name}""");
 
         /// <summary>
