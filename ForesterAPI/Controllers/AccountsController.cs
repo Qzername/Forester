@@ -3,8 +3,13 @@ using ForesterAPI.Models;
 using ForesterAPI.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Win32;
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Runtime.InteropServices;
+using System.Security.Claims;
+using System.Text;
 
 namespace ForesterAPI.Controllers
 {
@@ -23,16 +28,54 @@ namespace ForesterAPI.Controllers
             this.accountDatabase = accountDatabase;
         }
 
-        [HttpPost("[action]")]
         [AllowAnonymous]
+        [HttpPost("[action]")]
         public IActionResult Login(Account account)
         {
-            return Ok();
+            if (string.IsNullOrEmpty(account.Login) || string.IsNullOrEmpty(account.Password))
+                return StatusCode(406);
+
+            if (account.Login.Length > 20 || account.Password.Length > 20)
+                return StatusCode(400);
+
+            if (!accountDatabase.DoesExist(account.Login))
+                return StatusCode(404);
+
+            Account user = accountDatabase.Get(account.Login);
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512);
+
+            var token = new JwtSecurityToken(
+                expires: DateTime.Now.AddDays(7),
+                signingCredentials: credentials,
+                claims: new Claim[]
+                {
+                    new Claim("ID", user.ID.ToString()),
+                    new Claim("Login", user.Login),
+                }
+            );
+
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return Ok(new JWT()
+            {
+                Token = tokenString,
+            });
         }
 
         [HttpPost("[action]")]
         public IActionResult Register(Account account)
         {
+            if (string.IsNullOrEmpty(account.Login) || string.IsNullOrEmpty(account.Username) || string.IsNullOrEmpty(account.Password))
+                return StatusCode(406);
+
+            if (account.Login.Length > 20 || account.Username.Length > 20 || account.Password.Length > 20)
+                return StatusCode(400);
+
+            if (accountDatabase.DoesExist(account.Login))
+                return StatusCode(499); //Already in base
+
             accountDatabase.Create(new Account()
             {
                 Login = "***REMOVED***name",
@@ -46,10 +89,13 @@ namespace ForesterAPI.Controllers
         [HttpPut("[action]")]
         public IActionResult Update(Account account) 
         {
+            accountDatabase.Update(account);
+
             return Ok();
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Get([FromQuery]int? id, [FromQuery] string? login)
         {
             if (id is null)
@@ -59,13 +105,6 @@ namespace ForesterAPI.Controllers
                 return Ok();
 
             var account = accountDatabase.Get(id.Value);
-
-            Debug.WriteLine("-===--===-");
-            Debug.WriteLine(account.ID);
-            Debug.WriteLine(account.Login);
-            Debug.WriteLine(account.Password);
-            Debug.WriteLine(account.IsDeveloper);
-            Debug.WriteLine("-===--===-");
 
             return Ok(account);
         }
