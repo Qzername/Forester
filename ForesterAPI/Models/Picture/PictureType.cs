@@ -1,6 +1,8 @@
 ﻿namespace ForesterAPI.Models.Picture
 {
-    public class PictureType
+    public enum PictureType
     {
+        ProfilePicture,
+        BackgroundPicture
     }
 }
