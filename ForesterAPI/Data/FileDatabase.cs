@@ -38,7 +38,7 @@ namespace ForesterAPI.Data
         // --- Picture Manager ---
         public void RenamePicture(ObjectType objectType, string oldName, string newName) => pictureManager.Rename(objectType, oldName, newName);    
         public void DeletePicture(ObjectType objectType, string name) => pictureManager.Delete(objectType, name);
-        public byte[] GetPicture(ObjectType objectType, string name, PictureType pictureType) => pictureManager.Get(objectType, name, pictureType;
+        public byte[] GetPicture(ObjectType objectType, string name, PictureType pictureType) => pictureManager.Get(objectType, name, pictureType);
         public void UpdatePicture(ObjectType objectType, string name, PictureType pictureType, byte[] picture) => pictureManager.Update(objectType, name, pictureType, picture);
         public bool DoesPictureExist(ObjectType objectType, string name, PictureType pictureType) => pictureManager.DoesExist(objectType, name, pictureType);
     }

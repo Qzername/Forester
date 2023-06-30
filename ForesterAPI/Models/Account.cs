@@ -1,11 +1,13 @@
-﻿namespace ForesterAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ForesterAPI.Models
 {
     public struct Account
     {
-        public int ID;
-        public string Login;
-        public string Username;
-        public string Password;
-        public bool IsDeveloper;
+        public int ID { get; set; }
+        public string Login { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public bool IsDeveloper { get; set; }
     }
 }

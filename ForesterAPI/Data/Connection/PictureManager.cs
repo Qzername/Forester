@@ -19,7 +19,7 @@ namespace ForesterAPI.Data.Connection
                 Directory.Delete(GetDirectoryPath(name, objectType), true);
         }
         
-        public byte[] Get(ObjectType objectType, string name, PictureType pictureType) => File.ReadAllBytes(GetPathToFile(objectType, name, pictureType);
+        public byte[] Get(ObjectType objectType, string name, PictureType pictureType) => File.ReadAllBytes(GetPathToFile(objectType, name, pictureType));
 
         public void Update(ObjectType objectType, string name, PictureType pictureType, byte[] picture)
         {

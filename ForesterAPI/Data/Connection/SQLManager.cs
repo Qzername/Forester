@@ -1,6 +1,7 @@
 ﻿using System.Data.Common;
 using System.Data.SQLite;
 using System.Reflection;
+using ForesterAPI.Tools;
 
 namespace ForesterAPI.Data.Connection
 {
@@ -36,7 +37,7 @@ namespace ForesterAPI.Data.Connection
 
             while (reader.Read())
             {
-                T item = new T();
+                object item = new T(); //it has to be this way because of field.SetValue
 
                 for(int i = 0; i < reader.FieldCount; i++)
                 {
@@ -49,7 +50,7 @@ namespace ForesterAPI.Data.Connection
                     field.SetValue(item, Convert.ChangeType(reader.GetValue(i), field.PropertyType));
                 }
 
-                final.Add(item);
+                final.Add((T)item);
             }
 
             return final.ToArray();
@@ -59,16 +60,17 @@ namespace ForesterAPI.Data.Connection
         {
             var objects = SelectMany<T>(query);
 
-            if (objects.Length > 0)
-                throw new Exception("Detected more than one value");
+            if (objects.Length > 1)
+                throw new Exception("Detected more than one value. Amount of values: " + objects.Length);
 
             return objects[0];
         }
 
         public void ExecuteNonQuery(string command)
         {
-            var command = new SQLiteCommand(command, connection);
-            command.ExecuteNonQuery();
+            var SQLcommand = new SQLiteCommand(command, connection);
+            SQLcommand.Prepare();
+            SQLcommand.ExecuteNonQuery();
         }
     }
 }

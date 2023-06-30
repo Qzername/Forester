@@ -19,10 +19,10 @@ namespace ForesterAPI.Data
         }
 
         public Account Get(string login) => sqlManager.SelectSingle<Account>(@$"SELECT * FROM Accounts WHERE Login=""{login}""");
-        public Account Get(int id) => sqlManager.SelectSingle<Account>(@$"SELECT * FROM Accounts WHERE ID=""{id}""");
+        public Account Get(int id) => sqlManager.SelectSingle<Account>($"SELECT * FROM Accounts WHERE ID={id}");
 
         public void Create(Account account) => sqlManager.ExecuteNonQuery($"INSERT INTO Accounts(Login, Username, Password, IsDeveloper) " +
-                                                                          @$"VALUES(""{account.Login}"", ""{account.Username}"", ""{account.Password}"", 0");
+                                                                          @$"VALUES(""{account.Login}"", ""{account.Username}"", ""{account.Password}"", 0)");
         
         public void Delete(string login) => sqlManager.ExecuteNonQuery(@$"DELETE FROM Accounts WHERE Login=""{login}""");
         public void Delete(int id) => sqlManager.ExecuteNonQuery($"DELETE FROM Accounts WHERE ID={id}");
