@@ -1,5 +1,6 @@
 using ForesterAPI.Data;
 using ForesterAPI.Data.Connection;
+using ForesterAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
@@ -18,6 +19,9 @@ builder.Services.AddSingleton(typeof(SQLManager));
 builder.Services.AddSingleton(typeof(AccountDatabase));
 builder.Services.AddSingleton(typeof(ApplicationDatabase));
 builder.Services.AddSingleton(typeof(FileDatabase));
+
+//other
+builder.Services.AddSingleton(typeof(RequirementChecker));
 
 //JWT
 builder.Services.AddAuthentication(options =>

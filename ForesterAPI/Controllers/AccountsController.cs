@@ -28,8 +28,8 @@ namespace ForesterAPI.Controllers
             this.accountDatabase = accountDatabase;
         }
 
-        [AllowAnonymous]
         [HttpPost("[action]")]
+        [AllowAnonymous]
         public IActionResult Login(Account account)
         {
             if (string.IsNullOrEmpty(account.Login) || string.IsNullOrEmpty(account.Password))
@@ -90,23 +90,15 @@ namespace ForesterAPI.Controllers
         public IActionResult Update(Account account) 
         {
             accountDatabase.Update(account);
-
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         [AllowAnonymous]
-        public IActionResult Get([FromQuery]int? id, [FromQuery] string? login)
-        {
-            if (id is null)
-                return Ok();
-            
-            if(login is null)
-                return Ok();
+        public IActionResult GetById([FromQuery]int id) => Ok(accountDatabase.Get(id));
 
-            var account = accountDatabase.Get(id.Value);
-
-            return Ok(account);
-        }
+        [HttpGet("[action]")]
+        [AllowAnonymous]
+        public IActionResult GetByName([FromQuery] string login) => Ok(accountDatabase.Get(login));
     }
 }

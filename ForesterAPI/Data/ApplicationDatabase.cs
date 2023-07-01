@@ -24,7 +24,19 @@ namespace ForesterAPI.Data
             this.sqlManager = sqlManager;
         }
 
-        public Application[] Get() => sqlManager.SelectMany<Application>("SELECT * FROM Applications");
+        public Application[] Get(Account account) 
+        { 
+            List<Application> applications = new List<Application>();
+
+            //all public
+            applications.AddRange(sqlManager.SelectMany<Application>("SELECT * FROM Applications WHERE IsPrivate=0"));
+
+            //all allowed
+            applications.AddRange(GetAllowed(account).Where(x => x.IsPrivate == true));
+
+            return applications.ToArray();
+        }
+
         public Application Get(int id) => sqlManager.SelectSingle<Application>($"SELECT * FROM Applications WHERE ID={id}");
         public Application Get(string name) => sqlManager.SelectSingle<Application>(@$"SELECT * FROM Applications WHERE Name=""{name}""");
         
@@ -64,9 +76,14 @@ namespace ForesterAPI.Data
             sqlManager.ExecuteNonQuery(query);
         }
 
+        public bool DoesExist(string applicationName) => Convert.ToBoolean(sqlManager.SelectSingle<int>(@$"SELECT COUNT(ID) FROM Applications WHERE Name = ""{applicationName}"""));
+        public bool DoesExist(int applicationID) => Convert.ToBoolean(sqlManager.SelectSingle<int>(@$"SELECT COUNT(ID) FROM Applications WHERE ID = {applicationID}"));
+
         public void Delete(string name) => sqlManager.ExecuteNonQuery(@$"DELETE FROM Applications WHERE Name=""{name}""");
 
         public void IncrementDownloadNumber(Application application) => sqlManager.ExecuteNonQuery(@$"UPDATE Applications SET DownloadNumber = DownloadNumber + 1 WHERE Name=""{application.Name}""");
+
+        public Application[] GetOwned(Account owner) => sqlManager.SelectMany<Application>($"SELECT * FROM Applications WHERE Owner={owner.ID}");
 
         /// <summary>
         /// Gets every application that user owns
@@ -76,7 +93,7 @@ namespace ForesterAPI.Data
             List<Application> applications = new List<Application>();
 
             //where user is owner
-            applications.AddRange(sqlManager.SelectMany<Application>($"SELECT * FROM Applications WHERE Owner={owner.ID}"));
+            applications.AddRange(GetOwned(owner));
 
             //where user is developer
             applications.AddRange(sqlManager.SelectMany<Application>($"SELECT Applications.* FROM Applications, Permissions WHERE Permissions.AccountID = {owner.ID} AND Applications.ID = Permissions.ApplicationID AND Permission=1"));
@@ -84,8 +101,6 @@ namespace ForesterAPI.Data
 
             return applications.ToArray();
         }
-
-        public bool DoesDevelop(Application application, Account account) => GetDeveloped(account).Any(x=>x.Name ==  application.Name);
 
         /// <summary>
         /// Gets every application that user is allowed to see
@@ -103,6 +118,12 @@ namespace ForesterAPI.Data
 
             return applications.ToArray();
         }
+
+        public Account[] GetApplicationAllowed(Application application) => GetUsersByPermission(application, Permission.Allowed);
+
+        public Account[] GetApplicationDevelopers(Application application) => GetUsersByPermission(application, Permission.Developer);
+
+        Account[] GetUsersByPermission(Application application, Permission permission) => sqlManager.SelectMany<Account>($"SELECT Accounts.* FROM Accounts, Permissions WHERE Permissions.Permission == {(int)permission} AND Accounts.ID = Permissions.ApplicationID AND Permissions.ApplicationID = {application.ID}");
 
         /// <summary>
         /// Can also remove permissions with Permission.Remove
