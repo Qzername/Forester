@@ -100,7 +100,7 @@ namespace ForesterAPI.Controllers
             if (!requirementChecker.DoesDevelopRequirement(login, application.Name))
                 return StatusCode(403);
 
-            applicationDatabase.Update(application);
+            applicationDatabase.Update(name, application);
 
             return Ok();
         }

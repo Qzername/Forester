@@ -13,13 +13,13 @@ namespace ForesterAPI.Controllers
     public class ApplicationFilesController : ControllerBase
     {
         ApplicationDatabase applicationDatabase;
-        FileApplicationManager fileApplicationManager;
+        FileDatabase fileDatabase;
         RequirementChecker requirementChecker;
 
-        public ApplicationFilesController(ApplicationDatabase applicationDatabase, FileApplicationManager fileApplicationManager, RequirementChecker requirementChecker)
+        public ApplicationFilesController(ApplicationDatabase applicationDatabase, FileDatabase fileDatabase, RequirementChecker requirementChecker)
         {
             this.applicationDatabase = applicationDatabase;
-            this.fileApplicationManager = fileApplicationManager;
+            this.fileDatabase = fileDatabase;
             this.requirementChecker = requirementChecker;
         }
 
@@ -36,12 +36,12 @@ namespace ForesterAPI.Controllers
 
             var application = applicationDatabase.Get(name);
 
-            if (!fileApplicationManager.DoesExist(name))
+            if (!fileDatabase.DoesApplicationExist(name))
                 return StatusCode(403);
 
             applicationDatabase.IncrementDownloadNumber(application);
 
-            return File(fileApplicationManager.ExtractFiles(name, doNotInclude), "application/force-download", name + ".zip");
+            return File(fileDatabase.ExtractApplicationFiles(name, doNotInclude), "application/force-download", name + ".zip");
         }
 
         [HttpPost("[action]")]
@@ -56,7 +56,7 @@ namespace ForesterAPI.Controllers
             if (!requirementChecker.IsAllowedRequirement(login, name))
                 return StatusCode(403);
 
-            fileApplicationManager.Create(name, file);
+            fileDatabase.CreateApplication(name, file);
 
             return Ok();
         }
@@ -74,10 +74,10 @@ namespace ForesterAPI.Controllers
 
             var application = applicationDatabase.Get(name);
 
-            if (!fileApplicationManager.DoesExist(name))
+            if (!fileDatabase.DoesApplicationExist(name))
                 return StatusCode(403);
 
-            return Ok(fileApplicationManager.GetChecksum(name));
+            return Ok(fileDatabase.GetChecksum(name));
         }
     }
 }

@@ -18,10 +18,12 @@ namespace ForesterAPI.Data
          */
 
         SQLManager sqlManager;
+        FileDatabase fileDatabase;
 
-        public ApplicationDatabase(SQLManager sqlManager)
+        public ApplicationDatabase(SQLManager sqlManager, FileDatabase fileDatabase)
         {
             this.sqlManager = sqlManager;
+            this.fileDatabase = fileDatabase;
         }
 
         public Application[] Get(Account account) 
@@ -45,7 +47,7 @@ namespace ForesterAPI.Data
         /// </summary>
         public void Create(Application application) => sqlManager.ExecuteNonQuery(@$"INSERT INTO Applications(Owner, Name, Version, IsPrivate) VALUES(""{application.Owner}"", ""{application.Name}"", ""None"", 0)");
 
-        public void Update(Application application)
+        public void Update(string oldName, Application application)
         {
             string query = "UPDATE Applications SET ";
 
@@ -53,7 +55,10 @@ namespace ForesterAPI.Data
                 if (sqlManager.SelectSingle<int>(@$"SELECT COUNT(Name) FROM Applications WHERE Name=""{application.Name}""") > 0)
                     throw new Exception("User requested application's name change but name is taken");
                 else
+                {
                     query += @$"Name = ""{application.Name}"",";
+                    fileDatabase.Rename(oldName, application.Name);
+                }
 
             if (!string.IsNullOrEmpty(application.Description))
                 query += @$"Description = ""{application.Description}"",";
@@ -71,7 +76,7 @@ namespace ForesterAPI.Data
                 return;
 
             query = query.Remove(query.Length - 1);
-            query += $@" WHERE Name = ""{application.Name}""";
+            query += $@" WHERE Name = ""{oldName}""";
 
             sqlManager.ExecuteNonQuery(query);
         }
@@ -79,7 +84,11 @@ namespace ForesterAPI.Data
         public bool DoesExist(string applicationName) => Convert.ToBoolean(sqlManager.SelectSingle<int>(@$"SELECT COUNT(ID) FROM Applications WHERE Name = ""{applicationName}"""));
         public bool DoesExist(int applicationID) => Convert.ToBoolean(sqlManager.SelectSingle<int>(@$"SELECT COUNT(ID) FROM Applications WHERE ID = {applicationID}"));
 
-        public void Delete(string name) => sqlManager.ExecuteNonQuery(@$"DELETE FROM Applications WHERE Name=""{name}""");
+        public void Delete(string name) 
+        {
+            sqlManager.ExecuteNonQuery(@$"DELETE FROM Applications WHERE Name=""{name}""");
+            fileDatabase.Delete(name);
+        }
 
         public void IncrementDownloadNumber(Application application) => sqlManager.ExecuteNonQuery(@$"UPDATE Applications SET DownloadNumber = DownloadNumber + 1 WHERE Name=""{application.Name}""");
 

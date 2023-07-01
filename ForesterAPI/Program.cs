@@ -22,6 +22,7 @@ builder.Services.AddSingleton(typeof(FileDatabase));
 
 //other
 builder.Services.AddSingleton(typeof(RequirementChecker));
+builder.Services.AddSingleton(typeof(FileConfigurator));
 
 //JWT
 builder.Services.AddAuthentication(options =>

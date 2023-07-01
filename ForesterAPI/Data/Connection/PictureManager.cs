@@ -21,7 +21,7 @@ namespace ForesterAPI.Data.Connection
         
         public byte[] Get(ObjectType objectType, string name, PictureType pictureType) => File.ReadAllBytes(GetPathToFile(objectType, name, pictureType));
 
-        public void Update(ObjectType objectType, string name, PictureType pictureType, byte[] picture)
+        public void Update(ObjectType objectType, string name, PictureType pictureType, IFormFile picture)
         {
             string directoryPath = GetDirectoryPath(name, objectType);
             string filePath = GetPathToFile(objectType, name, pictureType);
@@ -32,7 +32,15 @@ namespace ForesterAPI.Data.Connection
             if (File.Exists(filePath))
                 File.Delete(filePath);
 
-            File.WriteAllBytes(filePath, picture);
+            File.WriteAllBytes(filePath, ConvertIFormFileToByteArray(picture));
+        }
+        byte[] ConvertIFormFileToByteArray(IFormFile file)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                file.CopyTo(memoryStream);
+                return memoryStream.ToArray();
+            }
         }
 
         public bool DoesExist(ObjectType objectType, string name, PictureType pictureType) => File.Exists(GetPathToFile(objectType, name, pictureType));
