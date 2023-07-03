@@ -19,5 +19,5 @@
 		MinWidth="1000" MinHeight="720">
 
 	
-		<views:TestView/>
+		<views:LoginView/>
 </Window>

@@ -6,25 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 using DynamicData;
 using Forester.Models;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace Forester.ViewModels
 {
     internal class LoginViewModel : ViewModelBase
     {
-        [Reactive] Account account { get; set; }
+        [Reactive] string login { get; set; }
+        [Reactive] string username { get; set; }
+        [Reactive] string password { get; set; }
 
-        public LoginViewModel() 
+        public void ResetData()
         {
-            account = new Account()
-            {
-                Login="test"
-            };
-        }
-
-        public void TestFunc()
-        {
-            Debug.WriteLine("setset");
+            login = string.Empty;
+            username = string.Empty;
+            password = string.Empty;
         }
     }
 }
