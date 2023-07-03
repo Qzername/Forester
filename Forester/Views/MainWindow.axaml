@@ -6,7 +6,7 @@
         xmlns:views="clr-namespace:Forester.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Forester.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/logo.ico"
         Title="Forester">
         <views:MainView />
 </Window>
