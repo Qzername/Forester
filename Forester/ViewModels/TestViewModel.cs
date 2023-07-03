@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Forester.ViewModels
 {
-    internal class MainViewModel : ViewModelBase
+    internal class TestViewModel
     {
+        public string Text => "test";
     }
 }

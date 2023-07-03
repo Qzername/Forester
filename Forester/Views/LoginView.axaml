@@ -1,0 +1,59 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="650"
+             x:Class="Forester.Views.LoginView"
+		
+			 xmlns:controls="clr-namespace:Forester.Controls">
+
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/Login.axaml" />
+	</UserControl.Styles>
+	
+	<Panel>
+		<controls:Wave FPS="60" FillColor="Yellow" WaveWidth="500" WaveHeight="150" HeightOffset="420"/>
+		<controls:Wave FPS="30" FillColor="Gray" WaveWidth="600" WaveHeight="100" HeightOffset="250" IsInverted="True"/>
+		<controls:Wave FPS="10" FillColor="Green" WaveWidth="800" WaveHeight="50" WidthOffset="400" HeightOffset="100"/>
+		
+		<StackPanel Spacing="10" HorizontalAlignment="Center" Margin="50" Orientation="Horizontal">
+			<TextBlock Foreground="Green" FontSize="72" Text="Forester"/>
+			<TextBlock Foreground="Orange" FontSize="72" Text="3.0v"/>
+		</StackPanel>
+
+		<Button Command="{Binding Exit, Mode=OneWay}" CommandParameter="{Binding $parent[Window]}" CornerRadius="10" Margin="10" FontSize="30" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="50" Height="50" Content="X"/>
+
+		<Border x:Name="LoginPanel" Classes="Panel">
+			<StackPanel>
+				<TextBlock Text="Sign In" Classes="Title"/>
+				<TextBlock Text="Login to access Forester" Classes="Subtitle"/>
+				
+				<TextBox Text="{Binding account.Login}" Watermark="Login" Classes="Standard" Margin="65,10,65,30"/>
+				<TextBox Text="{Binding password}" Watermark="Password" Classes="Standard" Margin="65,0,65,6" PasswordChar="●"/>
+				
+				<CheckBox IsChecked="{Binding rememberMe}" Content="Remember me" Margin="65,10,0,5"/>
+				
+				<Button Command="{Binding Login}" Classes="Confirm" Content="Sign in" Background="{Binding third}"/>
+				
+				<TextBlock HorizontalAlignment="Center" FontSize="20" Foreground="Red" Text="{Binding error}"/>
+			</StackPanel>
+		</Border>
+
+		<Border x:Name="RegisterPanel" Classes="Panel" IsVisible="False">
+			<StackPanel>
+				<TextBlock Text="Sign Up" Classes="Title"/>
+				<TextBlock Text="Welcome to Forester" Classes="Subtitle"/>
+				
+				<TextBox Text="{Binding account.Login}" Watermark="Login"  Classes="Standard" Margin="65,10,65,25"/>
+				<TextBox Text="{Binding username}" Watermark="Username" Classes="Standard" Margin="65,0,65,25"/>
+				<TextBox Text="{Binding password}" Watermark="Password" Classes="Standard" Margin="65,0,65,4" PasswordChar="●"/>
+				
+				<Button Command="{Binding Register}" Classes="Confirm" Content="Sign Up"/>
+				
+				<TextBlock HorizontalAlignment="Center" FontSize="20" Foreground="Red" Text="{Binding error}"/>
+			</StackPanel>
+		</Border>
+
+		<Button x:Name="SwitchPanelsButton" Command="{Binding TestFunc}" Content="Don't have an account?" Background="Transparent" Margin="0,0,0,55" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White" FontSize="27"/>
+	</Panel>
+</UserControl>

@@ -6,7 +6,18 @@
         xmlns:views="clr-namespace:Forester.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Forester.Views.MainWindow"
-        Icon="/Assets/logo.ico"
-        Title="Forester">
-        <views:MainView />
+        
+		Icon="/Assets/logo.ico"
+        Title="Forester"
+		
+		ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="50"
+		
+		WindowStartupLocation="CenterScreen"
+		
+		Background="#111"
+		MinWidth="1000" MinHeight="720">
+
+	
+		<views:TestView/>
 </Window>
