@@ -52,6 +52,13 @@ namespace ForesterAPI.Data
             sqlManager.ExecuteNonQuery(query);
         }
 
-        public bool DoesExist(string login) => Convert.ToBoolean(sqlManager.SelectSingle<int>(@$"SELECT COUNT(ID) FROM Accounts WHERE Login = ""{login}"""));
+        public bool DoesExist(string login) 
+        {
+            int number = sqlManager.SelectSingle<int>(@$"SELECT COUNT(ID) FROM Accounts WHERE Login = ""{login}""");
+
+            DebugLog.WriteLine(@$"SELECT COUNT(ID) FROM Accounts WHERE Login = ""{login}""");
+
+            return Convert.ToBoolean(number);
+        }
     }
 }

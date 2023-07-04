@@ -1,4 +1,5 @@
 ﻿using Forester.Data;
+using Forester.Data.Connection;
 using Forester.Services;
 using Splat;
 using System;
@@ -13,8 +14,19 @@ namespace Forester
     {
         public static void Register(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
         {
-            Locator.CurrentMutable.RegisterLazySingleton(() => new SettingsFile(), typeof(SettingsFile));
-            Locator.CurrentMutable.RegisterLazySingleton(() => new ThemeService(resolver.GetService<SettingsFile>()!), typeof(ThemeService));
+            // --- avalonia ---
+            services.RegisterLazySingleton(() => new SettingsFile(), typeof(SettingsFile));
+            services.RegisterLazySingleton(() => new ThemeService(
+                resolver.GetService<SettingsFile>()!), typeof(ThemeService));
+
+            // --- data ---
+
+            //managers
+            services.RegisterLazySingleton(() => new RequestManager(), typeof(RequestManager));
+
+            //databases
+            services.RegisterLazySingleton(() => new AccountDatabase(
+                resolver.GetService<RequestManager>()!), typeof(AccountDatabase));
         }
     }
 }

@@ -56,14 +56,17 @@ namespace ForesterAPI.Data.Connection
             return final.ToArray();
         }
 
-        public T SelectSingle<T>(string query) where T : struct
+        public T SelectSingle<T>(string query)
         {
-            var objects = SelectMany<T>(query);
+            //TODO: structs
 
-            if (objects.Length > 1)
-                throw new Exception("Detected more than one value. Amount of values: " + objects.Length);
+            var command = new SQLiteCommand(query, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
 
-            return objects[0];
+            reader.Read();
+            T t = (T)Convert.ChangeType(reader.GetValue(0), typeof(T));
+
+            return t;
         }
 
         public void ExecuteNonQuery(string command)

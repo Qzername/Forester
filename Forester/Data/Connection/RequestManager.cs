@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,16 +20,14 @@ namespace Forester.Data.Connection
             client.BaseAddress = new Uri(BaseAddress);
         }
 
-        public async Task<string> Get(string uri)
+        public async Task<HttpResponseMessage> Get(string uri)
         {
-            var response = await client.GetAsync(uri);
-
-            return await response.Content.ReadAsStringAsync();
+            return await client.GetAsync(uri);
         }
 
-        public async Task Post(string uri, string json)
+        public async Task<HttpResponseMessage> Post(string uri, string json)
         {
-            await client.PostAsync(uri, new StringContent(json));
+            return await client.PostAsync(uri, new StringContent(json));
         }
     }
 }
