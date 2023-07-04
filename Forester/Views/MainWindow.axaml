@@ -11,6 +11,7 @@
         Title="Forester"
 		
 		ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="50"
 		
 		WindowStartupLocation="CenterScreen"

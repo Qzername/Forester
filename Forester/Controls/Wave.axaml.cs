@@ -7,7 +7,7 @@ using Avalonia.Threading;
 using Forester.ViewModels;
 using Forester.Views;
 using System;
-using System.Diagnostics;
+using Forester.Tools;
 
 namespace Forester.Controls
 {
@@ -19,7 +19,7 @@ namespace Forester.Controls
         public static readonly AvaloniaProperty<int> WidthOffsetProperty = AvaloniaProperty.RegisterAttached<Wave, int>(nameof(WidthOffset), typeof(Wave));
         public static readonly AvaloniaProperty<int> HeightOffsetProperty = AvaloniaProperty.RegisterAttached<Wave, int>(nameof(HeightOffset), typeof(Wave));
         public static readonly AvaloniaProperty<int> FPSProperty = AvaloniaProperty.RegisterAttached<Wave, int>(nameof(FPS), typeof(Wave));
-        public static readonly AvaloniaProperty<Color> FillColorProperty = AvaloniaProperty.RegisterAttached<Wave, Color>(nameof(FillColor), typeof(Wave));
+        public static readonly AvaloniaProperty<SolidColorBrush> FillBrushProperty = AvaloniaProperty.Register<Wave, SolidColorBrush>(nameof(FillBrush));
 
         /* 
          * note:
@@ -34,7 +34,11 @@ namespace Forester.Controls
         public int WidthOffset { get; set; }
         public int HeightOffset { get; set; }
         public int FPS { get; set; }
-        public Color FillColor { get; set; }
+        public SolidColorBrush FillBrush 
+        { //this property is other than the rest because it has to have ability to bind with viewmodel's data
+            get => (SolidColorBrush)GetValue(FillBrushProperty)!;
+            set => SetValue(FillBrushProperty, value);
+        }
 
         DispatcherTimer timer;
         double currentOffset;
@@ -46,7 +50,7 @@ namespace Forester.Controls
 
         protected override void OnInitialized()
         {
-            WavePath.Fill = new SolidColorBrush(FillColor);
+            WavePath.Fill = FillBrush;
 
             timer = new DispatcherTimer();
             timer.Tick += Timer_Tick;

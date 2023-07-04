@@ -1,0 +1,43 @@
+﻿using Avalonia.Media;
+using Forester.Data;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Forester.Services
+{
+    public class ThemeService : ReactiveObject
+    {
+        [Reactive] public SolidColorBrush FirstBrush { get; set; }
+        [Reactive] public SolidColorBrush SecondBrush { get; set; }
+        [Reactive] public SolidColorBrush ThirdBrush { get; set; }
+
+        public ThemeService(SettingsFile settingsFile) 
+        {
+            var theme = settingsFile.Settings.Theme;
+
+            FirstBrush = new SolidColorBrush(HexToColor(theme.FirstColor));
+            SecondBrush = new SolidColorBrush(HexToColor(theme.SecondColor));
+            ThirdBrush = new SolidColorBrush(HexToColor(theme.ThirdColor));
+        }
+
+        Color HexToColor(string hexString)
+        {
+            if (hexString.IndexOf('#') != -1)
+                hexString = hexString.Replace("#", "");
+
+            byte r, g, b;
+
+            r = byte.Parse(hexString.Substring(0, 2), NumberStyles.AllowHexSpecifier);
+            g = byte.Parse(hexString.Substring(2, 2), NumberStyles.AllowHexSpecifier);
+            b = byte.Parse(hexString.Substring(4, 2), NumberStyles.AllowHexSpecifier);
+
+            return Color.FromArgb(255, r, g, b);
+        }
+    }
+}

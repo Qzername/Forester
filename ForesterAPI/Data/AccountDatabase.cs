@@ -1,5 +1,6 @@
 ﻿using ForesterAPI.Data.Connection;
 using ForesterAPI.Models;
+using ForesterAPI.Tools;
 using Microsoft.Win32;
 using static System.Data.Entity.Infrastructure.Design.Executor;
 
@@ -22,7 +23,7 @@ namespace ForesterAPI.Data
         public Account Get(int id) => sqlManager.SelectSingle<Account>($"SELECT * FROM Accounts WHERE ID={id}");
 
         public void Create(Account account) => sqlManager.ExecuteNonQuery($"INSERT INTO Accounts(Login, Username, Password, IsDeveloper) " +
-                                                                          @$"VALUES(""{account.Login}"", ""{account.Username}"", ""{account.Password}"", 0)");
+                                                                          @$"VALUES(""{account.Login}"", ""{account.Username}"", ""{EncryptionManager.Encrypt(account.Password)}"", 0)");
         
         public void Delete(string login) => sqlManager.ExecuteNonQuery(@$"DELETE FROM Accounts WHERE Login=""{login}""");
         public void Delete(int id) => sqlManager.ExecuteNonQuery($"DELETE FROM Accounts WHERE ID={id}");
@@ -40,7 +41,7 @@ namespace ForesterAPI.Data
                 query += $@"Username = ""{account.Username}"",";
 
             if (!string.IsNullOrEmpty(account.Password))
-                query += $@"Password = ""{account.Password}"",";
+                query += $@"Password = ""{EncryptionManager.Encrypt(account.Password)}"",";
 
             if (query[^1] != ',')
                 return;
