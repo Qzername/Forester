@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Forester.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,7 +11,7 @@ namespace Forester.Data.Connection
 {
     public class RequestManager
     {
-        const string BaseAddress = "http://localhost:5000/api/";
+        const string BaseAddress = "http://localhost:5000/";
 
         HttpClient client;
 
@@ -20,14 +21,27 @@ namespace Forester.Data.Connection
             client.BaseAddress = new Uri(BaseAddress);
         }
 
-        public async Task<HttpResponseMessage> Get(string uri)
+        public async Task<APIMessage> Get(string uri)
         {
-            return await client.GetAsync(uri);
+            var response = await client.GetAsync(uri);
+            return await CreateMessageFromResponse(response);
         }
 
-        public async Task<HttpResponseMessage> Post(string uri, string json)
+        public async Task<APIMessage> Post(string uri, string json)
         {
-            return await client.PostAsync(uri, new StringContent(json));
+            var response = await client.PostAsync(uri, new StringContent(json, Encoding.UTF8, "application/json"));
+            return await CreateMessageFromResponse(response);
+        }
+
+        async Task<APIMessage> CreateMessageFromResponse(HttpResponseMessage message)
+        {
+            var content = await message.Content.ReadAsStringAsync();
+
+            return new APIMessage()
+            {
+                StatusCode = message.StatusCode,
+                Message = content
+            };
         }
     }
 }

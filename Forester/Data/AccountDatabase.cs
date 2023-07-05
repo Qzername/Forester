@@ -17,18 +17,16 @@ namespace Forester.Data
             this.requestManager = requestManager;
         }
 
-        public async Task Register(Account account)
+        public async Task<APIMessage> Register(Account account)
         {
             string json = JsonManager.Serialize(account);
-            await requestManager.Post(GenerateURI("Register"), json);
+            return await requestManager.Post(GenerateURI("Register"), json);
         }
 
-        public async Task<string> Login(Account account)
+        public async Task<APIMessage> Login(Account account)
         {
             string json = JsonManager.Serialize(account);
-            var response = await requestManager.Post(GenerateURI("Login"), json);
-
-            return await response.Content.ReadAsStringAsync();
+            return await requestManager.Post(GenerateURI("Login"), json);
         }
 
         string GenerateURI(string action) => APIprefix + action;

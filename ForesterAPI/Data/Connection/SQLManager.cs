@@ -11,6 +11,8 @@ namespace ForesterAPI.Data.Connection
 
         SQLiteConnection connection;
 
+        //TODO: connect SelectSingle and SelectSingleValue
+
         public SQLManager() 
         { 
             path = "Data Source=./ForesterDatabase/Database.db;Version=3;";
@@ -56,10 +58,18 @@ namespace ForesterAPI.Data.Connection
             return final.ToArray();
         }
 
-        public T SelectSingle<T>(string query)
+        public T SelectSingle<T>(string query) where T : struct
         {
-            //TODO: structs
+            var objects = SelectMany<T>(query);
 
+            if (objects.Length > 1)
+                throw new Exception("Detected more than one value. Amount of values: " + objects.Length);
+
+            return objects[0];
+        }
+
+        public T SelectSingleValue<T>(string query)
+        {
             var command = new SQLiteCommand(query, connection);
             SQLiteDataReader reader = command.ExecuteReader();
 

@@ -65,6 +65,7 @@ namespace ForesterAPI.Controllers
         }
 
         [HttpPost("[action]")]
+        [AllowAnonymous]
         public IActionResult Register(Account account)
         {
             if (string.IsNullOrEmpty(account.Login) || string.IsNullOrEmpty(account.Username) || string.IsNullOrEmpty(account.Password))
@@ -76,12 +77,7 @@ namespace ForesterAPI.Controllers
             if (accountDatabase.DoesExist(account.Login))
                 return StatusCode(499); //Already in base
 
-            accountDatabase.Create(new Account()
-            {
-                Login = "***REMOVED***name",
-                Username = "uZer",
-                Password = "123dupa123",
-            });
+            accountDatabase.Create(account);
 
             return Ok();
         }

@@ -52,7 +52,7 @@ namespace ForesterAPI.Data
             string query = "UPDATE Applications SET ";
 
             if (!string.IsNullOrEmpty(application.Name))
-                if (sqlManager.SelectSingle<int>(@$"SELECT COUNT(Name) FROM Applications WHERE Name=""{application.Name}""") > 0)
+                if (sqlManager.SelectSingleValue<int>(@$"SELECT COUNT(Name) FROM Applications WHERE Name=""{application.Name}""") > 0)
                     throw new Exception("User requested application's name change but name is taken");
                 else
                 {
@@ -81,8 +81,8 @@ namespace ForesterAPI.Data
             sqlManager.ExecuteNonQuery(query);
         }
 
-        public bool DoesExist(string applicationName) => Convert.ToBoolean(sqlManager.SelectSingle<int>(@$"SELECT COUNT(ID) FROM Applications WHERE Name = ""{applicationName}"""));
-        public bool DoesExist(int applicationID) => Convert.ToBoolean(sqlManager.SelectSingle<int>(@$"SELECT COUNT(ID) FROM Applications WHERE ID = {applicationID}"));
+        public bool DoesExist(string applicationName) => Convert.ToBoolean(sqlManager.SelectSingleValue<int>(@$"SELECT COUNT(ID) FROM Applications WHERE Name = ""{applicationName}"""));
+        public bool DoesExist(int applicationID) => Convert.ToBoolean(sqlManager.SelectSingleValue<int>(@$"SELECT COUNT(ID) FROM Applications WHERE ID = {applicationID}"));
 
         public void Delete(string name) 
         {
@@ -151,6 +151,6 @@ namespace ForesterAPI.Data
                 sqlManager.ExecuteNonQuery($"INSERT INTO Permissions(ApplicationID, AccountID, Permission) VALUES({application.ID},{account.ID},{(int)permission})"); //create new permission
         }
 
-        bool PermissionExists(Application application, Account account) => Convert.ToBoolean(sqlManager.SelectSingle<int>(@$"SELECT COUNT(ApplicationID) FROM Permissions WHERE ApplicationID = {application.ID} AND AccountID = {account.ID}"));
+        bool PermissionExists(Application application, Account account) => Convert.ToBoolean(sqlManager.SelectSingleValue<int>(@$"SELECT COUNT(ApplicationID) FROM Permissions WHERE ApplicationID = {application.ID} AND AccountID = {account.ID}"));
     }
 }

@@ -57,19 +57,17 @@ namespace Forester.ViewModels
 
             var result = await requestManager.Login(DataToAccount());
 
-            Debug.Log(result);
+            Debug.Log(result.StatusCode.ToString());
         }
 
         public async Task Register()
         {
-            Debug.Log(login.Length.ToString());
-
             if (!DoesMeetRequirements(Mode.Register))
                 return;
 
-            Debug.Log("lol");
+            var result = await requestManager.Register(DataToAccount());
 
-            await requestManager.Register(DataToAccount());
+            Debug.Log(result.StatusCode.ToString());
         }
 
         bool DoesMeetRequirements(Mode mode)
