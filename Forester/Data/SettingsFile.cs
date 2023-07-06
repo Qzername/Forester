@@ -75,6 +75,7 @@ namespace Forester.Data
             Settings.AutoLogin = new Account()
             {
                 Login = account.Login,
+                Username = account.Username,    
                 Password = account.Password,
             };
         }

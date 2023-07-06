@@ -29,6 +29,7 @@ namespace Forester.ViewModels
 
         //dependency injection
         ThemeService theme { get; set; }
+
         SettingsFile settingsFile;
         AccountDatabase requestManager;
 
@@ -39,6 +40,25 @@ namespace Forester.ViewModels
             theme = GetService<ThemeService>();
             settingsFile = GetService<SettingsFile>();
             requestManager = GetService<AccountDatabase>();
+
+            AutoLogin();
+        }
+
+        void AutoLogin()
+        {
+            //if autologin turned off
+            if (string.IsNullOrEmpty(settingsFile.Settings.AutoLogin.Login) ||
+                string.IsNullOrEmpty(settingsFile.Settings.AutoLogin.Password))
+                return;
+
+            settingsFile.SetAutoLogin(new Account()
+            {
+                Login = settingsFile.Settings.AutoLogin.Login,
+                Username = settingsFile.Settings.AutoLogin.Username,
+                Password = settingsFile.Settings.AutoLogin.Password,
+            });
+
+            _ = Login();
         }
 
         public void ResetData()
@@ -55,9 +75,12 @@ namespace Forester.ViewModels
             if (!DoesMeetRequirements(Mode.Login))
                 return;
 
-            var result = await requestManager.Login(DataToAccount());
+            var account = DataToAccount();
 
-            Debug.Log(result.StatusCode.ToString());
+            await requestManager.Login(account);
+
+            if (rememberMe)
+                settingsFile.SetAutoLogin(account);
         }
 
         public async Task Register()
@@ -65,9 +88,9 @@ namespace Forester.ViewModels
             if (!DoesMeetRequirements(Mode.Register))
                 return;
 
-            var result = await requestManager.Register(DataToAccount());
+            await requestManager.Register(DataToAccount());
 
-            Debug.Log(result.StatusCode.ToString());
+            _ = Login();
         }
 
         bool DoesMeetRequirements(Mode mode)
