@@ -13,9 +13,10 @@ namespace Forester.Services
 {
     public class ThemeService : ReactiveObject
     {
-        [Reactive] public SolidColorBrush FirstBrush { get; set; }
-        [Reactive] public SolidColorBrush SecondBrush { get; set; }
-        [Reactive] public SolidColorBrush ThirdBrush { get; set; }
+        [Reactive] public SolidColorBrush FirstBrush { get; private set; }
+        [Reactive] public SolidColorBrush SecondBrush { get; private set; }
+        [Reactive] public SolidColorBrush ThirdBrush { get; private set; }
+        [Reactive] public SolidColorBrush Orange { get; private set; }
 
         public ThemeService(SettingsFile settingsFile) 
         {
@@ -24,6 +25,8 @@ namespace Forester.Services
             FirstBrush = new SolidColorBrush(HexToColor(theme.FirstColor));
             SecondBrush = new SolidColorBrush(HexToColor(theme.SecondColor));
             ThirdBrush = new SolidColorBrush(HexToColor(theme.ThirdColor));
+
+            Orange = new SolidColorBrush(HexToColor("#FFBB00"));
         }
 
         Color HexToColor(string hexString)

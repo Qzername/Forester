@@ -23,7 +23,7 @@ namespace ForesterAPI.Controllers
 
         public AccountsController(IConfiguration configuration, AccountDatabase accountDatabase)
         {
-            key = configuration.GetValue<string>("Jwt:Key");
+            key = configuration.GetValue<string>("Jwt:Key")!;
 
             this.accountDatabase = accountDatabase;
         }

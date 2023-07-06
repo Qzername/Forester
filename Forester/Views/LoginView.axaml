@@ -7,10 +7,6 @@
              x:Class="Forester.Views.LoginView"
 		
 			 xmlns:controls="clr-namespace:Forester.Controls">
-
-	<UserControl.DataContext>
-		<vm:LoginViewModel/>
-	</UserControl.DataContext>
 	
 	<UserControl.Styles>
 		<StyleInclude Source="/Styles/Login.axaml" />
@@ -23,7 +19,7 @@
 		
 		<StackPanel Spacing="10" HorizontalAlignment="Center" Margin="50" Orientation="Horizontal">
 			<TextBlock Foreground="{Binding theme.ThirdBrush}" FontSize="72" Text="Forester"/>
-			<TextBlock Foreground="#FFBB00" FontSize="72" Text="3.0v"/>
+			<TextBlock Foreground="{Binding theme.Orange}" FontSize="72" Text="3.0v"/>
 		</StackPanel>
 
 		<Button Command="{Binding Exit, Mode=OneWay}" CommandParameter="{Binding $parent[Window]}" CornerRadius="10" Margin="10" FontSize="30" HorizontalAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="50" Height="50" Content="X"/>

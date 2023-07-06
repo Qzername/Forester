@@ -4,21 +4,32 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:Forester.Views"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
+		xmlns:app="clr-namespace:Forester"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Forester.Views.MainWindow"
         
 		Icon="/Assets/logo.ico"
         Title="Forester"
 		
 		ExtendClientAreaToDecorationsHint="True"
-		ExtendClientAreaChromeHints="NoChrome"
-        ExtendClientAreaTitleBarHeightHint="50"
+		ExtendClientAreaChromeHints="{Binding ClientAreaChromeHints}"
+        ExtendClientAreaTitleBarHeightHint="{Binding TitlebarHeight}"
 		
 		WindowStartupLocation="CenterScreen"
 		
 		Background="#111"
 		MinWidth="1000" MinHeight="720">
 
-	
-		<views:LoginView/>
+	<rxui:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
+		<rxui:RoutedViewHost.DefaultContent>
+			<TextBlock Text="Something went completely wrong if you see this message."
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center" />
+		</rxui:RoutedViewHost.DefaultContent>
+		
+		<rxui:RoutedViewHost.ViewLocator>
+			<app:AppViewLocator />
+		</rxui:RoutedViewHost.ViewLocator>
+	</rxui:RoutedViewHost>
 </Window>

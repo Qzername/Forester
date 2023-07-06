@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
+using Avalonia.Platform;
 using DynamicData;
 using Forester.Data;
 using Forester.Data.Connection;
@@ -19,7 +20,7 @@ using Splat;
 
 namespace Forester.ViewModels
 {
-    internal class LoginViewModel : ViewModelBase
+    public class LoginViewModel : ViewModelBase, IRoutableViewModel
     {
         [Reactive] string login { get; set; }
         [Reactive] string username { get; set; }
@@ -27,19 +28,32 @@ namespace Forester.ViewModels
         [Reactive] bool rememberMe { get; set; }
         [Reactive] string error { get; set; }
 
+        //IRoutableViewModel
+        public IScreen HostScreen { get; }
+        public string UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
+
         //dependency injection
         ThemeService theme { get; set; }
-
         SettingsFile settingsFile;
         AccountDatabase requestManager;
 
-        public LoginViewModel()
+        public LoginViewModel(IScreen screen)
         {
+            HostScreen = screen;
+
             ResetData();
 
             theme = GetService<ThemeService>();
             settingsFile = GetService<SettingsFile>();
             requestManager = GetService<AccountDatabase>();
+
+            //window configuration
+            var windowConfigurator = GetService<WindowConfigurationService>();
+            windowConfigurator.ChangeConfiguration(new WindowConfiguration()
+            {
+                IsChromeOn = false,
+                TitleBarHeight = 50,
+            });
 
             AutoLogin();
         }
@@ -81,6 +95,8 @@ namespace Forester.ViewModels
 
             if (rememberMe)
                 settingsFile.SetAutoLogin(account);
+
+            MoveToAppView();
         }
 
         public async Task Register()
@@ -115,6 +131,8 @@ namespace Forester.ViewModels
 
             return true;
         }
+
+        void MoveToAppView() => HostScreen.Router.Navigate.Execute(new AppViewModel(HostScreen));
 
         bool DoesMeetLengthRequirement(string text, int min = 8, int max = 20) => text.Length >= min || text.Length <= max;
 

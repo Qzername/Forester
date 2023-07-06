@@ -1,9 +1,16 @@
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
+using Forester.ViewModels;
+using ReactiveUI;
 
 namespace Forester.Views
 {
-    public partial class LoginView : UserControl
+    public partial class LoginView : ReactiveUserControl<LoginViewModel>
     {
+        const string SwitchButtonLoginOn = "Do not have an account?";
+        const string SwitchButtonRegisterOn = "Do have an account?";
+
         public LoginView()
         {
             InitializeComponent();
@@ -20,6 +27,8 @@ namespace Forester.Views
         {
             LoginPanel.IsVisible = RegisterPanel.IsVisible;
             RegisterPanel.IsVisible = !RegisterPanel.IsVisible;
+
+            SwitchPanelsButton.Content = LoginPanel.IsVisible ? SwitchButtonLoginOn : SwitchButtonRegisterOn;
         }
     }
 }
