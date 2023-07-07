@@ -1,4 +1,4 @@
-﻿using Forester.Models;
+﻿using Forester.Models.Configurations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace Forester.Services
 {
-    public delegate void ChangeChromeHints(WindowConfiguration configuration);
-
     /// <summary>
     /// service for changing window configuration from diffrent views
     /// </summary>
     public class WindowConfigurationService
     {
-        public event ChangeChromeHints OnChangeChromeHints;
+        public delegate void ChangeWindowConfiguration(WindowConfiguration configuration);
+
+        public event ChangeWindowConfiguration OnChangeConfiguration;
 
         public void ChangeConfiguration(WindowConfiguration configuration)
         {
-            OnChangeChromeHints?.Invoke(configuration);
+            OnChangeConfiguration?.Invoke(configuration);
         }
     }
 }

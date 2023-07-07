@@ -1,22 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.ExceptionServices;
-using System.Text;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Media;
-using Avalonia.Platform;
-using DynamicData;
 using Forester.Data;
-using Forester.Data.Connection;
 using Forester.Models;
+using Forester.Models.Configurations;
 using Forester.Services;
-using Forester.Tools;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Splat;
 
 namespace Forester.ViewModels
 {
@@ -33,7 +24,7 @@ namespace Forester.ViewModels
         public string UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
 
         //dependency injection
-        ThemeService theme { get; set; }
+        ThemeService theme { get; }
         SettingsFile settingsFile;
         AccountDatabase requestManager;
 

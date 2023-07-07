@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Forester.Controls.Dialog">
+  <Panel x:Name="MainPanel">
+	  <Border Background="#101010" Opacity="0.7"/>
+	  <Border x:Name="Frame" Width="500" Height="300" Background="Black" CornerRadius="10">
+		  <ContentControl x:Name="DialogContentControl"/>
+	  </Border>
+  </Panel>
+</UserControl>

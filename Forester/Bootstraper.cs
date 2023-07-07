@@ -16,8 +16,7 @@ namespace Forester
         {
             // --- avalonia ---
             services.RegisterLazySingleton(() => new SettingsFile(), typeof(SettingsFile));
-            services.RegisterLazySingleton(() => new ThemeService(
-                resolver.GetService<SettingsFile>()!), typeof(ThemeService));
+            services.RegisterLazySingleton(() => new ThemeService(resolver.GetService<SettingsFile>()!), typeof(ThemeService));
 
             // --- data ---
 
@@ -25,11 +24,11 @@ namespace Forester
             services.RegisterLazySingleton(() => new RequestManager(), typeof(RequestManager));
 
             //databases
-            services.RegisterLazySingleton(() => new AccountDatabase(
-                resolver.GetService<RequestManager>()!), typeof(AccountDatabase));
+            services.RegisterLazySingleton(() => new AccountDatabase(resolver.GetService<RequestManager>()!), typeof(AccountDatabase));
 
             // --- other ---
             services.RegisterLazySingleton(() => new WindowConfigurationService(), typeof(WindowConfigurationService));
+            services.RegisterLazySingleton(() => new DialogService(), typeof(DialogService));
         }
     }
 }

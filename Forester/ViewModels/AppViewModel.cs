@@ -1,4 +1,6 @@
-﻿using Forester.Services;
+﻿using Forester.Models.Configurations;
+using Forester.Services;
+using Forester.ViewModels.Dialogs;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -15,20 +17,34 @@ namespace Forester.ViewModels
 
         //dependecy injection
         ThemeService themeService { get; }
+        DialogService dialogService { get; }
 
         public AppViewModel(IScreen screen)
         {
-            themeService = GetService<ThemeService>();  
+            themeService = GetService<ThemeService>();
+            dialogService = GetService<DialogService>();
 
             HostScreen = screen;
 
             //window configuration
             var windowConfigurationService = GetService<WindowConfigurationService>();
-            windowConfigurationService.ChangeConfiguration(new Models.WindowConfiguration()
+            windowConfigurationService.ChangeConfiguration(new WindowConfiguration()
             {
                 IsChromeOn = true,
                 TitleBarHeight = 20
             });
+        }
+
+        public void SettingsClicked()
+        {
+            dialogService.ChangeConfiguration(new DialogConfiguration()
+            {
+                Width = 500,
+                Height = 400,
+                Content = new SettingsDialogViewModel()
+            });
+
+            dialogService.ChangeVisibility(true);
         }
     }
 }

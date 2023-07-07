@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forester.Models
+namespace Forester.Models.Configurations
 {
     public struct WindowConfiguration
     {

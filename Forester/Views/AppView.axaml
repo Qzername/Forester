@@ -13,14 +13,14 @@
 		</StackPanel>
 		
 		<!--Choose panel-->
-		<Panel DockPanel.Dock="Top" Height="60">
+		<Panel DockPanel.Dock="Top" Background="Black" Height="60">
 			<StackPanel Orientation="Horizontal">
 				<Button DockPanel.Dock="Left" Content="1"/>
 				<Button DockPanel.Dock="Left" Content="2"/>
 				<Button DockPanel.Dock="Left" Content="3"/>
 			</StackPanel>
 			<Panel HorizontalAlignment="Right">
-				<Button DockPanel.Dock="Right" Content="Settings"/>
+				<Button DockPanel.Dock="Right" Command="{Binding SettingsClicked}" Content="Settings"/>
 			</Panel>
 		</Panel>
 		

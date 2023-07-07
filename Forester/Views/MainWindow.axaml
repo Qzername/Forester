@@ -9,6 +9,8 @@
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Forester.Views.MainWindow"
         
+		xmlns:controls="clr-namespace:Forester.Controls"
+		
 		Icon="/Assets/logo.ico"
         Title="Forester"
 		
@@ -20,16 +22,20 @@
 		
 		Background="#111"
 		MinWidth="1000" MinHeight="720">
+	<Panel>
+		<rxui:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
+			<rxui:RoutedViewHost.DefaultContent>
+				<TextBlock Text="Something went completely wrong if you see this message."
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center" />
+			</rxui:RoutedViewHost.DefaultContent>
 
-	<rxui:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
-		<rxui:RoutedViewHost.DefaultContent>
-			<TextBlock Text="Something went completely wrong if you see this message."
-						HorizontalAlignment="Center"
-						VerticalAlignment="Center" />
-		</rxui:RoutedViewHost.DefaultContent>
+			<rxui:RoutedViewHost.ViewLocator>
+				<app:AppViewLocator />
+			</rxui:RoutedViewHost.ViewLocator>
+		</rxui:RoutedViewHost>
 		
-		<rxui:RoutedViewHost.ViewLocator>
-			<app:AppViewLocator />
-		</rxui:RoutedViewHost.ViewLocator>
-	</rxui:RoutedViewHost>
+		<controls:Dialog/>
+	</Panel>
+
 </Window>

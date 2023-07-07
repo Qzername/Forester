@@ -1,5 +1,5 @@
 ﻿using Avalonia.Platform;
-using Forester.Models;
+using Forester.Models.Configurations;
 using Forester.Services;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -20,7 +20,7 @@ namespace Forester.ViewModels
         public MainViewModel()
         {
             windowConfigurationService = GetService<WindowConfigurationService>();
-            windowConfigurationService.OnChangeChromeHints += WindowConfigurationService_OnChangeChromeHints;
+            windowConfigurationService.OnChangeConfiguration += WindowConfigurationService_OnChangeChromeHints;
 
             Router = new RoutingState();
 

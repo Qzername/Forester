@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:Forester.ViewModels.Dialogs"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Forester.Views.Dialogs.SettingsDialogView">
+	<UserControl.DataContext>
+		<vm:SettingsDialogViewModel/>
+	</UserControl.DataContext>
+	
+	<DockPanel>
+		<Panel Width="170" Margin="10,10,0,10">
+			<Button Foreground="Red" Command="{Binding LogOut}" VerticalAlignment="Bottom" Content="Logout" Classes="Settings"/>
+		</Panel>
+		<Border Margin="20,15" BorderBrush="{Binding theme.FirstBrush}" BorderThickness="2" CornerRadius="8"/>
+		<Panel>
+			<ContentControl Content="{Binding Content}"/>
+			<Button Margin="15" Content="X" Command="{Binding ClosePopUp}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+		</Panel>
+	</DockPanel>
+</UserControl>
