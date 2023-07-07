@@ -1,13 +1,11 @@
 ﻿using Forester.ViewModels;
+using Forester.ViewModels.App;
 using Forester.ViewModels.Dialogs.SettingsDialog;
 using Forester.Views;
+using Forester.Views.App;
 using Forester.Views.Dialogs.SettingsDialog;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Forester
 {
@@ -25,6 +23,22 @@ namespace Forester
                     };
                 case AppViewModel context:
                     return new AppView()
+                    {
+                        DataContext = context
+                    };
+                //app
+                case StoreViewModel context:
+                    return new StoreView()
+                    {
+                        DataContext = context
+                    };
+                case LibraryViewModel context:
+                    return new LibraryView()
+                    {
+                        DataContext = context
+                    };
+                case DeveloperViewModel context:
+                    return new DeveloperView()
                     {
                         DataContext = context
                     };

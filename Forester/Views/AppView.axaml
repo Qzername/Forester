@@ -3,21 +3,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Forester.Views.AppView">
+             x:Class="Forester.Views.AppView"
+			 
+			 xmlns:ACV="using:Forester.Views.App">
 	
 	<DockPanel>
 		<!--Toolbar-->
 		<StackPanel IsHitTestVisible="False" Spacing="2" DockPanel.Dock="Top" Orientation="Horizontal" Height="20">
-			<Label Foreground="{Binding themeService.FirstBrush}" VerticalAlignment="Center" Padding="0" Margin="5,0,0,0" Content="Forester"/>
-			<Label Foreground="{Binding themeService.Orange}" VerticalAlignment="Center" Padding="0" Content="3.0v"/>
+			<Label Foreground="{Binding theme.FirstBrush}" VerticalAlignment="Center" Padding="0" Margin="5,0,0,0" Content="Forester"/>
+			<Label Foreground="{Binding theme.Orange}" VerticalAlignment="Center" Padding="0" Content="3.0v"/>
 		</StackPanel>
 		
 		<!--Choose panel-->
-		<Panel DockPanel.Dock="Top" Background="Black" Height="60">
+		<Panel DockPanel.Dock="Top" Background="#1F1F1F" Height="60">
 			<StackPanel Orientation="Horizontal">
-				<Button DockPanel.Dock="Left" Content="1"/>
-				<Button DockPanel.Dock="Left" Content="2"/>
-				<Button DockPanel.Dock="Left" Content="3"/>
+				
+				<ItemsControl ItemsSource="{Binding pages}">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel />
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Button Command="{Binding $parent[ItemsControl].DataContext.SwitchPageInView}" CommandParameter="{Binding}" Margin="15,0,0,0" Content="{Binding Name}"/>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
 			</StackPanel>
 			<Panel HorizontalAlignment="Right">
 				<Button DockPanel.Dock="Right" Command="{Binding SettingsClicked}" Content="Settings"/>
@@ -26,7 +39,7 @@
 		
 		<!--Content-->
 		<Panel>
-			
+			<ContentControl Content="{Binding appContent}"/>
 		</Panel>
 	</DockPanel>
 </UserControl>
