@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Forester.Views.Dialogs.SettingsDialog.AboutView">
+	<Panel>
+		<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+			<TextBlock Foreground="{Binding theme.ThirdBrush}" Text="Forester" Margin="0,20,0,0" FontSize="64"/>
+			<TextBlock Foreground="{Binding theme.Orange}" Text="3.0v" FontSize="64" Margin="8,20,0,0"/>
+		</StackPanel>
+		<StackPanel Margin="0,25,0,0" Spacing="5" VerticalAlignment="Center" HorizontalAlignment="Center" >
+			<TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="{Binding theme.SecondBrush}" Text="A project made so you can update&#xA;files faster and more plesantly" FontSize="28"/>
+			<TextBlock Foreground="{Binding theme.FirstBrush}" Text="Made by uZer#1660" HorizontalAlignment="Center" FontSize="16"/>
+		</StackPanel>
+		<TextBlock Margin="10" Foreground="{Binding theme.FirstBrush}" Text="{Binding Path=Version, StringFormat='Version: {0}'}" FontSize="20" VerticalAlignment="Bottom"/>
+		<Button Margin="10" Padding="0" Command="{Binding Discord}" Content="Discord" Background="Transparent" Foreground="{Binding theme.FirstBrush}" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+	</Panel>
+</UserControl>

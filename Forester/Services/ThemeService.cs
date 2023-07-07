@@ -1,5 +1,6 @@
 ﻿using Avalonia.Media;
 using Forester.Data;
+using Forester.Models;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -13,15 +14,38 @@ namespace Forester.Services
 {
     public class ThemeService : ReactiveObject
     {
+        [Reactive] public string Name { get; set; }
         [Reactive] public SolidColorBrush FirstBrush { get; private set; }
         [Reactive] public SolidColorBrush SecondBrush { get; private set; }
         [Reactive] public SolidColorBrush ThirdBrush { get; private set; }
         [Reactive] public SolidColorBrush Orange { get; private set; }
 
+        SettingsFile settingsFile;
+
         public ThemeService(SettingsFile settingsFile) 
+        {
+            this.settingsFile = settingsFile;
+
+            ReadTheme();
+        }
+
+        public void SetTheme(string name)
+        {
+            settingsFile.SetTheme(name);
+            ReadTheme();
+        }
+
+        public void SetTheme(Theme theme)
+        {
+            settingsFile.SetTheme(theme);
+            ReadTheme();
+        }
+
+        void ReadTheme()
         {
             var theme = settingsFile.Settings.Theme;
 
+            Name = theme.Name;
             FirstBrush = new SolidColorBrush(HexToColor(theme.FirstColor));
             SecondBrush = new SolidColorBrush(HexToColor(theme.SecondColor));
             ThirdBrush = new SolidColorBrush(HexToColor(theme.ThirdColor));

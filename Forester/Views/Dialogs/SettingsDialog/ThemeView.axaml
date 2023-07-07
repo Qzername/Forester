@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Forester.Views.Dialogs.SettingsDialog.ThemeView">
+	<ScrollViewer>
+		<StackPanel Spacing="10" Margin="10">
+			<TextBlock Foreground="{Binding theme.ThirdBrush}" Text="Theme" FontSize="64" HorizontalAlignment="Center"/>
+
+			<TextBlock Foreground="{Binding theme.FirstBrush}" Text="Presets:" FontSize="24"/>
+			<StackPanel  IsEnabled="{Binding !#IsCustomCheckBox.IsChecked}">
+				<ItemsControl ItemsSource="{Binding ThemeCheckBoxes}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<CheckBox Command="{Binding $parent[ItemsControl].DataContext.ChangeTheme}" CommandParameter="{Binding Name}" Content="{Binding Name}" IsChecked="{Binding IsChecked}" IsHitTestVisible="{Binding !IsChecked}"/>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</StackPanel>
+			<TextBlock Foreground="{Binding theme.FirstBrush}" Text="Custom:" FontSize="24"/>
+
+			<CheckBox Name="IsCustomCheckBox" IsChecked="{Binding IsCustom}" Content="Use custom theme"/>
+			<StackPanel Spacing="10" IsEnabled="{Binding #IsCustomCheckBox.IsChecked}">
+				<TextBlock Text="Use HEX values, dont use alpha values."/>
+				<TextBox Text="{Binding FirstCustom}" MaxLength="6" Watermark="First Color" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="120"/>
+				<TextBox Text="{Binding SecondCustom}" MaxLength="6" Watermark="Second Color" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="120"/>
+				<TextBox Text="{Binding ThirdCustom}" MaxLength="6" Watermark="Third Color" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="120"/>
+				<Button Command="{Binding SetCustomTheme}" Content="Set" HorizontalContentAlignment="Center" Width="120"/>
+			</StackPanel>
+		</StackPanel>
+	</ScrollViewer>
+</UserControl>

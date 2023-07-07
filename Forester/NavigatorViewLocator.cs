@@ -1,5 +1,7 @@
 ﻿using Forester.ViewModels;
+using Forester.ViewModels.Dialogs.SettingsDialog;
 using Forester.Views;
+using Forester.Views.Dialogs.SettingsDialog;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -9,12 +11,13 @@ using System.Threading.Tasks;
 
 namespace Forester
 {
-    public class AppViewLocator : IViewLocator
+    public class NavigatorViewLocator : IViewLocator
     {
         IViewFor IViewLocator.ResolveView<T>(T viewModel, string contract)
         {
             switch (viewModel)
             {
+                //mainwindow
                 case LoginViewModel context:
                     return new LoginView()
                     {
@@ -22,6 +25,17 @@ namespace Forester
                     };
                 case AppViewModel context:
                     return new AppView()
+                    {
+                        DataContext = context
+                    };
+                //settingsdialog
+                case AboutViewModel context:
+                    return new AboutView()
+                    {
+                        DataContext = context
+                    };
+                case ThemeViewModel context:
+                    return new ThemeView()
                     {
                         DataContext = context
                     };

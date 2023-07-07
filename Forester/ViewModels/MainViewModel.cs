@@ -1,4 +1,5 @@
 ﻿using Avalonia.Platform;
+using Forester.Data;
 using Forester.Models.Configurations;
 using Forester.Services;
 using ReactiveUI;
@@ -16,21 +17,37 @@ namespace Forester.ViewModels
 
         //Dependecy injection
         WindowConfigurationService windowConfigurationService;
+        
 
         public MainViewModel()
         {
             windowConfigurationService = GetService<WindowConfigurationService>();
             windowConfigurationService.OnChangeConfiguration += WindowConfigurationService_OnChangeChromeHints;
+            windowConfigurationService.OnLogOutCalled += WindowConfigurationService_OnLogOutCalled;
 
             Router = new RoutingState();
 
-            Router.Navigate.Execute(new LoginViewModel(this));
+            MoveToLogin();
+        }
+
+        private void WindowConfigurationService_OnLogOutCalled()
+        {
+            var settingsFile = GetService<SettingsFile>();
+            settingsFile.SetAutoLogin(new Models.Account());
+            settingsFile.SaveSettings();
+
+            MoveToLogin();
         }
 
         private void WindowConfigurationService_OnChangeChromeHints(WindowConfiguration configuration)
         {
             ClientAreaChromeHints = configuration.IsChromeOn ? ExtendClientAreaChromeHints.Default : ExtendClientAreaChromeHints.NoChrome;
             TitlebarHeight = configuration.TitleBarHeight;
+        }
+
+        void MoveToLogin()
+        {
+            Router.Navigate.Execute(new LoginViewModel(this));
         }
     }
 }

@@ -6,6 +6,7 @@ using Forester.Data;
 using Forester.Models;
 using Forester.Models.Configurations;
 using Forester.Services;
+using Forester.Tools;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -56,12 +57,9 @@ namespace Forester.ViewModels
                 string.IsNullOrEmpty(settingsFile.Settings.AutoLogin.Password))
                 return;
 
-            settingsFile.SetAutoLogin(new Account()
-            {
-                Login = settingsFile.Settings.AutoLogin.Login,
-                Username = settingsFile.Settings.AutoLogin.Username,
-                Password = settingsFile.Settings.AutoLogin.Password,
-            });
+            login = settingsFile.Settings.AutoLogin.Login;  
+            username = settingsFile.Settings.AutoLogin.Username;
+            password = settingsFile.Settings.AutoLogin.Password;
 
             _ = Login();
         }
@@ -82,7 +80,13 @@ namespace Forester.ViewModels
 
             var account = DataToAccount();
 
-            await requestManager.Login(account);
+            var apiMessage = await requestManager.Login(account);
+
+            if(apiMessage.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                error = "Login or password is incorrect";
+                return;
+            }
 
             if (rememberMe)
                 settingsFile.SetAutoLogin(account);
@@ -95,13 +99,21 @@ namespace Forester.ViewModels
             if (!DoesMeetRequirements(Mode.Register))
                 return;
 
-            await requestManager.Register(DataToAccount());
+            var apiMessage = await requestManager.Register(DataToAccount());
+
+            if((int)apiMessage.StatusCode == 499)
+            {
+                error = "Login already exists in database";
+                return;
+            }
 
             _ = Login();
         }
 
         bool DoesMeetRequirements(Mode mode)
         {
+            error = "";
+
             if (!DoesMeetLengthRequirement(login))
             {
                 error = "Login should be 8 to 20 characters long";
@@ -125,7 +137,7 @@ namespace Forester.ViewModels
 
         void MoveToAppView() => HostScreen.Router.Navigate.Execute(new AppViewModel(HostScreen));
 
-        bool DoesMeetLengthRequirement(string text, int min = 8, int max = 20) => text.Length >= min || text.Length <= max;
+        bool DoesMeetLengthRequirement(string text, int min = 8, int max = 20) => (text.Length >= min && text.Length <= max);
 
         Account DataToAccount() => 
             new Account()

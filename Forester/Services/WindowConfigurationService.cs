@@ -15,10 +15,16 @@ namespace Forester.Services
         public delegate void ChangeWindowConfiguration(WindowConfiguration configuration);
 
         public event ChangeWindowConfiguration OnChangeConfiguration;
+        public event Action OnLogOutCalled;
 
         public void ChangeConfiguration(WindowConfiguration configuration)
         {
             OnChangeConfiguration?.Invoke(configuration);
+        }
+
+        public void LogOut()
+        {
+            OnLogOutCalled?.Invoke();
         }
     }
 }

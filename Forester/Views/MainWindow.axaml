@@ -23,7 +23,7 @@
 		Background="#111"
 		MinWidth="1000" MinHeight="720">
 	<Panel>
-		<rxui:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
+		<rxui:RoutedViewHost Router="{Binding Router}">
 			<rxui:RoutedViewHost.DefaultContent>
 				<TextBlock Text="Something went completely wrong if you see this message."
 							HorizontalAlignment="Center"
@@ -31,7 +31,7 @@
 			</rxui:RoutedViewHost.DefaultContent>
 
 			<rxui:RoutedViewHost.ViewLocator>
-				<app:AppViewLocator />
+				<app:NavigatorViewLocator />
 			</rxui:RoutedViewHost.ViewLocator>
 		</rxui:RoutedViewHost>
 		

@@ -39,8 +39,8 @@ namespace Forester.ViewModels
         {
             dialogService.ChangeConfiguration(new DialogConfiguration()
             {
-                Width = 500,
-                Height = 400,
+                Width = 800,
+                Height = 550,
                 Content = new SettingsDialogViewModel()
             });
 

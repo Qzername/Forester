@@ -4,19 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="using:Forester.ViewModels.Dialogs"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Forester.Views.Dialogs.SettingsDialogView">
-	<UserControl.DataContext>
-		<vm:SettingsDialogViewModel/>
-	</UserControl.DataContext>
+             x:Class="Forester.Views.Dialogs.SettingsDialogView"
+			 
+			 xmlns:app="clr-namespace:Forester"
+			 xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI">
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/Dialogs/Settings.axaml" />
+	</UserControl.Styles>
 	
 	<DockPanel>
 		<Panel Width="170" Margin="10,10,0,10">
-			<Button Foreground="Red" Command="{Binding LogOut}" VerticalAlignment="Bottom" Content="Logout" Classes="Settings"/>
-		</Panel>
-		<Border Margin="20,15" BorderBrush="{Binding theme.FirstBrush}" BorderThickness="2" CornerRadius="8"/>
+				<StackPanel VerticalAlignment="Top">
+					<Button Content="About" Command="{Binding About}" Foreground="{Binding theme.ThirdBrush}" Classes="Settings"/>
+					<Button Content="Theme" Command="{Binding Theme}" Foreground="{Binding theme.ThirdBrush}" Classes="Settings"/>
+				</StackPanel>
+				<Button Foreground="Red" Command="{Binding LogOut}" VerticalAlignment="Bottom" Content="Logout" Classes="Settings"/>
+			</Panel>
+
+		<Border Margin="10,15" BorderBrush="{Binding theme.FirstBrush}" BorderThickness="2" CornerRadius="8"/>
+
 		<Panel>
-			<ContentControl Content="{Binding Content}"/>
-			<Button Margin="15" Content="X" Command="{Binding ClosePopUp}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+			<rxui:RoutedViewHost Router="{Binding Router}">
+				<rxui:RoutedViewHost.ViewLocator>
+					<app:NavigatorViewLocator />
+				</rxui:RoutedViewHost.ViewLocator>
+			</rxui:RoutedViewHost>
+			<Button Margin="15" Content="X" Command="{Binding CloseDialog}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 		</Panel>
 	</DockPanel>
 </UserControl>
