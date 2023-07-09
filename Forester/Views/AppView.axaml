@@ -5,7 +5,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Forester.Views.AppView"
 			 
+			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 xmlns:ACV="using:Forester.Views.App">
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/App.axaml" />
+	</UserControl.Styles>
 	
 	<DockPanel>
 		<!--Toolbar-->
@@ -27,13 +31,15 @@
 
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<Button Command="{Binding $parent[ItemsControl].DataContext.SwitchPageInView}" CommandParameter="{Binding}" Margin="15,0,0,0" Content="{Binding Name}"/>
+							<Button Foreground="{Binding Color}" Classes="Choose" Command="{Binding $parent[ItemsControl].DataContext.SwitchPageInView}" CommandParameter="{Binding}" Content="{Binding Name}"/>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</StackPanel>
 			<Panel HorizontalAlignment="Right">
-				<Button DockPanel.Dock="Right" Command="{Binding SettingsClicked}" Content="Settings"/>
+				<Button Width="40" Height="40" DockPanel.Dock="Right" Command="{Binding SettingsClicked}" Margin="10" Background="Transparent" >
+					<materialIcons:MaterialIcon Foreground="{Binding theme.FirstBrush}" Width="40" Height="40" Kind="Settings" />
+				</Button>
 			</Panel>
 		</Panel>
 		

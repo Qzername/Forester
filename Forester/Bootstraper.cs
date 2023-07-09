@@ -26,9 +26,12 @@ namespace Forester
             //databases
             services.RegisterLazySingleton(() => new AccountDatabase(resolver.GetService<RequestManager>()!), typeof(AccountDatabase));
 
+            // --- dialogs ---
+            services.RegisterLazySingleton(() => new DialogService(), typeof(DialogService));
+            services.RegisterLazySingleton(() => new ErrorMessageService(resolver.GetService<DialogService>()!), typeof(ErrorMessageService));
+
             // --- other ---
             services.RegisterLazySingleton(() => new WindowConfigurationService(), typeof(WindowConfigurationService));
-            services.RegisterLazySingleton(() => new DialogService(), typeof(DialogService));
         }
     }
 }

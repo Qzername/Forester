@@ -12,7 +12,7 @@ namespace Forester.Data
 
         RequestManager requestManager;
 
-        public AccountDatabase(RequestManager requestManager) 
+        public AccountDatabase(RequestManager requestManager)
         {
             this.requestManager = requestManager;
         }
