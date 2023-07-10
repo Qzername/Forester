@@ -3,18 +3,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Forester.Views.App.DeveloperView"
+             x:Class="Forester.Views.App.Developer.DeveloperContentView"
 			 
 			 xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
 			 xmlns:app="clr-namespace:Forester">
-	<DockPanel>
-		<Panel Background="#222" Width="200">
-			<StackPanel>
-				<Button Width="200" Content="Add New" Command="{Binding AddNewClicked}" HorizontalContentAlignment="Center" CornerRadius="0"/>
-			</StackPanel>
-		</Panel>
-		<Panel>
-			<ContentControl Content="{Binding content}"/>
-		</Panel>
-	</DockPanel>
+	<Panel>
+		<rxui:RoutedViewHost Router="{Binding Router}">
+			<rxui:RoutedViewHost.ViewLocator>
+				<app:NavigatorViewLocator />
+			</rxui:RoutedViewHost.ViewLocator>
+		</rxui:RoutedViewHost>
+	</Panel>
 </UserControl>

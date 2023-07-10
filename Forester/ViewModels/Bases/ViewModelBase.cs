@@ -5,7 +5,7 @@ using Splat;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Forester.ViewModels;
+namespace Forester.ViewModels.Bases;
 
 public class ViewModelBase : ReactiveObject
 {

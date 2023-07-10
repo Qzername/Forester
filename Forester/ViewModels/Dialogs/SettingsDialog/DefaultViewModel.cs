@@ -2,15 +2,16 @@
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forester.ViewModels.App
+namespace Forester.ViewModels.Dialogs.SettingsDialog
 {
-    public class LibraryViewModel : RoutableBase
-    {
-        public LibraryViewModel(IScreen screen) : base(screen)
+    public class DefaultViewModel : RoutableBase
+    { 
+        public DefaultViewModel(IScreen screen) :base(screen)
         {
         }
     }

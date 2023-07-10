@@ -32,6 +32,7 @@ namespace Forester
 
             // --- other ---
             services.RegisterLazySingleton(() => new WindowConfigurationService(), typeof(WindowConfigurationService));
+            services.RegisterLazySingleton(() => new UserDataService(), typeof(UserDataService));
         }
     }
 }

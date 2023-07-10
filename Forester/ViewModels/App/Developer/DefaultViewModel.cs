@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forester.ViewModels.App
+namespace Forester.ViewModels.App.Developer
 {
-    public class LibraryViewModel : RoutableBase
+    public class DefaultViewModel : RoutableBase
     {
-        public LibraryViewModel(IScreen screen) : base(screen)
+        public DefaultViewModel(IScreen screen) : base(screen)
         {
         }
     }

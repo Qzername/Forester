@@ -2,6 +2,7 @@
 using Forester.Data;
 using Forester.Models.Configurations;
 using Forester.Services;
+using Forester.ViewModels.Bases;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;

@@ -1,5 +1,4 @@
-﻿using Forester.Models;
-using Forester.ViewModels.Bases;
+﻿using Forester.ViewModels.Bases;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -7,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forester.ViewModels.App
+namespace Forester.ViewModels.App.Developer
 {
-    public class AppContentViewModel : ContentBase
+    public class DeveloperContentViewModel : ContentBase
     {
     }
 }

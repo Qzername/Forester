@@ -1,5 +1,5 @@
 ﻿using Avalonia;
-using Forester.ViewModels;
+using Forester.ViewModels.Bases;
 using System;
 using System.Collections.Generic;
 using System.Linq;

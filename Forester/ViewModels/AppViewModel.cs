@@ -4,7 +4,9 @@ using Forester.Models;
 using Forester.Models.App;
 using Forester.Models.Configurations;
 using Forester.Services;
+using Forester.Tools;
 using Forester.ViewModels.App;
+using Forester.ViewModels.Bases;
 using Forester.ViewModels.Dialogs;
 using ReactiveUI;
 using System;
@@ -22,6 +24,7 @@ namespace Forester.ViewModels
 
         //dependecy injection
         DialogService dialogService { get; }
+        UserDataService userDataService { get; }
 
         AppContentViewModel appContent { get; set; }
 
@@ -30,6 +33,9 @@ namespace Forester.ViewModels
             HostScreen = screen;
 
             dialogService = GetService<DialogService>();
+            userDataService = GetService<UserDataService>();
+
+            Debug.Log(userDataService.Username);
 
             appContent = new AppContentViewModel();
 

@@ -2,6 +2,7 @@
 using Forester.Models;
 using Forester.Services;
 using Forester.Tools;
+using Forester.ViewModels.Bases;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -13,11 +14,8 @@ using System.Threading.Tasks;
 
 namespace Forester.ViewModels.Dialogs.SettingsDialog
 {
-    public class ThemeViewModel : ViewModelBase, IRoutableViewModel
+    public class ThemeViewModel : RoutableBase
     {
-        public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
-        public IScreen HostScreen { get; }
-
         ThemeService theme { get; }
 
         //Theme
@@ -27,9 +25,8 @@ namespace Forester.ViewModels.Dialogs.SettingsDialog
 
         AvaloniaList<ThemeCheckBox> ThemeCheckBoxes { get; set; }
 
-        public ThemeViewModel(IScreen screen)
+        public ThemeViewModel(IScreen screen) : base(screen) 
         {
-            HostScreen = screen;
             ThemeCheckBoxes = new AvaloniaList<ThemeCheckBox>();
 
             theme = GetService<ThemeService>();

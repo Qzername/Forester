@@ -7,6 +7,7 @@ using Forester.Models;
 using Forester.Models.Configurations;
 using Forester.Services;
 using Forester.Tools;
+using Forester.ViewModels.Bases;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -90,6 +91,8 @@ namespace Forester.ViewModels
 
             if (rememberMe)
                 settingsFile.SetAutoLogin(account);
+
+            GetService<UserDataService>().SetAccount(login);
 
             MoveToAppView();
         }

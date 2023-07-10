@@ -2,15 +2,16 @@
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forester.ViewModels.App
+namespace Forester.ViewModels.App.Developer
 {
-    public class LibraryViewModel : RoutableBase
+    public class AddNewViewModel : RoutableBase
     {
-        public LibraryViewModel(IScreen screen) : base(screen)
+        public AddNewViewModel(IScreen screen) : base(screen)
         {
         }
     }

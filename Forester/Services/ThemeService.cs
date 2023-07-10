@@ -3,18 +3,13 @@ using Forester.Data;
 using Forester.Models;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Forester.Services
 {
     public class ThemeService : ReactiveObject
     {
-        [Reactive] public string Name { get; set; }
+        [Reactive] public string Name { get; private set; }
         [Reactive] public SolidColorBrush FirstBrush { get; private set; }
         [Reactive] public SolidColorBrush SecondBrush { get; private set; }
         [Reactive] public SolidColorBrush ThirdBrush { get; private set; }

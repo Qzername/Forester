@@ -17,6 +17,11 @@ namespace Forester.Data
             this.requestManager = requestManager;
         }
 
+        public async Task<APIMessage> Get(string login)
+        {
+            return new APIMessage();
+        }
+
         public async Task<APIMessage> Register(Account account)
         {
             string json = JsonManager.Serialize(account);

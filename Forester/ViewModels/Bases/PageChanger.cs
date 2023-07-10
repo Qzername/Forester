@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forester.ViewModels
+namespace Forester.ViewModels.Bases
 {
     public abstract class PageChanger : ViewModelBase
     {
@@ -19,7 +19,7 @@ namespace Forester.ViewModels
 
         public PageChanger()
         {
-            theme = GetService<ThemeService>(); 
+            theme = GetService<ThemeService>();
 
             pages = new AvaloniaList<Page>();
         }

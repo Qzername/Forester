@@ -21,7 +21,7 @@
 		<!--Choose panel-->
 		<Panel DockPanel.Dock="Top" Background="#1F1F1F" Height="60">
 			<StackPanel Orientation="Horizontal">
-				
+
 				<ItemsControl ItemsSource="{Binding pages}">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
@@ -36,11 +36,12 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</StackPanel>
-			<Panel HorizontalAlignment="Right">
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+				<TextBlock Text="{Binding userDataService.Username}" VerticalAlignment="Center" FontSize="24"/>
 				<Button Width="40" Height="40" DockPanel.Dock="Right" Command="{Binding SettingsClicked}" Margin="10" Background="Transparent" >
 					<materialIcons:MaterialIcon Foreground="{Binding theme.FirstBrush}" Width="40" Height="40" Kind="Settings" />
 				</Button>
-			</Panel>
+			</StackPanel>
 		</Panel>
 		
 		<!--Content-->

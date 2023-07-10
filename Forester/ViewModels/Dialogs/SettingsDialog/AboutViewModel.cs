@@ -1,4 +1,5 @@
 ﻿using Forester.Services;
+using Forester.ViewModels.Bases;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -10,21 +11,16 @@ using System.Threading.Tasks;
 
 namespace Forester.ViewModels.Dialogs.SettingsDialog
 {
-    public class AboutViewModel : ViewModelBase, IRoutableViewModel
+    public class AboutViewModel : RoutableBase
     {
-        public string? UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
-        public IScreen HostScreen { get; }
-
         //standardize this
         [Reactive] string Version { get; set; }
        
         //dependency injection
         ThemeService theme { get; }
 
-        public AboutViewModel(IScreen screen)
+        public AboutViewModel(IScreen screen) : base(screen)
         {
-            HostScreen = screen;
-
             theme = GetService<ThemeService>();
 
             Version = "3.0v";

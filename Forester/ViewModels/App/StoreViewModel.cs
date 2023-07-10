@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using Forester.ViewModels.Bases;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +8,11 @@ using System.Threading.Tasks;
 
 namespace Forester.ViewModels.App
 {
-    public class StoreViewModel : ViewModelBase, IRoutableViewModel
+    public class StoreViewModel : RoutableBase
     {
-        //IRoutableViewModel
-        public IScreen HostScreen { get; }
-        public string UrlPathSegment { get; } = Guid.NewGuid().ToString().Substring(0, 5);
-
-        public StoreViewModel(IScreen screen) 
-        {
-            HostScreen = screen;
+        
+        public StoreViewModel(IScreen screen) : base(screen)
+        { 
         }
     }
 }
