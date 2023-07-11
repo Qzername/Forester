@@ -17,6 +17,8 @@ namespace Forester.Tools
             SD.Debug.WriteLine(message);
             SD.Debug.WriteLine("---------------------");
         }
+
+        public static void Log(object message) => Log(message.ToString());
     }
 #endif
 }

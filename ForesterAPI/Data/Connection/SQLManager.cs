@@ -49,7 +49,13 @@ namespace ForesterAPI.Data.Connection
                         continue;
 
                     PropertyInfo field = fields.Single(x=>x.Name == currentColumn.ColumnName);
-                    field.SetValue(item, Convert.ChangeType(reader.GetValue(i), field.PropertyType));
+
+                    var value = reader.GetValue(i);
+
+                    if (value is DBNull)
+                        continue;
+
+                    field.SetValue(item, Convert.ChangeType(value, field.PropertyType));
                 }
 
                 final.Add((T)item);

@@ -1,5 +1,6 @@
 ﻿using Avalonia.Platform;
 using Forester.Data;
+using Forester.Models.API;
 using Forester.Models.Configurations;
 using Forester.Services;
 using Forester.ViewModels.Bases;
@@ -34,7 +35,7 @@ namespace Forester.ViewModels
         private void WindowConfigurationService_OnLogOutCalled()
         {
             var settingsFile = GetService<SettingsFile>();
-            settingsFile.SetAutoLogin(new Models.Account());
+            settingsFile.SetAutoLogin(new Account());
             settingsFile.SaveSettings();
 
             MoveToLogin();

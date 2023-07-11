@@ -5,17 +5,17 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forester.Models
+namespace Forester.Models.API
 {
     public struct APIMessage
     {
-        public HttpStatusCode StatusCode { get; set; }  
-        public string Message { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
+        public object Content { get; set; }
 
-        public APIMessage(HttpStatusCode statusCode, string message) 
+        public APIMessage(HttpStatusCode statusCode, object content)
         {
             StatusCode = statusCode;
-            Message = message;
+            Content = content;
         }
     }
 }

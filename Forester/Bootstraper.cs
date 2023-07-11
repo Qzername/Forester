@@ -16,23 +16,36 @@ namespace Forester
         {
             // --- avalonia ---
             services.RegisterLazySingleton(() => new SettingsFile(), typeof(SettingsFile));
-            services.RegisterLazySingleton(() => new ThemeService(resolver.GetService<SettingsFile>()!), typeof(ThemeService));
+            services.RegisterLazySingleton(() => new ThemeService(GetService<SettingsFile>(resolver)), typeof(ThemeService));
+
+            // --- dialogs ---
+            services.RegisterLazySingleton(() => new DialogService(), typeof(DialogService));
+            services.RegisterLazySingleton(() => new ErrorMessageService(GetService<DialogService>(resolver)), typeof(ErrorMessageService));
 
             // --- data ---
 
             //managers
             services.RegisterLazySingleton(() => new RequestManager(), typeof(RequestManager));
+            services.RegisterLazySingleton(() => new FileTransferManager(), typeof(FileTransferManager));
 
             //databases
-            services.RegisterLazySingleton(() => new AccountDatabase(resolver.GetService<RequestManager>()!), typeof(AccountDatabase));
+            var requestManager = GetService<RequestManager>(resolver);
+            var fileTransferManager = GetService<FileTransferManager>(resolver);
+            var errorMessage = GetService<ErrorMessageService>(resolver);
 
-            // --- dialogs ---
-            services.RegisterLazySingleton(() => new DialogService(), typeof(DialogService));
-            services.RegisterLazySingleton(() => new ErrorMessageService(resolver.GetService<DialogService>()!), typeof(ErrorMessageService));
+            services.RegisterLazySingleton(() => new AccountDatabase(fileTransferManager, requestManager, errorMessage), typeof(AccountDatabase));
+            services.RegisterLazySingleton(() => new ApplicationDatabase(requestManager, errorMessage), typeof(ApplicationDatabase));
+
+            services.RegisterLazySingleton(() => new ApplicationFileDatabase(fileTransferManager, errorMessage), typeof(ApplicationFileDatabase));
 
             // --- other ---
             services.RegisterLazySingleton(() => new WindowConfigurationService(), typeof(WindowConfigurationService));
-            services.RegisterLazySingleton(() => new UserDataService(), typeof(UserDataService));
+            services.RegisterLazySingleton(() => new UserDataService(GetService<AccountDatabase>(resolver)), typeof(UserDataService));
+        }
+
+        static T GetService<T>(IReadonlyDependencyResolver resolver)
+        {
+            return resolver.GetService<T>()!;
         }
     }
 }

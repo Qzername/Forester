@@ -43,6 +43,9 @@ namespace ForesterAPI.Controllers
 
             Account user = accountDatabase.Get(account.Login);
 
+            if (user.Password != EncryptionManager.Encrypt(account.Password))
+                return StatusCode(403);
+
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512);
 
@@ -85,16 +88,39 @@ namespace ForesterAPI.Controllers
         [HttpPut("[action]")]
         public IActionResult Update(Account account) 
         {
+            if (!accountDatabase.DoesExist(account.Login))
+                return StatusCode(404);
+
             accountDatabase.Update(account);
             return Ok();
         }
 
         [HttpGet("[action]")]
         [AllowAnonymous]
-        public IActionResult GetById([FromQuery]int id) => Ok(accountDatabase.Get(id));
+        public IActionResult GetById([FromQuery] int id) 
+        {
+            if (!accountDatabase.DoesExist(id))
+                return StatusCode(404);
+
+            var account = accountDatabase.Get(id);
+
+            account.Password = string.Empty;
+
+            return Ok(account); 
+        }
 
         [HttpGet("[action]")]
         [AllowAnonymous]
-        public IActionResult GetByName([FromQuery] string login) => Ok(accountDatabase.Get(login));
+        public IActionResult GetByLogin([FromQuery] string login) 
+        {
+            if (!accountDatabase.DoesExist(login))
+                return StatusCode(404);
+
+            var account = accountDatabase.Get(login);
+
+            account.Password = string.Empty;
+
+            return Ok(account);
+        }
     }
 }

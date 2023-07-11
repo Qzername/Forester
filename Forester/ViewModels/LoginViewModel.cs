@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Forester.Data;
-using Forester.Models;
+using Forester.Models.API;
 using Forester.Models.Configurations;
 using Forester.Services;
 using Forester.Tools;
@@ -81,9 +81,9 @@ namespace Forester.ViewModels
 
             var account = DataToAccount();
 
-            var apiMessage = await requestManager.Login(account);
+            var token = await requestManager.Login(account);
 
-            if(apiMessage.StatusCode != System.Net.HttpStatusCode.OK)
+            if(!token)
             {
                 error = "Login or password is incorrect";
                 return;
@@ -92,7 +92,7 @@ namespace Forester.ViewModels
             if (rememberMe)
                 settingsFile.SetAutoLogin(account);
 
-            GetService<UserDataService>().SetAccount(login);
+            await GetService<UserDataService>().SetAccount(login);
 
             MoveToAppView();
         }
@@ -102,9 +102,9 @@ namespace Forester.ViewModels
             if (!DoesMeetRequirements(Mode.Register))
                 return;
 
-            var apiMessage = await requestManager.Register(DataToAccount());
+            bool isOkay = await requestManager.Register(DataToAccount());
 
-            if((int)apiMessage.StatusCode == 499)
+            if(!isOkay)
             {
                 error = "Login already exists in database";
                 return;
@@ -152,7 +152,7 @@ namespace Forester.ViewModels
 
         public void Exit()
         {
-            var desktop = (IClassicDesktopStyleApplicationLifetime)Application.Current!.ApplicationLifetime!;
+            var desktop = (IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current!.ApplicationLifetime!;
             desktop.Shutdown();
         }
 

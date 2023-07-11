@@ -8,11 +8,21 @@
 			 xmlns:rxui="clr-namespace:Avalonia.ReactiveUI;assembly=Avalonia.ReactiveUI"
 			 xmlns:app="clr-namespace:Forester">
 	<DockPanel>
-		<Panel Background="#222" Width="200">
-			<StackPanel>
-				<Button Width="200" Content="Add New" Command="{Binding AddNewClicked}" HorizontalContentAlignment="Center" CornerRadius="0"/>
+		<ScrollViewer Width="200" Background="#151515">
+			<StackPanel Width="200">
+				<Button HorizontalAlignment="Stretch" Content="Add New" Command="{Binding AddNewClicked}" HorizontalContentAlignment="Center" CornerRadius="0"/>
+
+				<StackPanel>
+					<ItemsControl ItemsSource="{Binding developedApplications}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Button Content="{Binding Name}" />
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
 			</StackPanel>
-		</Panel>
+		</ScrollViewer>
 		<Panel>
 			<ContentControl Content="{Binding content}"/>
 		</Panel>

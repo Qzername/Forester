@@ -87,6 +87,8 @@ namespace ForesterAPI.Controllers
             if (string.IsNullOrEmpty(application.Name))
                 return StatusCode(406);
 
+            application.Owner = account.ID;
+
             applicationDatabase.Create(application);
 
             return Ok();
@@ -106,14 +108,14 @@ namespace ForesterAPI.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(Application application)
+        public IActionResult Delete(string applicationName)
         {
             string login = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
 
-            if (!requirementChecker.DoesDevelopRequirement(login, application.Name))
+            if (!requirementChecker.DoesDevelopRequirement(login, applicationName))
                 return StatusCode(403);
 
-            applicationDatabase.Delete(application.Name);
+            applicationDatabase.Delete(applicationName);
 
             return Ok();
         }
@@ -131,7 +133,7 @@ namespace ForesterAPI.Controllers
             return Ok(applicationDatabase.GetDeveloped(account));
         }
 
-        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         public IActionResult GetApplicationAllowed(Application application)
         {
             string login = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
@@ -142,7 +144,7 @@ namespace ForesterAPI.Controllers
             return Ok(applicationDatabase.GetApplicationAllowed(application));
         }
 
-        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         public IActionResult GetApplicationDevelopers(Application application)
         {
             string login = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
@@ -154,16 +156,18 @@ namespace ForesterAPI.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult ChangePermission(Application application, string accountLogin, Permission permission)
+        public IActionResult ChangePermission(PermissionChangeData data)
         {
             string ownerLogin = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
 
-            if (!requirementChecker.DoesOwnRequirement(ownerLogin, application.Name))
+            if (!requirementChecker.DoesOwnRequirement(ownerLogin, data.ApplicationName))
                 return StatusCode(403);
 
-            var account = accountDatabase.Get(accountLogin);
+            var account = accountDatabase.Get(data.AccountLogin);
 
-            applicationDatabase.ChangePermission(application, account, permission);
+            var application = applicationDatabase.Get(data.ApplicationName);
+
+            applicationDatabase.ChangePermission(application, account, data.Permission);
 
             return Ok();
         }

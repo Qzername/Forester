@@ -37,7 +37,7 @@
 				</ItemsControl>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-				<TextBlock Text="{Binding userDataService.Username}" VerticalAlignment="Center" FontSize="24"/>
+				<TextBlock Text="{Binding userDataService.CurrentAccount.Username}" VerticalAlignment="Center" FontSize="24"/>
 				<Button Width="40" Height="40" DockPanel.Dock="Right" Command="{Binding SettingsClicked}" Margin="10" Background="Transparent" >
 					<materialIcons:MaterialIcon Foreground="{Binding theme.FirstBrush}" Width="40" Height="40" Kind="Settings" />
 				</Button>

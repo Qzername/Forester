@@ -35,8 +35,6 @@ namespace Forester.ViewModels
             dialogService = GetService<DialogService>();
             userDataService = GetService<UserDataService>();
 
-            Debug.Log(userDataService.Username);
-
             appContent = new AppContentViewModel();
 
             //window configuration
@@ -57,11 +55,13 @@ namespace Forester.ViewModels
                 Name = "Library",
                 ViewModel = new LibraryViewModel(appContent),
             });
-            pages.Add(new Page()
-            {
-                Name = "Developer",
-                ViewModel = new DeveloperViewModel(appContent),
-            });
+            
+            if(userDataService.CurrentAccount.IsDeveloper)
+                pages.Add(new Page()
+                {
+                    Name = "Developer",
+                    ViewModel = new DeveloperViewModel(appContent),
+                });
 
             SwitchPage("Store");
         }

@@ -1,8 +1,9 @@
 ﻿using Forester.Data;
-using Forester.Models;
+using Forester.Models.API;
 using Forester.Tools;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using System.Threading.Tasks;
 
 namespace Forester.Services
 {
@@ -20,15 +21,9 @@ namespace Forester.Services
             this.accountDatabase = accountDatabase;
         }
 
-        public void SetAccount(string login)
+        public async Task SetAccount(string login)
         {
-            accountDatabase.Get(login);
-
-            CurrentAccount = new Account()
-            {
-                Login = login,
-            };
-
+            CurrentAccount = await accountDatabase.Get(login);
         }
     }
 }

@@ -25,20 +25,20 @@ builder.Services.AddSingleton(typeof(RequirementChecker));
 builder.Services.AddSingleton(typeof(FileConfigurator));
 
 //JWT
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    }).AddJwtBearer(o =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(o =>
     {
         o.TokenValidationParameters = new TokenValidationParameters
         {
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
             ValidateLifetime = true,
-            ValidateIssuerSigningKey = true
+            ValidateIssuerSigningKey = true,
+            ValidateAudience = false,
+            ValidateIssuer = false,
         };
     });
+
+
 
 builder.Services.AddAuthorization();
 

@@ -7,14 +7,21 @@
 	<Panel>
 		<StackPanel Spacing="10" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center">
 			<Label Content="Add new application" HorizontalAlignment="Center" FontSize="32"/>
-			<TextBox Watermark="Name"/>
-			<TextBox Watermark="Initial Version"/>
+			
+			<TextBox Text="{Binding name}" Watermark="Name"/>
+			<TextBox Text="{Binding version}" Watermark="Initial Version"/>
+			
 			<StackPanel Spacing="5" Orientation="Horizontal">
-				<Button Content="Select folder with app"/>
-				<TextBlock VerticalAlignment="Center" Text="Current Path: None"/>
+				<Button Width="170" Command="{Binding SelectFolder}" HorizontalContentAlignment="Center" Content="Select folder with app"/>
+
+				<ScrollViewer  Width="430" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible">
+					<TextBlock VerticalAlignment="Center" Text="{Binding Path=pathToFolder, StringFormat='Current path: {0}'}"/>
+				</ScrollViewer>
 			</StackPanel>
+			
 			<Label Content="On creaction, your app will be set as private" HorizontalAlignment="Center" />
-			<Button Content="Submit" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+			<Button Command="{Binding Submit}" Content="Submit" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+			<Label FontSize="16" HorizontalAlignment="Center" Content="{Binding error}"/>
 		</StackPanel>
 	</Panel>
 </UserControl>

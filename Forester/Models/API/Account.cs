@@ -1,4 +1,4 @@
-﻿namespace Forester.Models
+﻿namespace Forester.Models.API
 {
     public struct Account
     {

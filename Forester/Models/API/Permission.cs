@@ -1,4 +1,4 @@
-﻿namespace ForesterAPI.Models
+﻿namespace Forester.Models.API
 {
     public enum Permission
     {

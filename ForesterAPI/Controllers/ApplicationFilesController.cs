@@ -49,12 +49,12 @@ namespace ForesterAPI.Controllers
         public IActionResult Upload([FromQuery] string name, IFormFile file)
         {
             if (!applicationDatabase.DoesExist(name))
-                return StatusCode(403);
+                return StatusCode(404);
 
             string login = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
 
-            if (!requirementChecker.IsAllowedRequirement(login, name))
-                return StatusCode(403);
+            if (!requirementChecker.DoesDevelopRequirement(login, name))
+                return StatusCode(404);
 
             fileDatabase.CreateApplication(name, file);
 
