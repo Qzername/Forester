@@ -16,6 +16,7 @@ namespace Forester.Data.Connection
     {
         public FileTransferManager() :base()
         {
+            client.BaseAddress = new Uri(BaseAddress);
         }
 
         public async Task Download(string uri, string filepath,IProgress<int> progress)
@@ -46,25 +47,32 @@ namespace Forester.Data.Connection
             }
         }
 
-        public async Task Upload(string uri, string filepath, IProgress<int> progress)
+        public async Task<byte[]> Download(string uri)
         {
-            FileStream fileToUpload = File.OpenRead(filepath);
+            var response = await client.GetAsync(uri);
 
-            var content = new MultipartFormDataContent();
-            content.Add(new StreamContent(fileToUpload), "file", "FILE");
+            if (!response.IsSuccessStatusCode)
+                return new byte[0];
 
-            Debug.Log(uri);
-
-            Debug.Log("3");
-            bool keepTracking = true; //to start and stop the tracking thread
-            new Task(new Action(() => { ProgressTracking(fileToUpload, ref keepTracking, progress); })).Start();
-            var result = client.PostAsync(BaseAddress + uri, content).Result;
-            keepTracking = false; //stops the tracking thread
-
-            Debug.Log("4 " + result.StatusCode.ToString());
+            return await response.Content.ReadAsByteArrayAsync();
         }
 
-        void ProgressTracking(FileStream streamToTrack, ref bool keepTracking, IProgress<int> progress)
+        public async Task Upload(string uri, Stream file, IProgress<int>? progress = null)
+        {
+            var content = new MultipartFormDataContent();
+            content.Add(new StreamContent(file), "file", "FILE");
+
+            bool keepTracking = true; //to start and stop the tracking thread
+            
+            if(progress is not null)
+                new Task(new Action(() => { ProgressTracking(file, ref keepTracking, progress); })).Start();
+            
+            var result = await client.PostAsync(uri, content);
+            
+            keepTracking = false; //stops the tracking thread
+        }
+
+        void ProgressTracking(Stream streamToTrack, ref bool keepTracking, IProgress<int> progress)
         {
             int prevPos = -1;
             while (keepTracking)

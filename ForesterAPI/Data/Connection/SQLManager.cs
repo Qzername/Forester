@@ -76,10 +76,14 @@ namespace ForesterAPI.Data.Connection
 
         public T SelectSingleValue<T>(string query)
         {
+            Console.WriteLine(query);
+
             var command = new SQLiteCommand(query, connection);
             SQLiteDataReader reader = command.ExecuteReader();
 
             reader.Read();
+            Console.WriteLine("query " + reader.GetValue(0));
+
             T t = (T)Convert.ChangeType(reader.GetValue(0), typeof(T));
 
             return t;

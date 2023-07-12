@@ -15,63 +15,73 @@ namespace Forester.ViewModels.Dialogs
 {
     public class FileTransferViewModel : DialogBase
     {
+        public const int PreferredWidth = 500;
+        public const int PreferredHeight = 140;
+
         [Reactive] string action { get; set; }
+        [Reactive] string status { get; set; }
         [Reactive] int value { get; set; }
+        [Reactive] bool isFinished { get; set; }
 
         Progress<int> progress { get; set; }
+        Action? whenUploadFinished;
 
         //dependency injection
         ApplicationFileDatabase applicationFileDatabase;
 
-        public FileTransferViewModel(Action action,string applicationName, string filepath)
+        public FileTransferViewModel(TransferAction action,string applicationName, string filepath, Action? whenUploadFinished = null)
         {
-            this.action = action.ToString().Trim('e') + "ing..."; //i hate myself too
+            isFinished = false;
+            this.action = action.ToString().Trim('e') + "ing"; //i hate myself too
 
             progress = new Progress<int>(percent => { value = percent; });
+            this.whenUploadFinished = whenUploadFinished;
+
             applicationFileDatabase = Locator.Current.GetService<ApplicationFileDatabase>()!;
 
-            switch(action)
+            ClearZip();
+
+            switch (action)
             {
-                case Action.Download: Download(applicationName, filepath); break;
-                case Action.Upload: Upload(applicationName, filepath); break;
-                case Action.Update: Update(applicationName, filepath); break;
+                case TransferAction.Download: Download(applicationName, filepath); break;
+                case TransferAction.Upload: Upload(applicationName, filepath); break;
+                case TransferAction.Update: Update(applicationName, filepath); break;
             }
         }
 
         void Download(string applicationName, string filepath)
         {
             throw new NotImplementedException();
-            CloseDialog();
         }
 
-        async void Upload(string applicationName, string filepath)
+        async Task Upload(string applicationName, string filepath)
         {
-            ClearZip();
-
             //prepare directory (convert to zip)
+            status = "Creating zip file...";
+
             string zipFile = "./tempApp.zip";
-            ZipFile.CreateFromDirectory(filepath, zipFile);
+            await Task.Run(() => ZipFile.CreateFromDirectory(filepath, zipFile));
 
             //upload
-            try
-            {
-                await applicationFileDatabase.Upload(applicationName, zipFile, progress);
+            status = "Doing action...";
 
-                Debug.Log("5");
-            }
-            catch(Exception ex)
-            {
-                Debug.Log(ex.Message);
-            }
+            await applicationFileDatabase.Upload(applicationName, zipFile, progress);
 
-            Debug.Log("6");
-            CloseDialog();
+            ActionCompleted();
         }
 
         void Update(string applicationName, string filepath)
         {
             throw new NotImplementedException();
-            CloseDialog();
+        }
+
+        void ActionCompleted()
+        {
+            status = "Finished";
+            isFinished = true;
+
+            if (whenUploadFinished is not null)
+                whenUploadFinished.Invoke();
         }
 
         void ClearZip()
@@ -80,7 +90,7 @@ namespace Forester.ViewModels.Dialogs
                 File.Delete("./tempApp.zip");
         }
 
-        public enum Action
+        public enum TransferAction
         {
             Upload,
             Download,

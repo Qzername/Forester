@@ -46,6 +46,7 @@ namespace ForesterAPI.Controllers
 
         [HttpPost("[action]")]
         [DisableRequestSizeLimit]
+        [RequestFormLimits(MultipartBodyLengthLimit = long.MaxValue)]
         public IActionResult Upload([FromQuery] string name, IFormFile file)
         {
             if (!applicationDatabase.DoesExist(name))

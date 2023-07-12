@@ -1,6 +1,7 @@
 ﻿using Forester.Data;
 using Forester.Data.Connection;
 using Forester.Services;
+using Forester.Services.App;
 using Splat;
 using System;
 using System.Collections.Generic;
@@ -35,12 +36,17 @@ namespace Forester
 
             services.RegisterLazySingleton(() => new AccountDatabase(fileTransferManager, requestManager, errorMessage), typeof(AccountDatabase));
             services.RegisterLazySingleton(() => new ApplicationDatabase(requestManager, errorMessage), typeof(ApplicationDatabase));
+            services.RegisterLazySingleton(() => new PictureDatabase(fileTransferManager, errorMessage), typeof(PictureDatabase));
 
             services.RegisterLazySingleton(() => new ApplicationFileDatabase(fileTransferManager, errorMessage), typeof(ApplicationFileDatabase));
+
+            // --- app ---
+            services.RegisterLazySingleton(()=> new DeveloperService(), typeof(DeveloperService));
 
             // --- other ---
             services.RegisterLazySingleton(() => new WindowConfigurationService(), typeof(WindowConfigurationService));
             services.RegisterLazySingleton(() => new UserDataService(GetService<AccountDatabase>(resolver)), typeof(UserDataService));
+            services.RegisterLazySingleton(() => new PictureService(GetService<PictureDatabase>(resolver), GetService<ThemeService>(resolver)), typeof(PictureService));
         }
 
         static T GetService<T>(IReadonlyDependencyResolver resolver)

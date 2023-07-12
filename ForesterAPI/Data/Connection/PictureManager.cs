@@ -46,8 +46,7 @@ namespace ForesterAPI.Data.Connection
         public bool DoesExist(ObjectType objectType, string name, PictureType pictureType) => File.Exists(GetPathToFile(objectType, name, pictureType));
 
         string GetPathToFile(ObjectType objectType, string name, PictureType pictureType) =>
-            $"{GetDirectoryPath(name, objectType)}/{name}/" +
-            $"{Enum.GetName(typeof(PictureType), pictureType)}.png";
+            $"{GetDirectoryPath(name, objectType)}{Enum.GetName(typeof(PictureType), pictureType)}.png";
 
         string GetDirectoryPath(string name, ObjectType objectType) => Prefix + Enum.GetName(typeof(ObjectType), objectType) + $"/{name}/";
     }

@@ -40,15 +40,15 @@ namespace ForesterAPI.Controllers
             return File(fileDatabase.GetPicture(objectType, name, pictureType), "image/png");
         }
 
-        [HttpPut]
-        public IActionResult Put([FromQuery] string name, [FromQuery] ObjectType objectType, [FromQuery] PictureType pictureType, IFormFile file)
+        [HttpPost]
+        public IActionResult Post([FromQuery] string name, [FromQuery] ObjectType objectType, [FromQuery] PictureType pictureType, IFormFile file)
         {
             string login = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
 
             if (objectType == ObjectType.Account && name != login)
                 return StatusCode(403);
 
-            if (objectType == ObjectType.Application && applicationDatabase.DoesExist(name) && requirementChecker.DoesOwnRequirement(login, name))
+            if (objectType == ObjectType.Application && !applicationDatabase.DoesExist(name) && !requirementChecker.DoesOwnRequirement(login, name))
                 return StatusCode(404);
 
             fileDatabase.UpdatePicture(objectType, name, pictureType, file);

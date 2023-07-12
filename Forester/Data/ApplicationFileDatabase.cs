@@ -3,6 +3,7 @@ using Forester.Services;
 using Forester.Tools;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,11 +26,7 @@ namespace Forester.Data
 
         public async Task Upload(string name, string filepath, IProgress<int> progress)
         {
-            Debug.Log("1");
-           
-            await FileTransferManager.Upload(GenerateURI($"Upload?name={name}"), filepath, progress);
-
-            Debug.Log("2");
+            await FileTransferManager.Upload(GenerateURI($"Upload?name={name}"), File.OpenRead(filepath), progress);
         }
     }
 }

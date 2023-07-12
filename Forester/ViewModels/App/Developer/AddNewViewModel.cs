@@ -9,6 +9,8 @@ using Forester.Data;
 using Forester.Models.API;
 using Forester.Services;
 using Forester.ViewModels.Dialogs;
+using Forester.Views.App;
+using Forester.Services.App;
 
 namespace Forester.ViewModels.App.Developer
 {
@@ -34,17 +36,10 @@ namespace Forester.ViewModels.App.Developer
 
         public async void SelectFolder()
         {
-            if (Ava.Application.Current!.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                string? result = (await desktop.MainWindow!.StorageProvider.OpenFolderPickerAsync(new Ava.Platform.Storage.FolderPickerOpenOptions()))[0].Path.LocalPath;
-
-                Debug.Log(result);
-
-                if (result is null)
-                    return;
-
-                pathToFolder = result;
-            }
+            pathToFolder = await dialogService.OpenDirectoryDialog(new Ava.Platform.Storage.FolderPickerOpenOptions());
+        
+            if(pathToFolder == string.Empty)
+                pathToFolder = "None";
         }
 
         public void Submit()
@@ -73,14 +68,32 @@ namespace Forester.ViewModels.App.Developer
                 Name = name,
             });
 
+            if(!isDone)
+            {
+                error = "Something went horribly wrong";
+                return;
+            }
+
             dialogService.ChangeConfiguration(new Models.Configurations.DialogConfiguration()
             {
-                Content = new FileTransferViewModel(FileTransferViewModel.Action.Upload, name, pathToFolder),
-                Width = 800,
-                Height = 500,
+                Content = new FileTransferViewModel(FileTransferViewModel.TransferAction.Upload, name, pathToFolder, UploadFinished),
+                Width = FileTransferViewModel.PreferredWidth,
+                Height = FileTransferViewModel.PreferredHeight,
+            });
+            dialogService.ChangeVisibility(true);
+        }
+
+        async void UploadFinished()
+        {
+            await applicationDatabase.Update(name, new Application()
+            {
+                Version = version
             });
 
-            dialogService.ChangeVisibility(true);
+            var developerService = GetService<DeveloperService>();
+
+            await developerService.RefreshApplicationList();
+            developerService.MoveToApp(name);
         }
     }
 }

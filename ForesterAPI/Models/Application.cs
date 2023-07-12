@@ -6,7 +6,7 @@ namespace ForesterAPI.Models
     {
         public int ID { get; set; }
         public int Owner { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public string? ShortDescription { get; set; }
         public string? Description { get; set; }
         public string? Version { get; set; }

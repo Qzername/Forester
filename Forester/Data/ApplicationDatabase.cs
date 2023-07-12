@@ -59,8 +59,6 @@ namespace Forester.Data
 
             var apiMessage = await RequestManager.Post(GenerateURI(), json);
 
-            Debug.Log(apiMessage.StatusCode.ToString());
-
             return apiMessage.StatusCode == HttpStatusCode.OK;
         }
 
@@ -68,7 +66,7 @@ namespace Forester.Data
         {
             string json = JsonManager.Serialize(application);
 
-            var apiMessage = await RequestManager.Put(GenerateURI(), json);
+            var apiMessage = await RequestManager.Put(GenerateURI($"?name={name}"), json);
 
             return apiMessage.StatusCode == HttpStatusCode.OK;
         }

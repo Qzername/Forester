@@ -2,10 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="140"
              x:Class="Forester.Views.Dialogs.FileTransferView">
-	<StackPanel>
-		<TextBlock Text="{Binding action}" HorizontalAlignment="Center"/>
+	<StackPanel Spacing="10" Margin="10">
+		<TextBlock Text="{Binding action}" FontSize="32" HorizontalAlignment="Center"/>
+		<TextBlock Text="{Binding status}"/>
 		<ProgressBar Value="{Binding value}"/>
+		<Button IsEnabled="{Binding isFinished}" Command="{Binding CloseDialog}" Content="Close" HorizontalAlignment="Center"/>
 	</StackPanel>
 </UserControl>

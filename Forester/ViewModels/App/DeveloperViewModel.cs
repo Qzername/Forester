@@ -2,6 +2,7 @@
 using DynamicData;
 using Forester.Data;
 using Forester.Models.API;
+using Forester.Services.App;
 using Forester.Tools;
 using Forester.ViewModels.App.Developer;
 using Forester.ViewModels.Bases;
@@ -27,18 +28,27 @@ namespace Forester.ViewModels.App
 
         public DeveloperViewModel(IScreen screen) : base(screen)
         {
+            GetService<DeveloperService>().RegisterDeveloperPanel(this);
+
+            developedApplications = new AvaloniaList<Application>();
             content = new DeveloperContentViewModel();
 
             applicationDatabase = GetService<ApplicationDatabase>();
 
-            developedApplications = new AvaloniaList<Application>();
-
-            GetApplications();
+            _ = Refresh();
         }
 
-        async void GetApplications()
+        public async Task Refresh()
         {
+            developedApplications.Clear();
             developedApplications.AddRange(await applicationDatabase.Get());
+        }
+
+        public void Move(object nameSTR) => Move((string)nameSTR);
+
+        public void Move(string name)
+        {
+            content.SwitchTemporaryView(new ManageViewModel(content, developedApplications.Single(x => x.Name == name)));
         }
 
         public void AddNewClicked()

@@ -46,7 +46,7 @@ namespace ForesterAPI.Controllers
 
             string login = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
 
-            if (application.IsPrivate && !requirementChecker.IsAllowedRequirement(login, application.Name))
+            if (application.IsPrivate && requirementChecker.IsAllowedRequirement(login, application.Name))
                 return NotFound();
 
             return Ok(application);
@@ -62,7 +62,7 @@ namespace ForesterAPI.Controllers
 
             string login = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
 
-            if (application.IsPrivate && !requirementChecker.IsAllowedRequirement(login, application.Name))
+            if (application.IsPrivate && requirementChecker.IsAllowedRequirement(login, application.Name))
                 return NotFound();
 
             return Ok(application);
@@ -99,7 +99,7 @@ namespace ForesterAPI.Controllers
         {
             string login = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
 
-            if (!requirementChecker.DoesDevelopRequirement(login, application.Name))
+            if (requirementChecker.DoesDevelopRequirement(login, application.Name))
                 return StatusCode(403);
 
             applicationDatabase.Update(name, application);
@@ -112,7 +112,7 @@ namespace ForesterAPI.Controllers
         {
             string login = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
 
-            if (!requirementChecker.DoesDevelopRequirement(login, applicationName))
+            if (requirementChecker.DoesDevelopRequirement(login, applicationName))
                 return StatusCode(403);
 
             applicationDatabase.Delete(applicationName);
@@ -138,7 +138,7 @@ namespace ForesterAPI.Controllers
         {
             string login = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
 
-            if (!requirementChecker.DoesOwnRequirement(login, application.Name))
+            if (requirementChecker.DoesOwnRequirement(login, application.Name))
                 return StatusCode(403);
 
             return Ok(applicationDatabase.GetApplicationAllowed(application));
@@ -149,7 +149,7 @@ namespace ForesterAPI.Controllers
         {
             string login = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
 
-            if (!requirementChecker.DoesOwnRequirement(login, application.Name))
+            if (requirementChecker.DoesOwnRequirement(login, application.Name))
                 return StatusCode(403);
 
             return Ok(applicationDatabase.GetApplicationDevelopers(application));
@@ -160,7 +160,7 @@ namespace ForesterAPI.Controllers
         {
             string ownerLogin = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
 
-            if (!requirementChecker.DoesOwnRequirement(ownerLogin, data.ApplicationName))
+            if (requirementChecker.DoesOwnRequirement(ownerLogin, data.ApplicationName))
                 return StatusCode(403);
 
             var account = accountDatabase.Get(data.AccountLogin);

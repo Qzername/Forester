@@ -1,0 +1,20 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Forester.Views.App.Developer.Manage.UploadNewVersionView">
+	
+	<StackPanel>
+		<Label HorizontalAlignment="Center" Content="Upload new version" FontSize="25"/>
+		<StackPanel Margin="50,0,50,0">
+			<TextBox Text="{Binding newVersion}" Watermark="Version (should be different than current)" AcceptsTab="True" TextWrapping="Wrap" AcceptsReturn="True" Margin="100,5" VerticalContentAlignment="Stretch" MaxLength="2000"/>
+			<Button Command="{Binding SelectPath}" Margin="100,5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Content="Select folder with app"/>
+			<Label Margin="100,5" Content="{Binding Path=newVersionCurrentPath, StringFormat='Current version: {0}'}"/>
+			
+			<!--Current path: Not selected-->
+			<Button Command="{Binding Submit}" Margin="100,5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Content="Submit"/>
+			<Label HorizontalAlignment="Center" Content="{Binding error}" FontSize="20"/>
+		</StackPanel>
+	</StackPanel>
+</UserControl>

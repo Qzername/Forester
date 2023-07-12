@@ -45,7 +45,7 @@ namespace Forester.Data
             });
         }
 
-        protected string GenerateURI(string action) => APIprefix + action;
+        protected string GenerateURI(string action) => (action.StartsWith('?') ? APIprefix.Remove(APIprefix.Length - 1) : APIprefix) + action;
         protected string GenerateURI() => APIprefix.Remove(APIprefix.Length - 1);
     }
 }

@@ -49,14 +49,12 @@ namespace Forester.Data.Connection
         public async Task<APIMessage> Put(string uri, string json)
         {
             var response = await client.PutAsync(uri, new StringContent(json, Encoding.UTF8, "application/json"));
-            return await CreateMessageFromResponse<string>(response);
+            return await CreateMessageFromResponse(response);
         }
         
         async Task<APIMessage> CreateMessageFromResponse<T>(HttpResponseMessage message)
         {
             var content = await message.Content.ReadAsStringAsync();
-
-            Debug.Log(content);
 
             return new APIMessage()
             {
@@ -67,12 +65,10 @@ namespace Forester.Data.Connection
 
         async Task<APIMessage> CreateMessageFromResponse(HttpResponseMessage message)
         {
-            var content = await message.Content.ReadAsStringAsync();
-            Debug.Log(content);
             return new APIMessage()
             {
                 StatusCode = message.StatusCode,
-                Content = string.Empty
+                Content = await message.Content.ReadAsStringAsync()
             };
         }
     }

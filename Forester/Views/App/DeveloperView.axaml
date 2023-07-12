@@ -16,7 +16,7 @@
 					<ItemsControl ItemsSource="{Binding developedApplications}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<Button Content="{Binding Name}" />
+								<Button Command="{Binding $parent[ItemsControl].DataContext.Move}" CommandParameter="{Binding Name}" Content="{Binding Name}" Background="Transparent" HorizontalAlignment="Stretch"/>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>

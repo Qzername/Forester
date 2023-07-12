@@ -69,7 +69,7 @@ namespace ForesterAPI.Data
             if (!string.IsNullOrEmpty(application.Version))
                 query += @$"Version = ""{application.Version}"",";
 
-            if(sqlManager.SelectSingle<bool>($"SELECT IsPrivate FROM Applications WHERE Name = {application.Name}"))
+            if (sqlManager.SelectSingleValue<bool>(@$"SELECT IsPrivate FROM Applications WHERE Name = ""{oldName}"""))
                 query += $@"IsPrivate = ""{Convert.ToInt32(application.IsPrivate)}"",";
 
             if (query[^1] != ',')
