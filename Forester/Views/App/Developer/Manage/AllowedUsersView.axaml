@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Forester.Views.App.Developer.Manage.AllowedUsersView">
-	<StackPanel>
+	<StackPanel  IsEnabled="{Binding shouldBeEnabled}">
 		<Label HorizontalAlignment="Center" Content="Privacy" FontSize="25"/>
 		<CheckBox IsChecked="{Binding isPrivate}" Command="{Binding OnChangeIsPrivate}" HorizontalAlignment="Center" Content="Private application" Margin="5,0,0,5"/>
 		
@@ -15,7 +15,7 @@
 					<ItemsControl ItemsSource="{Binding users}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<Button Command="{Binding $parent[ItemsControl].DataContext.SwitchUser}" CommandParameter="{Binding}" Background="Transparent" Width="200" Content="{Binding login}" />
+								<Button Command="{Binding $parent[ItemsControl].DataContext.SwitchUser}" CommandParameter="{Binding}" Background="Transparent" Width="200" Content="{Binding Login}" />
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
@@ -25,7 +25,7 @@
 			<Panel>
 				<StackPanel VerticalAlignment="Center" Width="500" Margin="20">
 					<Label HorizontalAlignment="Center" FontSize="20" Content="Manage allowed users"/>
-					<TextBox Text="{Binding newUser}" Watermark="User" Margin="5,10,5,5"/>
+					<TextBox Text="{Binding currentUser}" Watermark="User" Margin="5,10,5,5"/>
 					<UniformGrid Rows="1" Columns="2">
 						<Button Command="{Binding AddUser}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Add user</Button>
 						<Button Command="{Binding DeleteUser}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Delete user</Button>

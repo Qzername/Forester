@@ -7,7 +7,7 @@
 			 
 			 xmlns:local="using:Forester.Controls">
 	
-	<StackPanel IsEnabled="{Binding userDataService.CurrentAccount.isDeveloper}">
+	<StackPanel IsEnabled="{Binding shouldBeEnabled}">
 		<Label HorizontalAlignment="Center" Margin="0,10" Content="Basic information" FontSize="25"/>
 
 		<Panel Margin="0,0,0,10" Height="200">

@@ -4,5 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Forester.Views.App.Developer.Manage.CodevelopersView">
-  co-developers
+	<StackPanel IsEnabled="{Binding shouldBeEnabled}">
+		<Label HorizontalAlignment="Center" Content="Co-developers" FontSize="25"/>
+		<DockPanel>
+			<ScrollViewer DockPanel.Dock="Left" Height="320" Width="200" Margin="5" Background="#151515">
+				<StackPanel Margin="2">
+
+					<ItemsControl ItemsSource="{Binding users}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Button Command="{Binding $parent[ItemsControl].DataContext.SwitchUser}" CommandParameter="{Binding}" Background="Transparent" Width="200" Content="{Binding Login}" />
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+
+				</StackPanel>
+			</ScrollViewer>
+			<Panel>
+				<StackPanel VerticalAlignment="Center" Width="500" Margin="20">
+					<Label HorizontalAlignment="Center" FontSize="20" Content="Manage developers"/>
+					<TextBox Text="{Binding currentUser}" Watermark="Developer" Margin="5,10,5,5"/>
+					<UniformGrid Rows="1" Columns="2">
+						<Button Command="{Binding AddUser}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Add developer</Button>
+						<Button Command="{Binding DeleteUser}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5">Delete developer</Button>
+					</UniformGrid>
+					<Label HorizontalAlignment="Center" Content="{Binding error}"/>
+				</StackPanel>
+			</Panel>
+		</DockPanel>
+	</StackPanel>
 </UserControl>

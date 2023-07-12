@@ -38,7 +38,7 @@ namespace ForesterAPI.Services
             var developed = applicationDatabase.GetDeveloped(account);
 
             if (!developed.Any(x => x.Name == name))
-                return false;
+                return DoesOwnRequirement(login, name);
 
             return true;
         }
@@ -53,7 +53,7 @@ namespace ForesterAPI.Services
             var developed = applicationDatabase.GetAllowed(account);
 
             if (!developed.Any(x => x.Name == name))
-                return false;
+                return DoesDevelopRequirement(login, name);
 
             return true;
         }

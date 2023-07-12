@@ -1,9 +1,11 @@
 ﻿using Avalonia.Collections;
 using Avalonia.Media;
+using Forester.Data;
 using Forester.Models;
 using Forester.Models.App;
 using Forester.Models.Configurations;
 using Forester.Services;
+using Forester.Services.App;
 using Forester.Tools;
 using Forester.ViewModels.App;
 using Forester.ViewModels.Bases;
@@ -45,6 +47,11 @@ namespace Forester.ViewModels
                 TitleBarHeight = 20
             });
 
+            AddPages();
+        }
+
+        async void AddPages()
+        {
             pages.Add(new Page()
             {
                 Name = "Store",
@@ -55,8 +62,8 @@ namespace Forester.ViewModels
                 Name = "Library",
                 ViewModel = new LibraryViewModel(appContent),
             });
-            
-            if(userDataService.CurrentAccount.IsDeveloper)
+
+            if (userDataService.CurrentAccount.IsDeveloper || (await GetService<ApplicationDatabase>().GetDeveloped()).Length > 0)
                 pages.Add(new Page()
                 {
                     Name = "Developer",

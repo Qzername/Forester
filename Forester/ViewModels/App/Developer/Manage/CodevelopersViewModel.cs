@@ -8,13 +8,10 @@ using System.Threading.Tasks;
 
 namespace Forester.ViewModels.App.Developer.Manage
 {
-    internal class CodevelopersViewModel : ViewModelBase
+    internal class CodevelopersViewModel : ChangePermissionBase
     {
-        Application currentApplication;
-
-        public CodevelopersViewModel(Application application)
+        public CodevelopersViewModel(Application application, bool shouldBeEnabled) : base(Permission.Developer, application, shouldBeEnabled)
         {
-            currentApplication = application;
         }
     }
 }

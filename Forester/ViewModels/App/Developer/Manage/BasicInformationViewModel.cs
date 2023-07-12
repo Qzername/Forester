@@ -42,8 +42,12 @@ namespace Forester.ViewModels.App.Developer.Manage
         [Reactive] bool makeChanges { get; set; }
         [Reactive] string buttonText { get; set; }
 
-        public BasicInformationViewModel(Application application)
+        protected bool shouldBeEnabled { get; }
+
+        public BasicInformationViewModel(Application application, bool shouldBeEnabled)
         {
+            this.shouldBeEnabled = shouldBeEnabled;
+
             makeChanges = false;
             buttonText = "Make changes";
 
@@ -54,8 +58,6 @@ namespace Forester.ViewModels.App.Developer.Manage
             pictureService = GetService<PictureService>();
             developerService = GetService<DeveloperService>();
             dialogService = GetService<DialogService>();
-
-            Debug.Log(currentApplication.Version);
 
             _ = SetDefaultData();
         }
@@ -125,6 +127,8 @@ namespace Forester.ViewModels.App.Developer.Manage
                     ShortDescription = ShortDescription,
                     Description = Description,
                 });
+
+            Debug.Log(isDone);
 
             if (!isDone)
                 return;

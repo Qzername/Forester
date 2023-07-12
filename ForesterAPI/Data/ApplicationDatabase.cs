@@ -69,7 +69,7 @@ namespace ForesterAPI.Data
             if (!string.IsNullOrEmpty(application.Version))
                 query += @$"Version = ""{application.Version}"",";
 
-            if (sqlManager.SelectSingleValue<bool>(@$"SELECT IsPrivate FROM Applications WHERE Name = ""{oldName}"""))
+            if (sqlManager.SelectSingleValue<bool>(@$"SELECT IsPrivate FROM Applications WHERE Name = ""{oldName}""") != application.IsPrivate)
                 query += $@"IsPrivate = ""{Convert.ToInt32(application.IsPrivate)}"",";
 
             if (query[^1] != ',')
@@ -132,7 +132,7 @@ namespace ForesterAPI.Data
 
         public Account[] GetApplicationDevelopers(Application application) => GetUsersByPermission(application, Permission.Developer);
 
-        Account[] GetUsersByPermission(Application application, Permission permission) => sqlManager.SelectMany<Account>($"SELECT Accounts.* FROM Accounts, Permissions WHERE Permissions.Permission == {(int)permission} AND Accounts.ID = Permissions.ApplicationID AND Permissions.ApplicationID = {application.ID}");
+        Account[] GetUsersByPermission(Application application, Permission permission) => sqlManager.SelectMany<Account>($"SELECT Accounts.* FROM Accounts, Permissions WHERE Permissions.Permission = {(int)permission} AND Accounts.ID = Permissions.AccountID AND Permissions.ApplicationID = {application.ID}");
 
         /// <summary>
         /// Can also remove permissions with Permission.Remove

@@ -2,33 +2,21 @@
 using Forester.Data;
 using Forester.Models.API;
 using Forester.Services.App;
+using Forester.Tools;
 using Forester.ViewModels.Bases;
 using ReactiveUI.Fody.Helpers;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Forester.ViewModels.App.Developer.Manage
 {
-    internal class AllowedUsersViewModel : ViewModelBase
+    internal class AllowedUsersViewModel : ChangePermissionBase
     {
-        Application currentApplication;
-
-        //dependency injection
-        ApplicationDatabase applicationDatabase;
-        DeveloperService developerService;
-
         [Reactive] bool isPrivate { get; set; }
 
-        AvaloniaList<Account> users;
-
-        [Reactive] string newUser { get; set; }
-        [Reactive] string error { get; set; }
-
-        public AllowedUsersViewModel(Application application)
+        public AllowedUsersViewModel(Application application, bool shouldBeEnabled) : base(Permission.Allowed, application, shouldBeEnabled)
         {
-            currentApplication = application;
-
-            applicationDatabase = GetService<ApplicationDatabase>();
-            developerService = GetService<DeveloperService>();  
-
             isPrivate = currentApplication.IsPrivate;
         }
 
@@ -44,19 +32,5 @@ namespace Forester.ViewModels.App.Developer.Manage
             currentApplication.IsPrivate = isPrivate;
         }
 
-        public void SwitchUser(object AccountOBJ)
-        {
-
-        }
-
-        public void AddUser()
-        {
-
-        }
-
-        public void DeleteUser()
-        {
-
-        }
     }
 }
