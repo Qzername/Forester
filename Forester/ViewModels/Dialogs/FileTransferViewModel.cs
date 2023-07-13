@@ -44,14 +44,34 @@ namespace Forester.ViewModels.Dialogs
             switch (action)
             {
                 case TransferAction.Download: Download(applicationName, filepath); break;
-                case TransferAction.Upload: Upload(applicationName, filepath); break;
                 case TransferAction.Update: Update(applicationName, filepath); break;
+                case TransferAction.Upload: Upload(applicationName, filepath); break;
             }
         }
 
-        void Download(string applicationName, string filepath)
+        async Task Download(string applicationName, string filepath) => await Download(applicationName, filepath, string.Empty);
+
+        async Task Update(string applicationName, string filepath)
         {
-            throw new NotImplementedException();
+            string checksum = File.ReadAllText(filepath + "ForesterConfig/checksum.json");
+
+            await Download(applicationName, filepath, checksum);
+        }
+
+        async Task Download(string applicationName, string filepath, string doNotInclude)
+        {
+            //download
+            status = "Doing action...";
+
+            if(doNotInclude==string.Empty)
+                await applicationFileDatabase.Download(applicationName, "./tempApp.zip", progress);
+            else
+                await applicationFileDatabase.Download(applicationName, "./tempApp.zip", progress, doNotInclude);
+
+            //unziping
+            ZipFile.ExtractToDirectory("./tempApp.zip", filepath, true);
+
+            ActionCompleted();
         }
 
         async Task Upload(string applicationName, string filepath)
@@ -60,7 +80,7 @@ namespace Forester.ViewModels.Dialogs
             status = "Creating zip file...";
 
             string zipFile = "./tempApp.zip";
-            await Task.Run(() => ZipFile.CreateFromDirectory(filepath, zipFile));
+            ZipFile.CreateFromDirectory(filepath, zipFile);
 
             //upload
             status = "Doing action...";
@@ -70,18 +90,12 @@ namespace Forester.ViewModels.Dialogs
             ActionCompleted();
         }
 
-        void Update(string applicationName, string filepath)
-        {
-            throw new NotImplementedException();
-        }
-
         void ActionCompleted()
         {
             status = "Finished";
             isFinished = true;
 
-            if (whenUploadFinished is not null)
-                whenUploadFinished.Invoke();
+            whenUploadFinished?.Invoke();
         }
 
         void ClearZip()

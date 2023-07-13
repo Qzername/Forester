@@ -12,5 +12,15 @@
     "Password": "123dupa123",
     "IsDeveloper": false
   },
-  "LibraryElements": [ { "ApplicationID": 1 } ]
+  "LibraryElements": [
+    {
+      "ApplicationID": 1,
+      "DownloadSettings": {
+        "IsDownloaded": true,
+        "UseDefaultPath": true,
+        "Path": "./Apps/testowaAplikacja/",
+        "DeleteNotNecessary": false
+      }
+    }
+  ]
 }

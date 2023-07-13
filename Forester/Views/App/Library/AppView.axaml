@@ -7,32 +7,26 @@
 	<ScrollViewer>
 		<DockPanel>
 			<Panel DockPanel.Dock="Top" Height="300">
-				<Image Stretch="UniformToFill" Source="{Binding backgroundPicture}"/>
-				<Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="64" Content="{Binding appName}"/>
+				<Image Stretch="UniformToFill" Source="{Binding currentElement.BackgroundPicture}"/>
+				<Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="64" Content="{Binding currentElement.Application.Name}"/>
 			</Panel>
 
-
 			<DockPanel DockPanel.Dock="Top" Height="70" Background="#151515">
-				<StackPanel VerticalAlignment="Center" Margin="10,5,0,5">
-					<Button IsEnabled="{Binding canDownload}" Width="110" Command="{Binding Download}" DockPanel.Dock="Left"  HorizontalContentAlignment="Center" Padding="20,3,20,3" >Download</Button>
-					<Button IsEnabled="{Binding !canDownload}" Width="110" Command="{Binding Update}" DockPanel.Dock="Left" HorizontalContentAlignment="Center" Padding="20,3,20,3" >Update</Button>
-				</StackPanel>
-
 				<StackPanel DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,5,10,5">
-					<Button IsEnabled="{Binding !canDownload}" Width="150" Command="{Binding Delete}" Margin="10,0,0,0" HorizontalContentAlignment="Center" Padding="10,3,10,3" >Delete</Button>
+					<Button IsEnabled="{Binding currentElement.DownloadSettings.IsDownloaded}" Width="150" Command="{Binding Delete}" Margin="10,0,0,0" HorizontalContentAlignment="Center" Padding="10,3,10,3" >Delete</Button>
 					<Button Width="150" Command="{Binding DeleteFromLibrary}" Margin="10,0,0,0" HorizontalContentAlignment="Center" Padding="10,3,10,3">Delete from library</Button>
 				</StackPanel>
-
-				<DockPanel DockPanel.Dock="Left"  Margin="10,10,0,10">
-					<Label DockPanel.Dock="Top" FontSize="20" HorizontalAlignment="Center" Content="Download:"/>
-					<ProgressBar Value="{Binding progress}" Height="15"/>
-				</DockPanel>
+				
+				<StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10,5,0,5">
+					<Button IsEnabled="{Binding !currentElement.DownloadSettings.IsDownloaded}" Width="110" Command="{Binding Download}" DockPanel.Dock="Left"  HorizontalContentAlignment="Center" Padding="20,3,20,3" >Download</Button>
+					<Button IsEnabled="{Binding currentElement.DownloadSettings.IsDownloaded}" Width="110" Command="{Binding Update}" DockPanel.Dock="Left" HorizontalContentAlignment="Center" Padding="20,3,20,3" >Update</Button>
+				</StackPanel>
 			</DockPanel>
 
 			<DockPanel Margin="10">
 				<Label DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="32" Content="Description:"/>
 				<Panel Margin="0,10,0,0">
-					<TextBlock TextWrapping="Wrap" Text="{Binding description}"/>
+					<TextBlock TextWrapping="Wrap" Text="{Binding currentElement.Application.Description}"/>
 				</Panel>
 			</DockPanel>
 		</DockPanel>

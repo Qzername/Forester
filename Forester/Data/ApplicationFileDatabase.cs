@@ -19,14 +19,25 @@ namespace Forester.Data
 
         }
 
-        public Task Download()
+        public async Task Download(string applicationName, string filepath, IProgress<int> progress)
         {
-            throw new NotImplementedException();
+            await FileTransferManager.Download(GenerateURI("Download?name="+applicationName), filepath, progress);
+        }
+
+        public async Task Download(string applicationName, string filepath, IProgress<int> progress, string doNotIncludeJson)
+        {
+            await FileTransferManager.Download(GenerateURI("Download?name="+applicationName), filepath, progress, doNotIncludeJson);    
         }
 
         public async Task Upload(string name, string filepath, IProgress<int> progress)
         {
             await FileTransferManager.Upload(GenerateURI($"Upload?name={name}"), File.OpenRead(filepath), progress);
+        }
+
+        string DictonaryToJson(Dictionary<string, string> dict)
+        {
+            var entries = dict.Select(d => string.Format("\"{0}\": \"{1}\"", d.Key, d.Value));
+            return "{" + string.Join(",", entries) + "}";
         }
     }
 }

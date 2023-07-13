@@ -41,8 +41,9 @@ namespace Forester
             services.RegisterLazySingleton(() => new ApplicationFileDatabase(fileTransferManager, errorMessage), typeof(ApplicationFileDatabase));
 
             // --- app ---
-            services.RegisterLazySingleton(()=> new DeveloperService(), typeof(DeveloperService));
+            services.RegisterLazySingleton(() => new StoreService(), typeof(StoreService));
             services.RegisterLazySingleton(() => new LibraryService(), typeof(LibraryService));
+            services.RegisterLazySingleton(() => new DeveloperService(), typeof(DeveloperService));
 
             // --- other ---
             services.RegisterLazySingleton(() => new WindowConfigurationService(), typeof(WindowConfigurationService));

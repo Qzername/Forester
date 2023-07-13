@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,9 +20,9 @@ namespace Forester.Data.Connection
             client.BaseAddress = new Uri(BaseAddress);
         }
 
-        public async Task Download(string uri, string filepath,IProgress<int> progress)
+        public async Task Download(string uri, string filepath, IProgress<int> progress, string doNotIncludeJson = "{}") 
         {
-            using (var response = await client.GetAsync(uri)) 
+            using (var response = await client.PostAsync(uri, new StringContent(doNotIncludeJson, Encoding.UTF8, "application/json"))) 
             { 
                 var contentLength = response.Content.Headers.ContentLength;
 
@@ -44,6 +45,8 @@ namespace Forester.Data.Connection
                         progress.Report(Convert.ToInt32(currentProgress));
                     }
                 }
+
+                Debug.Log(response.StatusCode);
             }
         }
 

@@ -23,6 +23,8 @@ namespace Forester.ViewModels
 
         public MainViewModel()
         {
+            AutoUpdateCheck();
+
             windowConfigurationService = GetService<WindowConfigurationService>();
             windowConfigurationService.OnChangeConfiguration += WindowConfigurationService_OnChangeChromeHints;
             windowConfigurationService.OnLogOutCalled += WindowConfigurationService_OnLogOutCalled;
@@ -32,6 +34,11 @@ namespace Forester.ViewModels
             MoveToLogin();
         }
 
+        void AutoUpdateCheck()
+        {
+
+        }
+        
         private void WindowConfigurationService_OnLogOutCalled()
         {
             var settingsFile = GetService<SettingsFile>();

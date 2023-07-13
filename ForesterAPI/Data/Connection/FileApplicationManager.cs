@@ -55,11 +55,12 @@ namespace ForesterAPI.Data.Connection
         /// </summary>
         public byte[] ExtractFiles(string name, Dictionary<string,string> doNotInclude)
         {
-            string directoryPath = GetDirectoryPath(name) + "app.zip";
+            string directoryPath = GetDirectoryPath(name);
+            string appPath = directoryPath + "app.zip";
 
             var checksum = JsonManager.Deserialize<Dictionary<string, string>>(File.ReadAllText($"{directoryPath}checksum.json"));
 
-            return fileConfigurator.ExtractFiles(directoryPath, checksum, doNotInclude, true);
+            return fileConfigurator.ExtractFiles(appPath, checksum, doNotInclude, true);
         }
 
         public string GetChecksum(string name) => File.ReadAllText(GetDirectoryPath(name) + "checksum.json");

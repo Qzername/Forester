@@ -9,5 +9,6 @@ namespace Forester.Models.App
     public struct LibraryElementConfig
     {
         public int ApplicationID { get; set; }
+        public DownloadSettings DownloadSettings { get; set; }
     }
 }
