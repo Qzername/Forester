@@ -10,7 +10,7 @@
 		<StackPanel Margin="50,0,50,0">
 			<TextBox Text="{Binding newVersion}" Watermark="Version (should be different than current)" AcceptsTab="True" TextWrapping="Wrap" AcceptsReturn="True" Margin="100,5" VerticalContentAlignment="Stretch" MaxLength="2000"/>
 			<Button Command="{Binding SelectPath}" Margin="100,5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Content="Select folder with app"/>
-			<Label Margin="100,5" Content="{Binding Path=newVersionCurrentPath, StringFormat='Current version: {0}'}"/>
+			<Label Margin="100,5" Content="{Binding Path=newVersionCurrentPath, StringFormat='Current path: {0}'}"/>
 			
 			<!--Current path: Not selected-->
 			<Button Command="{Binding Submit}" Margin="100,5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Content="Submit"/>

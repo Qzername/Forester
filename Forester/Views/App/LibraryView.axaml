@@ -4,5 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Forester.Views.App.LibraryView">
-    Library
+	<DockPanel>
+
+		<ItemsControl DockPanel.Dock="Left" Background="#151515" Width="200" ItemsSource="{Binding elements}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Button Width="200" Padding="0" CornerRadius="0" Command="{Binding $parent[ItemsControl].DataContext.SetApp}" CommandParameter="{Binding Application}">
+						<StackPanel Orientation="Horizontal">
+							<Image Stretch="UniformToFill" Width="25" Height="25" Source="{Binding ProfilePicture}"/>
+							<Label Padding="5,0,0,0" VerticalAlignment="Center" Content="{Binding Application.Name}"/>
+						</StackPanel>
+					</Button>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+		<Panel>
+			<ContentControl Content="{Binding content}"/>
+		</Panel>
+	</DockPanel>
 </UserControl>

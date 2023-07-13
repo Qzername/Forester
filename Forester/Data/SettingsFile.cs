@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Forester.Models;
 using Forester.Models.API;
+using Forester.Models.App;
 using Forester.Tools;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -42,6 +43,7 @@ namespace Forester.Data
         {
             SetTheme("Spring");
             SetAutoLogin(new Account());
+            SetLibraryElements(new LibraryElementConfig[0]);
         }
 
         /// <summary>
@@ -79,6 +81,11 @@ namespace Forester.Data
                 Username = account.Username,    
                 Password = account.Password,
             };
+        }
+
+        public void SetLibraryElements(LibraryElementConfig[] libraryElements)
+        {
+            Settings.LibraryElements = libraryElements;
         }
     }
 }
