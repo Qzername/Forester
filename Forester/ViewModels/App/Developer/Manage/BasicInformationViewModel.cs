@@ -128,8 +128,6 @@ namespace Forester.ViewModels.App.Developer.Manage
                     Description = Description,
                 });
 
-            Debug.Log(isDone);
-
             if (!isDone)
                 return;
 

@@ -7,12 +7,12 @@ namespace ForesterAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UpdateContoller : ControllerBase
+    public class UpdateController : ControllerBase
     {
         string uploadToken;
         ForesterFileDatabase foresterFileDatabase;
 
-        public UpdateContoller(IConfiguration configuration, ForesterFileDatabase foresterFileDatabase)
+        public UpdateController(IConfiguration configuration, ForesterFileDatabase foresterFileDatabase)
         {
             uploadToken = configuration.GetValue<string>("UploadForesterToken");
             this.foresterFileDatabase = foresterFileDatabase;
@@ -27,7 +27,7 @@ namespace ForesterAPI.Controllers
         [HttpPost("[action]")]
         public FileContentResult Download([FromBody] Dictionary<string, string> doNotInclude) => File(foresterFileDatabase.GetForesterFiles(doNotInclude), "application/force-download", "forester.zip");
 
-        [HttpPost("Forester/UploadNewVersion")]
+        [HttpPost("[action]")]
         [DisableRequestSizeLimit]
         public IActionResult Upload([FromHeader] string token, [FromQuery] string version, IFormFile file)
         {

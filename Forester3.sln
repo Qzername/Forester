@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forester.Desktop", "Foreste
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{FBA72CAC-60D3-440E-BBE5-3CCBEDF2C7A3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForesterUpdater", "ForesterUpdater\ForesterUpdater.csproj", "{A308C933-7D5B-4C0D-956B-E7C0A187492C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{DDED4FAC-7BED-4D01-BD62-8915767FF78D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDED4FAC-7BED-4D01-BD62-8915767FF78D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDED4FAC-7BED-4D01-BD62-8915767FF78D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A308C933-7D5B-4C0D-956B-E7C0A187492C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A308C933-7D5B-4C0D-956B-E7C0A187492C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A308C933-7D5B-4C0D-956B-E7C0A187492C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A308C933-7D5B-4C0D-956B-E7C0A187492C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

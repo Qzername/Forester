@@ -3,7 +3,9 @@ using Forester.Data;
 using Forester.Models.API;
 using Forester.Models.Configurations;
 using Forester.Services;
+using Forester.Tools;
 using Forester.ViewModels.Bases;
+using Forester.ViewModels.Dialogs;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -34,9 +36,24 @@ namespace Forester.ViewModels
             MoveToLogin();
         }
 
-        void AutoUpdateCheck()
+        async void AutoUpdateCheck()
         {
+            string version = GetService<SettingsFile>().ForesterData.Version;
 
+            string newestVersion = await GetService<VersionDatabase>().GetVersion();
+
+            if (version ==newestVersion)
+                return;
+
+            var dialogService = GetService<DialogService>();
+            
+            dialogService.ChangeConfiguration(new DialogConfiguration()
+            {
+                Content = new NewVersionInfoViewModel(),
+                Width = 500,
+                Height = 153,
+            });
+            dialogService.ChangeVisibility(true);
         }
         
         private void WindowConfigurationService_OnLogOutCalled()

@@ -1,4 +1,5 @@
-﻿using Forester.Services;
+﻿using Forester.Data;
+using Forester.Services;
 using Forester.ViewModels.Bases;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -23,7 +24,7 @@ namespace Forester.ViewModels.Dialogs.SettingsDialog
         {
             theme = GetService<ThemeService>();
 
-            Version = "3.0v";
+            Version = GetService<SettingsFile>().ForesterData.Version;
         }
 
         public void Discord()

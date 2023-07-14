@@ -34,7 +34,8 @@ namespace Forester
             var fileTransferManager = GetService<FileTransferManager>(resolver);
             var errorMessage = GetService<ErrorMessageService>(resolver);
 
-            services.RegisterLazySingleton(() => new AccountDatabase(fileTransferManager, requestManager, errorMessage), typeof(AccountDatabase));
+            services.RegisterLazySingleton(() => new AccountDatabase(requestManager, fileTransferManager, errorMessage), typeof(AccountDatabase));
+            services.RegisterLazySingleton(() => new VersionDatabase(requestManager, fileTransferManager, errorMessage), typeof(VersionDatabase));
             services.RegisterLazySingleton(() => new ApplicationDatabase(requestManager, errorMessage), typeof(ApplicationDatabase));
             services.RegisterLazySingleton(() => new PictureDatabase(fileTransferManager, errorMessage), typeof(PictureDatabase));
 

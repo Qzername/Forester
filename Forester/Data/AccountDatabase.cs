@@ -14,11 +14,8 @@ namespace Forester.Data
     {
         protected override string APIprefix { get; } = "Accounts/";
 
-        FileTransferManager fileTransferManager;
-
-        public AccountDatabase(FileTransferManager fileTransferManager, RequestManager requestManager, ErrorMessageService errorMessageService) : base(requestManager, errorMessageService)
+        public AccountDatabase(RequestManager requestManager, FileTransferManager fileTransferManager, ErrorMessageService errorMessageService) : base(requestManager, fileTransferManager, errorMessageService)
         {
-            this.fileTransferManager = fileTransferManager;
         }
 
         /// <summary>
@@ -47,7 +44,7 @@ namespace Forester.Data
                 string token = ((APIToken)apiMessage.Content).Token;
 
                 RequestManager.SetAuthorization(token);
-                fileTransferManager.SetAuthorization(token);
+                FileTransferManager.SetAuthorization(token);
 
                 return true;
             }

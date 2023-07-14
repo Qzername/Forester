@@ -23,31 +23,49 @@ namespace ForesterAPI.Data.Connection
             this.fileConfigurator = fileConfigurator;
         }
 
-        public string GetVersion() => File.ReadAllText($"{DatabasePrefix}version.json");
-        public string GetChecksum() => File.ReadAllText($"{DatabasePrefix}checksum.json");
+        public string GetVersion() => File.ReadAllText($"{DatabasePrefix}Version.json");
+        public string GetChecksum() => File.ReadAllText($"{DatabasePrefix}Checksum.json");
 
         public byte[] GetForesterFiles(Dictionary<string, string> doNotInclude)
         {
-            var checksum = JsonManager.Deserialize<Dictionary<string, string>>(File.ReadAllText($"{DatabasePrefix}checksum.json"));
+            var checksum = JsonManager.Deserialize<Dictionary<string, string>>(File.ReadAllText($"{DatabasePrefix}Checksum.json"));
 
-            return fileConfigurator.ExtractFiles($"{DatabasePrefix}forester.zip", checksum, doNotInclude, false);
+            return fileConfigurator.ExtractFiles($"{DatabasePrefix}Forester.zip", checksum, doNotInclude, false);
         }
 
         public void SetForesterFiles(string version, IFormFile file)
         {
-            if (File.Exists($"{DatabasePrefix}forester.zip"))
-                File.Delete($"{DatabasePrefix}forester.zip");
+            if (File.Exists($"{DatabasePrefix}Forester.zip"))
+                File.Delete($"{DatabasePrefix}Forester.zip");
 
-            FileStream stream = new FileStream($"{DatabasePrefix}forester.zip", FileMode.Create);
+            FileStream stream = new FileStream($"{DatabasePrefix}Forester.zip", FileMode.Create);
             file.CopyTo(stream);
             stream.Close();
 
-            ZipArchive zip = ZipFile.Open($"{DatabasePrefix}forester.zip", ZipArchiveMode.Read);
+            ZipArchive zip = ZipFile.Open($"{DatabasePrefix}Forester.zip", ZipArchiveMode.Update);
 
+            //removal of base info
+            var versionEntry = zip.GetEntry("Version.json");
+            versionEntry?.Delete();
+
+            var checksumEntry = zip.GetEntry("Checksum.json");
+            checksumEntry?.Delete();
+
+            var settingsEntry = zip.GetEntry("Settings.json");
+            settingsEntry?.Delete();
+             
+            //checksum and version
             var checksum = fileConfigurator.CreateChecksum(zip);
 
-            File.WriteAllText($"{DatabasePrefix}checksum.json", fileConfigurator.DictonaryToJson(checksum));
-            File.WriteAllText($"{DatabasePrefix}version.json", "{ \"Version\":\"" + version + "\"}");
+            string checksumString = fileConfigurator.DictonaryToJson(checksum);
+            string jsonVersion = "{ \"Version\":\"" + version + "\"}";
+
+            //adding needed files and writing them to files
+            File.WriteAllText($"{DatabasePrefix}Version.json", jsonVersion);
+            zip.CreateEntryFromFile($"{DatabasePrefix}Version.json", "Version.json");
+
+            File.WriteAllText($"{DatabasePrefix}Checksum.json", checksumString);
+            zip.CreateEntryFromFile($"{DatabasePrefix}Checksum.json", "Checksum.json");
 
             zip.Dispose();
         }

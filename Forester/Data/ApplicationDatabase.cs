@@ -68,8 +68,6 @@ namespace Forester.Data
 
             var apiMessage = await RequestManager.Put(GenerateURI($"?name={name}"), json);
 
-            Debug.Log(apiMessage.Content);
-
             return apiMessage.StatusCode == HttpStatusCode.OK;
         }
 
@@ -133,9 +131,7 @@ namespace Forester.Data
 
             var apiMessage = await RequestManager.Post(GenerateURI("ChangePermission"), json);
 
-            Debug.Log(apiMessage.Content);
-
             return apiMessage.StatusCode == HttpStatusCode.OK;
         }
     }
-}//testAccount
+}

@@ -21,6 +21,7 @@ namespace Forester.Data
         //maybe in future change settings into abstract classes?
 
         [Reactive] public Settings Settings { get; private set; }
+        public ForesterData ForesterData { get; private set; }
 
         public SettingsFile() => ReadSettings();
 
@@ -35,6 +36,8 @@ namespace Forester.Data
             }
             else
                 Settings = JsonManager.Deserialize<Settings>(File.ReadAllText(SettingsFilePath));
+
+            ForesterData = JsonManager.Deserialize<ForesterData>(File.ReadAllText("./Version.json"));
         }
 
         public void SaveSettings() => File.WriteAllText(SettingsFilePath, JsonManager.Serialize(Settings));

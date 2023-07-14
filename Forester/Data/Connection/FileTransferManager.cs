@@ -45,8 +45,6 @@ namespace Forester.Data.Connection
                         progress.Report(Convert.ToInt32(currentProgress));
                     }
                 }
-
-                Debug.Log(response.StatusCode);
             }
         }
 

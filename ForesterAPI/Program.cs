@@ -10,19 +10,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//other
+builder.Services.AddSingleton(typeof(RequirementChecker));
+builder.Services.AddSingleton(typeof(FileConfigurator));
+
 //managers
 builder.Services.AddSingleton(typeof(FileApplicationManager));
 builder.Services.AddSingleton(typeof(PictureManager));
 builder.Services.AddSingleton(typeof(SQLManager));
+builder.Services.AddSingleton(typeof(ForesterFileManager));
 
 //databases
 builder.Services.AddSingleton(typeof(AccountDatabase));
 builder.Services.AddSingleton(typeof(ApplicationDatabase));
 builder.Services.AddSingleton(typeof(FileDatabase));
-
-//other
-builder.Services.AddSingleton(typeof(RequirementChecker));
-builder.Services.AddSingleton(typeof(FileConfigurator));
+builder.Services.AddSingleton(typeof(ForesterFileDatabase));
 
 //JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

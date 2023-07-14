@@ -35,6 +35,13 @@ namespace Forester.Data
             this.errorMessageService = errorMessageService;
         }
 
+        public Database(RequestManager requestManager, FileTransferManager fileTransferManager, ErrorMessageService errorMessageService)
+        {
+            this.requestManager = requestManager;
+            this.fileTransferManager = fileTransferManager;
+            this.errorMessageService = errorMessageService;
+        }
+
         protected void SendError(string friendlyError, HttpStatusCode statusCode, string technicalError)
         {
             errorMessageService.SendErrorMessage(new ErrorMessage()
