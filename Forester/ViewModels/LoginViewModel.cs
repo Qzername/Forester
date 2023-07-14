@@ -90,7 +90,10 @@ namespace Forester.ViewModels
             }
 
             if (rememberMe)
+            {
                 settingsFile.SetAutoLogin(account);
+                settingsFile.SaveSettings();
+            }
 
             await GetService<UserDataService>().SetAccount(login);
 

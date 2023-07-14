@@ -63,13 +63,15 @@ namespace Forester.ViewModels.Dialogs
             //download
             status = "Doing action...";
 
-            if(doNotInclude==string.Empty)
+            if (doNotInclude == string.Empty)
                 await applicationFileDatabase.Download(applicationName, "./tempApp.zip", progress);
             else
                 await applicationFileDatabase.Download(applicationName, "./tempApp.zip", progress, doNotInclude);
 
             //unziping
-            ZipFile.ExtractToDirectory("./tempApp.zip", filepath, true);
+            status = "Unzipping...";
+            Task zipFileUnpacking = Task.Run(() => ZipFile.ExtractToDirectory("./tempApp.zip", filepath, true));
+            await zipFileUnpacking;
 
             ActionCompleted();
         }
@@ -80,7 +82,9 @@ namespace Forester.ViewModels.Dialogs
             status = "Creating zip file...";
 
             string zipFile = "./tempApp.zip";
-            ZipFile.CreateFromDirectory(filepath, zipFile);
+
+            Task zipFileCreation = Task.Run(() => ZipFile.CreateFromDirectory(filepath, zipFile));
+            await zipFileCreation;
 
             //upload
             status = "Doing action...";

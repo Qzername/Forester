@@ -18,6 +18,7 @@ namespace Forester.Data.Connection
         public FileTransferManager() :base()
         {
             client.BaseAddress = new Uri(BaseAddress);
+            client.Timeout = new TimeSpan(24, 0, 0);
         }
 
         public async Task Download(string uri, string filepath, IProgress<int> progress, string doNotIncludeJson = "{}") 
