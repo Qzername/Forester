@@ -83,7 +83,7 @@ namespace Forester.ViewModels.App.Library
                 File.Delete(directoryPath + key);
 
             if (Directory.GetFiles(directoryPath).Length == 0)
-                Directory.Delete(directoryPath);
+                Directory.Delete(directoryPath, true);
 
             DownloadSettings downloadSettings = new DownloadSettings();
 

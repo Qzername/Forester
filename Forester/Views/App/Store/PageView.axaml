@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Forester.Views.App.Store.PageView"
+			 xmlns:local="using:Forester.Controls"
+			 
+             xmlns:md="using:Markdown.Avalonia"
+			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia">
+	<ScrollViewer>
+		<StackPanel>
+			<!--Top section-->
+			<Panel Height="400" Background="#050505">
+				<Image Source="{Binding currentElement.BackgroundPicture}" Stretch="UniformToFill"/>
+
+				<!--Profile picture-->
+				<Panel Width="120" Height="120">
+					<local:ProfilePicture/>
+					<Image Margin="4" Source="{Binding currentElement.ProfilePicture}"/>
+				</Panel>
+
+				<!--Info Text-->
+				<StackPanel Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+					<TextBlock FontSize="24" Text="{Binding Path=currentElement.Application.Version, StringFormat='Current Version: {0}'}"/>
+					<TextBlock FontSize="24" Text="{Binding Path=currentElement.Application.DownloadNumber, StringFormat='Number of Downloads: {0}'}"/>
+				</StackPanel>
+
+				<!--Back button-->
+				<Button Command="{Binding GoBack}" Margin="10" Padding="5" Width="70" Height="70" VerticalAlignment="Top" HorizontalAlignment="Left">
+					<materialIcons:MaterialIcon Foreground="{Binding theme.SecondBrush}" Width="70" Height="70" Kind="ArrowBack" />
+				</Button>
+
+				<!--Add to library button-->
+				<Button Command="{Binding AddToLibrary}" IsEnabled="{Binding !currentElement.IsInLibrary}" Content="Add to library" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="24"/>
+			</Panel>
+			<!--Bottom section-->
+			<StackPanel>
+				<TextBlock Text="{Binding currentElement.Application.Name}" FontSize="48" Padding="20" HorizontalAlignment="Center"/>
+				<md:MarkdownScrollViewer Margin="70,0,70,20" Markdown="{Binding currentElement.Application.Description}"/>
+			</StackPanel>
+		</StackPanel>
+	</ScrollViewer>
+</UserControl>

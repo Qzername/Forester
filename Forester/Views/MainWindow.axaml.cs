@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Forester.ViewModels;
@@ -14,6 +15,10 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
         AvaloniaXamlLoader.Load(this);
 
         PropertyChanged += MainWindow_PropertyChanged;
+
+#if DEBUG
+        this.AttachDevTools();
+#endif
     }
 
     private void MainWindow_PropertyChanged(object? sender, Avalonia.AvaloniaPropertyChangedEventArgs e)

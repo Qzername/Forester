@@ -45,7 +45,7 @@ namespace ForesterAPI.Data
         /// <summary>
         /// By default, applications will be set to private
         /// </summary>
-        public void Create(Application application) => sqlManager.ExecuteNonQuery(@$"INSERT INTO Applications(Owner, Name, Version, IsPrivate) VALUES(""{application.Owner}"", ""{application.Name}"", ""None"", 1)");
+        public void Create(Application application) => sqlManager.ExecuteNonQuery(@$"INSERT INTO Applications(Owner, Name, Version, IsPrivate, DownloadNumber) VALUES(""{application.Owner}"", ""{application.Name}"", ""None"", 1,0)");
 
         public void Update(string oldName, Application application)
         {

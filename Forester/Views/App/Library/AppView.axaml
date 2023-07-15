@@ -3,7 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Forester.Views.App.Library.AppView">
+             x:Class="Forester.Views.App.Library.AppView"
+			 
+             xmlns:md="using:Markdown.Avalonia">
 	<ScrollViewer>
 		<DockPanel>
 			<Panel DockPanel.Dock="Top" Height="300">
@@ -22,13 +24,7 @@
 					<Button IsEnabled="{Binding currentElement.DownloadSettings.IsDownloaded}" Width="110" Command="{Binding Update}" DockPanel.Dock="Left" HorizontalContentAlignment="Center" Padding="20,3,20,3" >Update</Button>
 				</StackPanel>
 			</DockPanel>
-
-			<DockPanel Margin="10">
-				<Label DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="32" Content="Description:"/>
-				<Panel Margin="0,10,0,0">
-					<TextBlock TextWrapping="Wrap" Text="{Binding currentElement.Application.Description}"/>
-				</Panel>
-			</DockPanel>
+			<md:MarkdownScrollViewer Margin="20" Markdown="{Binding currentElement.Application.Description}"/>
 		</DockPanel>
 	</ScrollViewer>
 </UserControl>

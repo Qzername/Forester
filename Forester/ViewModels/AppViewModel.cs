@@ -37,8 +37,6 @@ namespace Forester.ViewModels
             dialogService = GetService<DialogService>();
             userDataService = GetService<UserDataService>();
 
-            appContent = new AppContentViewModel();
-
             //window configuration
             var windowConfigurationService = GetService<WindowConfigurationService>();
             windowConfigurationService.ChangeConfiguration(new WindowConfiguration()
@@ -46,6 +44,8 @@ namespace Forester.ViewModels
                 IsChromeOn = true,
                 TitleBarHeight = 20
             });
+
+            appContent = new AppContentViewModel();
 
             AddPages();
         }

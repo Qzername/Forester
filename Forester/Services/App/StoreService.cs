@@ -1,4 +1,5 @@
-﻿using Forester.ViewModels.App;
+﻿using Forester.Models.App;
+using Forester.ViewModels.App;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,9 @@ namespace Forester.Services.App
         }
 
         public async Task GetApps() => await storeViewModel.GetApps();
+
+        //ui
+        public void MoveToApp(StoreElement element) => storeViewModel.MoveToApp(element);
+        public void GoToDefault() => storeViewModel.GoToDefault();
     }
 }

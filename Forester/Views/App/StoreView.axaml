@@ -4,16 +4,5 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Forester.Views.App.StoreView">
-	<StackPanel>
-		<ItemsControl ItemsSource="{Binding apps}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<StackPanel Orientation="Horizontal">
-						<Button IsEnabled="{Binding IsInLibrary}" Command="{Binding $parent[ItemsControl].DataContext.AddToLibrary}" CommandParameter="{Binding Application}" Content="Add to library"/>
-						<TextBlock Text="{Binding Application.Name}"/>
-					</StackPanel>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-	</StackPanel>
+	<ContentControl Content="{Binding content}"/>
 </UserControl>

@@ -1,0 +1,52 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Forester.Views.App.Store.ListView">
+	<ScrollViewer>
+		<StackPanel>
+
+			<Panel Height="40" Margin="0,20" Background="#1F1F1F">
+				<Button Command="{Binding GetApps}" Margin="10,0" HorizontalAlignment="Right" Content="Refresh"/>
+			</Panel>
+
+			<ItemsControl ItemsSource="{Binding apps}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+
+						<Button  Command="{Binding $parent[ItemsControl].DataContext.MoveTo}" CommandParameter="{Binding}" Margin="0" Padding="0" CornerRadius="0">
+							<Panel  Height="105">
+								<Image Source="{Binding BackgroundPicture}" Stretch="UniformToFill"/>
+
+								<!--Background effect-->
+								<Rectangle>
+									<Rectangle.Fill>
+										<LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%" >
+											<GradientStop Color="#55000000" Offset="0" />
+											<GradientStop Color="#FF070707" Offset="0.9" />
+										</LinearGradientBrush>
+									</Rectangle.Fill>
+								</Rectangle>
+
+								<DockPanel VerticalAlignment="Center" Margin="15">
+									<StackPanel Width="200" Spacing="5" DockPanel.Dock="Right" VerticalAlignment="Center">
+										<TextBlock Text="{Binding Path=Owner.Username, StringFormat='Owner: {0}'}" HorizontalAlignment="Center"/>
+										<TextBlock Text="{Binding Path=Application.Name, StringFormat='Version: {0}'}" HorizontalAlignment="Center"/>
+										<TextBlock Text="{Binding Path=Application.DownloadNumber, StringFormat='Download number: {0}'}" HorizontalAlignment="Center"/>
+									</StackPanel>
+
+									<StackPanel VerticalAlignment="Center" Margin="0,0,0,6">
+										<TextBlock Text="{Binding Application.Name}" FontSize="38"/>
+										<TextBlock Text="{Binding Application.ShortDescription}" FontSize="16"/>
+									</StackPanel>
+								</DockPanel>
+							</Panel>
+						</Button>
+
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</StackPanel>
+	</ScrollViewer>
+</UserControl>

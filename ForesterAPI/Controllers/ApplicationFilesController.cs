@@ -39,7 +39,8 @@ namespace ForesterAPI.Controllers
             if (!fileDatabase.DoesApplicationExist(name))
                 return StatusCode(403);
 
-            applicationDatabase.IncrementDownloadNumber(application);
+            if(doNotInclude.Count==0)
+               applicationDatabase.IncrementDownloadNumber(application);
 
             return File(fileDatabase.ExtractApplicationFiles(name, doNotInclude), "application/force-download", name + ".zip");
         }
