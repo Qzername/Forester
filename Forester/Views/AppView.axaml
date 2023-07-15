@@ -15,7 +15,7 @@
 		<!--Toolbar-->
 		<StackPanel IsHitTestVisible="False" Spacing="2" DockPanel.Dock="Top" Orientation="Horizontal" Height="20">
 			<Label Foreground="{Binding theme.FirstBrush}" VerticalAlignment="Center" Padding="0" Margin="5,0,0,0" Content="Forester"/>
-			<Label Foreground="{Binding theme.Orange}" VerticalAlignment="Center" Padding="0" Content="3.0v"/>
+			<Label Foreground="{Binding theme.Orange}" VerticalAlignment="Center" Padding="0" Content="3"/>
 		</StackPanel>
 		
 		<!--Choose panel-->

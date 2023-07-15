@@ -1,4 +1,5 @@
 ﻿using Avalonia.Collections;
+using Forester.Data;
 using Forester.Models;
 using Forester.Services;
 using Forester.Tools;
@@ -23,6 +24,8 @@ namespace Forester.ViewModels.Dialogs.SettingsDialog
         [Reactive] string SecondCustom { get; set; }
         [Reactive] string ThirdCustom { get; set; }
 
+        [Reactive] bool IsCustom { get; set; }
+
         AvaloniaList<ThemeCheckBox> ThemeCheckBoxes { get; set; }
 
         public ThemeViewModel(IScreen screen) : base(screen) 
@@ -44,6 +47,17 @@ namespace Forester.ViewModels.Dialogs.SettingsDialog
                     IsChecked = theme.Name == defaultTheme.Name,
                     Name = defaultTheme.Name,
                 });
+
+            if(theme.Name == "Custom")
+            {
+                var settingFile = GetService<SettingsFile>();
+
+                FirstCustom = settingFile.Settings.Theme.FirstColor;
+                SecondCustom = settingFile.Settings.Theme.SecondColor;
+                ThirdCustom = settingFile.Settings.Theme.ThirdColor;
+
+                IsCustom = true;
+            }
 
             ThemeCheckBoxes.AddRange(list.ToArray());
         }

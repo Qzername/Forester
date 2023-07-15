@@ -27,12 +27,14 @@ namespace Forester.Services
         public void SetTheme(string name)
         {
             settingsFile.SetTheme(name);
+            settingsFile.SaveSettings();
             ReadTheme();
         }
 
         public void SetTheme(Theme theme)
         {
             settingsFile.SetTheme(theme);
+            settingsFile.SaveSettings();
             ReadTheme();
         }
 
