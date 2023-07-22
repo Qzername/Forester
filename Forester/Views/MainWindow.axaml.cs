@@ -9,12 +9,16 @@ namespace Forester.Views;
 
 public partial class MainWindow : ReactiveWindow<MainViewModel>
 {
+    double OldExtendClientAreaTitleBarHeightHint;
+
     public MainWindow()
     {
         this.WhenActivated(disposables => { });
         AvaloniaXamlLoader.Load(this);
 
         PropertyChanged += MainWindow_PropertyChanged;
+
+        OldExtendClientAreaTitleBarHeightHint = ExtendClientAreaTitleBarHeightHint;
 
 #if DEBUG
         this.AttachDevTools();
@@ -30,12 +34,12 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
             if ((WindowState)e.NewValue == WindowState.Maximized)
             {
                 Padding = new Avalonia.Thickness(8);
-                ExtendClientAreaTitleBarHeightHint = ExtendClientAreaTitleBarHeightHint + 8;
+                ExtendClientAreaTitleBarHeightHint = OldExtendClientAreaTitleBarHeightHint + 8;
             }
             else
             {
                 Padding = new Avalonia.Thickness(0);
-                ExtendClientAreaTitleBarHeightHint = ExtendClientAreaTitleBarHeightHint - 8;
+                ExtendClientAreaTitleBarHeightHint = OldExtendClientAreaTitleBarHeightHint;
             }
         }
     }

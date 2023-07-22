@@ -1,12 +1,4 @@
-﻿using Forester.ViewModels;
-using Forester.ViewModels.App;
-using Forester.ViewModels.App.Developer;
-using Forester.ViewModels.Dialogs.SettingsDialog;
-using Forester.Views;
-using Forester.Views.App;
-using Forester.Views.App.Developer;
-using Forester.Views.Dialogs.SettingsDialog;
-using ReactiveUI;
+﻿using ReactiveUI;
 using System;
 
 namespace Forester
