@@ -2,8 +2,12 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+using Forester.Models.Configurations;
+using Forester.Services;
+using Forester.Tools;
 using Forester.ViewModels;
 using ReactiveUI;
+using Splat;
 
 namespace Forester.Views;
 
@@ -18,14 +22,21 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
 
         PropertyChanged += MainWindow_PropertyChanged;
 
-        OldExtendClientAreaTitleBarHeightHint = ExtendClientAreaTitleBarHeightHint;
+        var windowConfigurationService = Locator.Current.GetService<WindowConfigurationService>();
+        windowConfigurationService.OnChangeConfiguration += WindowConfigurationService_OnChangeConfiguration;
 
 #if DEBUG
         this.AttachDevTools();
 #endif
     }
 
-    private void MainWindow_PropertyChanged(object? sender, Avalonia.AvaloniaPropertyChangedEventArgs e)
+    private void WindowConfigurationService_OnChangeConfiguration(WindowConfiguration configuration)
+    {
+        if (configuration.TitleBarHeight != OldExtendClientAreaTitleBarHeightHint)
+            OldExtendClientAreaTitleBarHeightHint = configuration.TitleBarHeight;
+    }
+
+    private void MainWindow_PropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
     {
         //hacky approach to avalonia's bug
         //see: https://github.com/AvaloniaUI/Avalonia/issues/9042 for more info
@@ -33,12 +44,12 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
         {
             if ((WindowState)e.NewValue == WindowState.Maximized)
             {
-                Padding = new Avalonia.Thickness(8);
+                Padding = new Thickness(8);
                 ExtendClientAreaTitleBarHeightHint = OldExtendClientAreaTitleBarHeightHint + 8;
             }
             else
             {
-                Padding = new Avalonia.Thickness(0);
+                Padding = new Thickness(0);
                 ExtendClientAreaTitleBarHeightHint = OldExtendClientAreaTitleBarHeightHint;
             }
         }
