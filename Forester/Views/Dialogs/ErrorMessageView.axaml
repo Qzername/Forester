@@ -5,11 +5,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Forester.Views.Dialogs.ErrorMessageView">
 	<Panel>
-		<StackPanel>
+		<StackPanel Width="480" Margin="10">
 			<Label HorizontalAlignment="Center" Content="Something went wrong..." Foreground="Red" FontSize="32"/>
-			<TextBlock Text="{Binding friendlyMessage}"/>
+			<TextBlock TextWrapping="Wrap" Text="{Binding messageFriendly}"/>
 			<TextBlock Text="{Binding statusCode}"/>
-			<TextBlock Text="{Binding technicalMessage}"/>
+			<TextBlock TextWrapping="Wrap" Text="{Binding messageTechnical}"/>
 		</StackPanel>
 
 		<Button Margin="15" Content="X" Command="{Binding CloseDialog}" VerticalAlignment="Top" HorizontalAlignment="Right"/>

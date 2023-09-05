@@ -1,10 +1,5 @@
 ﻿using Forester.Models.Configurations;
 using ReactiveUI.Fody.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Forester.ViewModels.Dialogs
 {
@@ -16,7 +11,7 @@ namespace Forester.ViewModels.Dialogs
         
         public void SetError(ErrorMessage errorMessage)
         {
-            statusCode = errorMessage.StatusCode.ToString();
+            statusCode = errorMessage.StatusCode == 0 ? string.Empty : errorMessage.ToString();
             messageFriendly = errorMessage.FriendlyMessage;
             messageTechnical = errorMessage.TechnicalMessage;
         }
