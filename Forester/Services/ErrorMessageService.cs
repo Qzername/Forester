@@ -11,7 +11,6 @@ namespace Forester.Services
     public class ErrorMessageService
     {
         //some lazy loading would be cool here
-
         ErrorMessageViewModel errorMessage { get; set; }
         DialogConfiguration defaultConfiguration { get; set; }
 

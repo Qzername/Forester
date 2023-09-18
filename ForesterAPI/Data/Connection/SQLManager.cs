@@ -11,8 +11,6 @@ namespace ForesterAPI.Data.Connection
 
         SQLiteConnection connection;
 
-        //TODO: connect SelectSingle and SelectSingleValue
-
         public SQLManager() 
         { 
             path = "Data Source=./ForesterDatabase/Database.db;Version=3;";

@@ -31,10 +31,10 @@ namespace ForesterAPI.Controllers
 
             string login = User.Claims.FirstOrDefault(c => c.Type == "Login").Value;
 
-            if (!requirementChecker.IsAllowedRequirement(login, name))
-                return StatusCode(403);
-
             var application = applicationDatabase.Get(name);
+
+            if (application.IsPrivate && !requirementChecker.IsAllowedRequirement(login, name))
+                return StatusCode(403);
 
             if (!fileDatabase.DoesApplicationExist(name))
                 return StatusCode(403);
