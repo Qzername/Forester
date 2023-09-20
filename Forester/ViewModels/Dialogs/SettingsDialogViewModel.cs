@@ -28,6 +28,7 @@ namespace Forester.ViewModels.Dialogs
         //yes, i am lazy
         public void About() => Router.Navigate.Execute(new AboutViewModel(this));
         public void Theme() => Router.Navigate.Execute(new ThemeViewModel(this));
+        public void Account() => Router.Navigate.Execute(new AccountViewModel(this));
 
         public void LogOut()
         {

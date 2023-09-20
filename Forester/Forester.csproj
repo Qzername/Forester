@@ -17,19 +17,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.0" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0" />
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.0" />
+    <PackageReference Include="Avalonia" Version="11.0.4" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.4" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.4" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.4" />
 
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0" />
-    <PackageReference Include="Markdown.Avalonia" Version="11.0.0" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.4" />
+    <PackageReference Include="Markdown.Avalonia" Version="11.0.2" />
     <PackageReference Include="Material.Icons.Avalonia" Version="2.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="ReactiveUI" Version="19.2.1" />
-    <PackageReference Include="ReactiveUI.Fody" Version="19.2.1" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.0-preview.5.23280.5" />
+    <PackageReference Include="ReactiveUI" Version="19.4.1" />
+    <PackageReference Include="ReactiveUI.Fody" Version="19.4.1" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.0-rc.1.23419.5" />
   </ItemGroup>
 
   <ItemGroup>

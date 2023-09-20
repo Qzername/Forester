@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Forester.ViewModels.Dialogs.SettingsDialog
@@ -25,6 +26,7 @@ namespace Forester.ViewModels.Dialogs.SettingsDialog
         [Reactive] string ThirdCustom { get; set; }
 
         [Reactive] bool IsCustom { get; set; }
+        [Reactive] string hexError { get; set; }
 
         AvaloniaList<ThemeCheckBox> ThemeCheckBoxes { get; set; }
 
@@ -73,10 +75,27 @@ namespace Forester.ViewModels.Dialogs.SettingsDialog
 
         public void SetCustomTheme()
         {
+            hexError = "";
+
+            if (FirstCustom is null || SecondCustom is null || ThirdCustom is null)
+            {
+                hexError = "All text blocks has to be fullfield.";
+                return;
+            }
+
             int len = FirstCustom.Length + SecondCustom.Length + ThirdCustom.Length;
 
             if (len != 18)
+            {
+                hexError = "Some colors arent valid hex colors.";
                 return;
+            }
+
+            if (!CheckIfItsHex(FirstCustom) || !CheckIfItsHex(SecondCustom) || !CheckIfItsHex(ThirdCustom))
+            {
+                hexError = "Some colors arent valid hex colors.";
+                return;
+            }
 
             theme.SetTheme(new Theme()
             {
@@ -88,6 +107,8 @@ namespace Forester.ViewModels.Dialogs.SettingsDialog
 
             CheckboxHandler();
         }
+
+        bool CheckIfItsHex(string hc) => Regex.IsMatch(hc, @"[0-9A-Fa-f]{6}\b");
 
         void CheckboxHandler()
         {

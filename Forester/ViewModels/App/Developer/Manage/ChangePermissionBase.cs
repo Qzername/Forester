@@ -55,14 +55,14 @@ namespace Forester.ViewModels.App.Developer.Manage
         {
             Account account = (Account)AccountOBJ;
 
-            currentUser = account.Username;
+            currentUser = account.Login;
         }
 
         public async void AddUser()
         {
             error = "";
 
-            if (users.Any(x => x.Username == currentUser))
+            if (users.Any(x => x.Login == currentUser))
             {
                 error = "User already is " + permissionToChange.ToString();
                 return;
@@ -84,7 +84,7 @@ namespace Forester.ViewModels.App.Developer.Manage
         {
             error = "";
 
-            if (!users.Any(x => x.Username == currentUser))
+            if (!users.Any(x => x.Login == currentUser))
             {
                 error = "User is not " + permissionToChange.ToString();
                 return;

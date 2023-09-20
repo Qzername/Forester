@@ -17,6 +17,7 @@
 				<StackPanel VerticalAlignment="Top">
 					<Button Content="About" Command="{Binding About}" Foreground="{Binding theme.ThirdBrush}" Classes="Settings"/>
 					<Button Content="Theme" Command="{Binding Theme}" Foreground="{Binding theme.ThirdBrush}" Classes="Settings"/>
+					<Button Content="Account" Command="{Binding Account}" Foreground="{Binding theme.ThirdBrush}" Classes="Settings"/>
 				</StackPanel>
 				<Button Foreground="Red" Command="{Binding LogOut}" VerticalAlignment="Bottom" Content="Logout" Classes="Settings"/>
 			</Panel>

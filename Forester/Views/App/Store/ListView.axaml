@@ -30,6 +30,11 @@
 								</Rectangle>
 
 								<DockPanel VerticalAlignment="Center" Margin="15">
+									<Panel VerticalAlignment="Center" Margin="0,0,13,0" Width="70" Height="70">
+										<Image Source="{Binding ProfilePicture}" Stretch="UniformToFill"/>
+										<Border BorderBrush="Black" BorderThickness="2"/>
+									</Panel>
+									
 									<StackPanel Width="200" Spacing="5" DockPanel.Dock="Right" VerticalAlignment="Center">
 										<TextBlock Text="{Binding Path=Owner.Username, StringFormat='Owner: {0}'}" HorizontalAlignment="Center"/>
 										<TextBlock Text="{Binding Path=Application.Version, StringFormat='Version: {0}'}" HorizontalAlignment="Center"/>

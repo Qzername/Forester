@@ -27,6 +27,7 @@
 				<TextBox Text="{Binding SecondCustom}" MaxLength="6" Watermark="Second Color" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="120"/>
 				<TextBox Text="{Binding ThirdCustom}" MaxLength="6" Watermark="Third Color" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="120"/>
 				<Button Command="{Binding SetCustomTheme}" Content="Set" HorizontalContentAlignment="Center" Width="120"/>
+				<TextBlock Text="{Binding hexError}" Foreground="Red"/>
 			</StackPanel>
 		</StackPanel>
 	</ScrollViewer>

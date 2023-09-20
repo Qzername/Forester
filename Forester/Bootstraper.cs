@@ -48,7 +48,7 @@ namespace Forester
 
             // --- other ---
             services.RegisterLazySingleton(() => new WindowConfigurationService(), typeof(WindowConfigurationService));
-            services.RegisterLazySingleton(() => new UserDataService(GetService<AccountDatabase>(resolver)), typeof(UserDataService));
+            services.RegisterLazySingleton(() => new UserDataService(GetService<AccountDatabase>(resolver), GetService<PictureService>(resolver)), typeof(UserDataService));
             services.RegisterLazySingleton(() => new PictureService(GetService<PictureDatabase>(resolver), GetService<ThemeService>(resolver)), typeof(PictureService));
         }
 
