@@ -5,9 +5,19 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Forester.Views.Dialogs.SettingsDialog.AccountView">
 	<ScrollViewer>
-		<StackPanel Spacing="10" Margin="10">
+		<Panel>
 			<TextBlock Foreground="{Binding theme.ThirdBrush}" Text="Account" FontSize="64" HorizontalAlignment="Center"/>
-			<Image Source="{Binding userDataService.ProfilePicture}" Width="500" Height="500" Stretch="UniformToFill"/>
-		</StackPanel>
+			
+			<StackPanel VerticalAlignment="Center" Margin="0,0,7,0">
+				<Panel>
+					<Image Source="{Binding userDataService.BackgroundPicture}" Height="200" Stretch="UniformToFill"/>
+					<Image Source="{Binding userDataService.ProfilePicture}" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill"/>
+				</Panel>
+
+				<TextBlock Text="{Binding userDataService.CurrentAccount.Username}" FontSize="48" HorizontalAlignment="Center"/>
+				<TextBlock Text="{Binding Path=userDataService.CurrentAccount.Login, StringFormat='@{0}'}" FontFamily="24" HorizontalAlignment="Center"/>
+			</StackPanel>
+		</Panel>
+		
 	</ScrollViewer>
 </UserControl>

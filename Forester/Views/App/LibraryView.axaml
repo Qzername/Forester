@@ -14,6 +14,13 @@
 							<Image Stretch="UniformToFill" Width="25" Height="25" Source="{Binding ProfilePicture}"/>
 							<Label Padding="5,0,0,0" VerticalAlignment="Center" Content="{Binding Application.Name}"/>
 						</StackPanel>
+
+						<Button.ContextMenu>
+							<ContextMenu>
+								<MenuItem Header="Remove from library" />
+								<MenuItem Header="Delete application" />
+							</ContextMenu>
+						</Button.ContextMenu>
 					</Button>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>

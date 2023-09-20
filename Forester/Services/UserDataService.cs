@@ -12,8 +12,6 @@ namespace Forester.Services
     public class UserDataService : ReactiveObject
     {
         [Reactive] public Account CurrentAccount { get; private set; }
-        [Reactive] public string Login { get; private set; }
-        [Reactive] public string Username { get; private set; }
         [Reactive] public Bitmap ProfilePicture { get; private set; }
         [Reactive] public Bitmap BackgroundPicture { get; private set; }
 
@@ -31,11 +29,8 @@ namespace Forester.Services
         {
             CurrentAccount = await accountDatabase.Get(login);
 
-            Debug.Log("1");
             ProfilePicture = await pictureService.GetImage(login, ObjectType.Account, PictureType.ProfilePicture);
-            Debug.Log("1");
             BackgroundPicture = await pictureService.GetImage(login, ObjectType.Account, PictureType.BackgroundPicture);
-            Debug.Log(ProfilePicture.Size);
         }
     }
 }
