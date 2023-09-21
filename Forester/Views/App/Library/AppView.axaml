@@ -14,12 +14,9 @@
 			</Panel>
 
 			<DockPanel DockPanel.Dock="Top" Height="70" Background="#151515">
-				<StackPanel DockPanel.Dock="Right" VerticalAlignment="Center" Margin="0,5,10,5">
-					<Button IsEnabled="{Binding currentElement.DownloadSettings.IsDownloaded}" Width="150" Command="{Binding Delete}" Margin="10,0,0,0" HorizontalContentAlignment="Center" Padding="10,3,10,3" >Delete</Button>
-					<Button Width="150" Command="{Binding DeleteFromLibrary}" Margin="10,0,0,0" HorizontalContentAlignment="Center" Padding="10,3,10,3">Delete from library</Button>
-				</StackPanel>
+				<Button Command="{Binding Run}" FontSize="36" DockPanel.Dock="Right" VerticalAlignment="Center" Height="51" HorizontalContentAlignment="Center" Margin="10" Width="150">Run</Button>
 				
-				<StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10,5,0,5">
+				<StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10,5,0,5">	
 					<Button IsEnabled="{Binding !currentElement.DownloadSettings.IsDownloaded}" Width="110" Command="{Binding Download}" DockPanel.Dock="Left"  HorizontalContentAlignment="Center" Padding="20,3,20,3" >Download</Button>
 					<Button IsEnabled="{Binding currentElement.DownloadSettings.IsDownloaded}" Width="110" Command="{Binding Update}" DockPanel.Dock="Left" HorizontalContentAlignment="Center" Padding="20,3,20,3" >Update</Button>
 				</StackPanel>

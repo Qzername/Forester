@@ -7,6 +7,7 @@ using Forester.ViewModels.Bases;
 using Forester.ViewModels.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -51,6 +52,27 @@ namespace Forester.ViewModels.App.Library
             dialogService.ChangeVisibility(true);
         }
 
+        public void Run()
+        {
+            var files = Directory.GetFiles(currentElement.DownloadSettings.Path);
+
+            var exes = files.Where(x => x.EndsWith(".exe"));
+
+            if (exes.Count() == 0)
+                return;
+
+            var name = currentElement.Application.Name.Split(' ')[0];
+
+            foreach (var exe in exes)
+                if(exe.Contains(name))
+                {
+                    string path = Path.GetDirectoryName(exe);
+                    var tempExe = @$"""{exe}""";
+
+                    Process.Start(new ProcessStartInfo { FileName = tempExe, WorkingDirectory = path});
+                }
+        }
+
         void UpdateFinished()
         {
             //remove files that update of program removed
@@ -67,42 +89,6 @@ namespace Forester.ViewModels.App.Library
 
             foreach(var file in filesToDelete)
                 File.Delete(directoryPath + file.Key);
-        }
-
-        public void Delete()
-        {
-            string directoryPath = currentElement.DownloadSettings.Path;
-
-            string checksum = File.ReadAllText(directoryPath + "ForesterConfig/checksum.json");
-
-            Dictionary<string, string> files = JsonManager.Deserialize<Dictionary<string, string>>(checksum);
-
-            Directory.Delete(directoryPath + "ForesterConfig/", true);
-
-            foreach (var key in files.Keys)
-                File.Delete(directoryPath + key);
-
-            if (Directory.GetFiles(directoryPath).Length == 0)
-                Directory.Delete(directoryPath, true);
-
-            DownloadSettings downloadSettings = new DownloadSettings();
-
-            libraryService.AddDownloadSettings(currentElement.Application.Name, downloadSettings);
-            libraryService.ClearView();
-        }
-        
-        public void DeleteFromLibrary()
-        {
-            try
-            {
-                Delete();
-            }
-            catch(Exception)
-            {
-
-            }
-            libraryService.RemoveApplicaiton(currentElement.Application.Name);
-            libraryService.ClearView();
         }
     }
 }

@@ -17,8 +17,8 @@
 
 						<Button.ContextMenu>
 							<ContextMenu>
-								<MenuItem Header="Remove from library" />
-								<MenuItem Header="Delete application" />
+								<MenuItem Command="{Binding $parent[DockPanel].DataContext.DeleteFromLibrary}" CommandParameter="{Binding}" Header="Remove from library" />
+								<MenuItem IsEnabled="{Binding DownloadSettings.IsDownloaded}" Command="{Binding $parent[DockPanel].DataContext.Delete}" CommandParameter="{Binding}" Header="Delete application" />
 							</ContextMenu>
 						</Button.ContextMenu>
 					</Button>

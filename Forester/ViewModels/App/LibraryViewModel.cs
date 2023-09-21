@@ -11,6 +11,8 @@ using Forester.ViewModels.Bases;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -71,7 +73,7 @@ namespace Forester.ViewModels.App
             content = new Library.AppViewModel(elements.Single(x=>x.Application.Name == application.Name));
         }
 
-        public async void AddApp(Application application)
+        public async void AddAppToList(Application application)
         {
             elements.Add(new LibraryElement()
             {
@@ -83,7 +85,7 @@ namespace Forester.ViewModels.App
             SaveSettings();
         }
 
-        public void RemoveApp(string name) 
+        public void RemoveAppFromList(string name) 
         {
             elements.Remove(elements.Single(x => x.Application.Name == name));
 
@@ -109,6 +111,46 @@ namespace Forester.ViewModels.App
         }
 
         public bool IsInLibrary(string name) => elements.Any(x => x.Application.Name == name);
+
+        public void Delete(object currentElementObject)
+        {
+            var currentElement = (LibraryElement)currentElementObject;
+
+            string directoryPath = currentElement.DownloadSettings.Path;
+
+            string checksum = File.ReadAllText(directoryPath + "ForesterConfig/checksum.json");
+
+            Dictionary<string, string> files = JsonManager.Deserialize<Dictionary<string, string>>(checksum);
+
+            Directory.Delete(directoryPath + "ForesterConfig/", true);
+
+            foreach (var key in files.Keys)
+                File.Delete(directoryPath + key);
+
+            if (Directory.GetFiles(directoryPath).Length == 0)
+                Directory.Delete(directoryPath, true);
+
+            DownloadSettings downloadSettings = new DownloadSettings();
+
+            AddDownloadSettings(currentElement.Application.Name, downloadSettings);
+            ClearView();
+        }
+
+        public void DeleteFromLibrary(object currentElementObject)
+        {
+            try
+            {
+                Delete(currentElementObject);
+            }
+            catch (Exception)
+            {
+
+            }
+            var currentElement = (LibraryElement)currentElementObject;
+
+            RemoveAppFromList(currentElement.Application.Name);
+            ClearView();
+        }
 
         void SaveSettings()
         {

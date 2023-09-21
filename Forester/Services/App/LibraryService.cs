@@ -27,8 +27,8 @@ namespace Forester.Services.App
             OnApplicationRemoved?.Invoke();
         }
 
-        public void AddApplication(Application application) => libraryViewModel.AddApp(application);
-        public void RemoveApplicaiton(string name) => libraryViewModel.RemoveApp(name);
+        public void AddApplication(Application application) => libraryViewModel.AddAppToList(application);
+        public void RemoveApplicaiton(string name) => libraryViewModel.RemoveAppFromList(name);
         public bool IsInLibrary(string name) => libraryViewModel.IsInLibrary(name);
         public void ClearView() => libraryViewModel.ClearView();
         public void AddDownloadSettings(string name, DownloadSettings settings) => libraryViewModel.AddDownloadSettings(name, settings);
