@@ -1,6 +1,7 @@
 ﻿using Forester.Data;
 using Forester.Data.Connection;
 using Forester.Tools;
+using Microsoft.VisualBasic.FileIO;
 using ReactiveUI.Fody.Helpers;
 using Splat;
 using System;
@@ -53,6 +54,9 @@ namespace Forester.ViewModels.Dialogs
 
         async Task Update(string applicationName, string filepath)
         {
+            if (!filepath.EndsWith("\\") && !filepath.EndsWith("/"))
+                filepath += "\\";
+
             string checksum = File.ReadAllText(filepath + "ForesterConfig/checksum.json");
 
             await Download(applicationName, filepath, checksum);

@@ -69,7 +69,7 @@ namespace Forester.ViewModels.Dialogs
             if (useDefaultPath)
                 return $"./Apps/{applicationName}/";
             else
-                return path;
+                return path + "\\";
         }
     }
 }
