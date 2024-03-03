@@ -23,38 +23,43 @@ namespace Forester.Data.Connection
 
         public async Task Download(string uri, string filepath, IProgress<int> progress, string doNotIncludeJson = "{}") 
         {
-            using (var response = await client.PostAsync(uri, new StringContent(doNotIncludeJson, Encoding.UTF8, "application/json"))) 
-            { 
-                var contentLength = response.Content.Headers.ContentLength;
+            var request = new HttpRequestMessage(HttpMethod.Post, uri)
+            {
+                Content = new StringContent(doNotIncludeJson, Encoding.UTF8, "application/json")
+            };
 
-                using (var stream = await response.Content.ReadAsStreamAsync())
-                using (var fileStream = new FileStream(filepath, FileMode.Create))
+            var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+                
+            var contentLength = response.Content.Headers.ContentLength;
+
+            using (var stream = await response.Content.ReadAsStreamAsync())
+            using (var fileStream = new FileStream(filepath, FileMode.Create))
+            {
+                byte[] buffer = new byte[8192];
+                long totalBytesRead = 0L;
+                int bytesRead = 0;
+                double currentProgress = 0.0;
+
+                while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                 {
-                    byte[] buffer = new byte[8192];
-                    long totalBytesRead = 0L;
-                    int bytesRead = 0;
-                    double currentProgress = 0.0;
+                    await fileStream.WriteAsync(buffer, 0, bytesRead);
 
-                    while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                    {
-                        await fileStream.WriteAsync(buffer, 0, bytesRead);
+                    totalBytesRead += bytesRead;
 
-                        totalBytesRead += bytesRead;
+                    currentProgress = (double)totalBytesRead / contentLength!.Value * 100;
 
-                        currentProgress = (double)totalBytesRead / contentLength!.Value * 100;
-
-                        progress.Report(Convert.ToInt32(currentProgress));
-                    }
+                    progress.Report(Convert.ToInt32(currentProgress));
                 }
             }
         }
 
+        //for the images
         public async Task<byte[]> Download(string uri)
         {
             var response = await client.GetAsync(uri);
 
             if (!response.IsSuccessStatusCode)
-                return new byte[0];
+                return [];
 
             return await response.Content.ReadAsByteArrayAsync();
         }

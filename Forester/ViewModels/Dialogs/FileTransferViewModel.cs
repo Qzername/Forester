@@ -9,11 +9,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Forester.ViewModels.Dialogs
 {
+    /// <summary>
+    /// Dialog for downloading, updating or uploading applications
+    /// </summary>
     public class FileTransferViewModel : DialogBase
     {
         public const int PreferredWidth = 500;
@@ -25,18 +29,18 @@ namespace Forester.ViewModels.Dialogs
         [Reactive] bool isFinished { get; set; }
 
         Progress<int> progress { get; set; }
-        Action? whenUploadFinished;
+        Action? whenActionFinished;
 
         //dependency injection
         ApplicationFileDatabase applicationFileDatabase;
 
-        public FileTransferViewModel(TransferAction action,string applicationName, string filepath, Action? whenUploadFinished = null)
+        public FileTransferViewModel(TransferAction action,string applicationName, string filepath, Action? whenActionFinished = null)
         {
             isFinished = false;
             this.action = action.ToString().Trim('e') + "ing"; //i hate myself too
 
             progress = new Progress<int>(percent => { value = percent; });
-            this.whenUploadFinished = whenUploadFinished;
+            this.whenActionFinished = whenActionFinished;
 
             applicationFileDatabase = Locator.Current.GetService<ApplicationFileDatabase>()!;
 
@@ -64,17 +68,19 @@ namespace Forester.ViewModels.Dialogs
 
         async Task Download(string applicationName, string filepath, string doNotInclude)
         {
+            string tempAppPath = PathHelper.GetPath("tempApp.zip");
+
             //download
             status = "Doing action...";
 
             if (doNotInclude == string.Empty)
-                await applicationFileDatabase.Download(applicationName, "./tempApp.zip", progress);
+                await applicationFileDatabase.Download(applicationName, tempAppPath, progress);
             else
-                await applicationFileDatabase.Download(applicationName, "./tempApp.zip", progress, doNotInclude);
+                await applicationFileDatabase.Download(applicationName, tempAppPath, progress, doNotInclude);
 
             //unziping
             status = "Unzipping...";
-            Task zipFileUnpacking = Task.Run(() => ZipFile.ExtractToDirectory("./tempApp.zip", filepath, true));
+            Task zipFileUnpacking = Task.Run(() => ZipFile.ExtractToDirectory(tempAppPath, filepath, true));
             await zipFileUnpacking;
 
             ActionCompleted();
@@ -85,7 +91,7 @@ namespace Forester.ViewModels.Dialogs
             //prepare directory (convert to zip)
             status = "Creating zip file...";
 
-            string zipFile = "./tempApp.zip";
+            string zipFile = PathHelper.GetPath("tempApp.zip");
 
             Task zipFileCreation = Task.Run(() => ZipFile.CreateFromDirectory(filepath, zipFile));
             await zipFileCreation;
@@ -103,13 +109,15 @@ namespace Forester.ViewModels.Dialogs
             status = "Finished";
             isFinished = true;
 
-            whenUploadFinished?.Invoke();
+            whenActionFinished?.Invoke();
         }
 
         void ClearZip()
         {
-            if (File.Exists("./tempApp.zip"))
-                File.Delete("./tempApp.zip");
+            string tempAppPath = PathHelper.GetPath("tempApp.zip");
+
+            if (File.Exists(tempAppPath))
+                File.Delete(tempAppPath);
         }
 
         public enum TransferAction

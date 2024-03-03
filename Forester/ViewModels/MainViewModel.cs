@@ -1,5 +1,6 @@
 ﻿using Avalonia.Platform;
 using Forester.Data;
+using Forester.Data.Connection;
 using Forester.Models.API;
 using Forester.Models.Configurations;
 using Forester.Services;
@@ -71,9 +72,28 @@ namespace Forester.ViewModels
             TitlebarHeight = configuration.TitleBarHeight;
         }
 
-        void MoveToLogin()
+        async void MoveToLogin()
         {
-            Router.Navigate.Execute(new LoginViewModel(this));
+            var settingsFile = GetService<SettingsFile>();
+            var requestManager = GetService<AccountDatabase>();
+
+            //autologin turned off or login and password is incorrect
+            if (string.IsNullOrEmpty(settingsFile.Settings.AutoLogin.Login) ||
+               string.IsNullOrEmpty(settingsFile.Settings.AutoLogin.Password) ||
+               !await requestManager.Login(new Account()
+               {
+                   Login = settingsFile.Settings.AutoLogin.Login,
+                   Username = settingsFile.Settings.AutoLogin.Username,
+                   Password = settingsFile.Settings.AutoLogin.Password,
+               }))
+            {
+                Router.Navigate.Execute(new LoginViewModel(this));
+                return;
+            }
+
+            //autologin succeed
+            await GetService<UserDataService>().SetAccount(settingsFile.Settings.AutoLogin.Login);
+            Router.Navigate.Execute(new AppViewModel(this));
         }
     }
 }

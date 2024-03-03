@@ -12,6 +12,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -116,19 +117,27 @@ namespace Forester.ViewModels.App
         {
             var currentElement = (LibraryElement)currentElementObject;
 
-            string directoryPath = currentElement.DownloadSettings.Path;
+            try
+            {
+                string directoryPath = currentElement.DownloadSettings.RealPath;
 
-            string checksum = File.ReadAllText(directoryPath + "ForesterConfig/checksum.json");
+                string checksum = File.ReadAllText(directoryPath + "ForesterConfig/checksum.json");
 
-            Dictionary<string, string> files = JsonManager.Deserialize<Dictionary<string, string>>(checksum);
+                Dictionary<string, string> files = JsonManager.Deserialize<Dictionary<string, string>>(checksum);
 
-            Directory.Delete(directoryPath + "ForesterConfig/", true);
+                Directory.Delete(directoryPath + "ForesterConfig/", true);
 
-            foreach (var key in files.Keys)
-                File.Delete(directoryPath + key);
+                foreach (var key in files.Keys)
+                    File.Delete(directoryPath + key);
 
-            if (Directory.GetFiles(directoryPath).Length == 0)
-                Directory.Delete(directoryPath, true);
+                if (Directory.GetFiles(directoryPath).Length == 0)
+                    Directory.Delete(directoryPath, true);
+
+            }
+            catch(Exception)
+            {
+
+            }
 
             DownloadSettings downloadSettings = new DownloadSettings();
 
@@ -150,6 +159,17 @@ namespace Forester.ViewModels.App
 
             RemoveAppFromList(currentElement.Application.Name);
             ClearView();
+        }
+
+        /// <summary>
+        /// Opens directory where the app is downloaded
+        /// used in context menu
+        /// </summary>
+        public void OpenApplicationDirectory(object currentElementObject)
+        {
+            var currentElement = (LibraryElement)currentElementObject;
+
+            Process.Start("explorer.exe", $"{currentElement.DownloadSettings.RealPath}\\");
         }
 
         void SaveSettings()

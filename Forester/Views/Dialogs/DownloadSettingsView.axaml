@@ -17,6 +17,8 @@
 			</DockPanel>
 
 			<CheckBox IsChecked="{Binding deleteNotNecessary}" DockPanel.Dock="Top" Content="Delete not necessary files" />
+
+			<TextBlock Text="{Binding error}" HorizontalAlignment="Center" Foreground="Red"/>
 		</StackPanel>
 
 		<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">

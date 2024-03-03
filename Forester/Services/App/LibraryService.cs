@@ -32,5 +32,13 @@ namespace Forester.Services.App
         public bool IsInLibrary(string name) => libraryViewModel.IsInLibrary(name);
         public void ClearView() => libraryViewModel.ClearView();
         public void AddDownloadSettings(string name, DownloadSettings settings) => libraryViewModel.AddDownloadSettings(name, settings);
+
+        /// <summary>
+        /// Changes view of library to appliaction
+        /// </summary>
+        public void ChangeViewToApplication(string applicationName) => libraryViewModel.SetApp(new Application()
+        {
+            Name = applicationName,
+        });
     }
 }

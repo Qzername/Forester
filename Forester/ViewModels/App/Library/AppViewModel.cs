@@ -5,6 +5,7 @@ using Forester.Services.App;
 using Forester.Tools;
 using Forester.ViewModels.Bases;
 using Forester.ViewModels.Dialogs;
+using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,18 +17,20 @@ namespace Forester.ViewModels.App.Library
 {
     public class AppViewModel : ViewModelBase
     {
+        [Reactive] bool showRunButton { get; set; }
+
         LibraryElement currentElement { get; set; }
 
         //dependency injection
-        LibraryService libraryService;
         DialogService dialogService;
 
         public AppViewModel(LibraryElement element)
         {
             currentElement = element;
 
-            libraryService = GetService<LibraryService>();
             dialogService = GetService<DialogService>();
+
+            VerifyVisibilityOfRunButton();
         }
 
         public void Download()
@@ -45,7 +48,7 @@ namespace Forester.ViewModels.App.Library
         {
             dialogService.ChangeConfiguration(new DialogConfiguration()
             {
-                Content = new FileTransferViewModel(FileTransferViewModel.TransferAction.Update, currentElement.Application.Name, currentElement.DownloadSettings.Path, UpdateFinished),
+                Content = new FileTransferViewModel(FileTransferViewModel.TransferAction.Update, currentElement.Application.Name, currentElement.DownloadSettings.RealPath, UpdateFinished),
                 Width = FileTransferViewModel.PreferredWidth, 
                 Height = FileTransferViewModel.PreferredHeight,
             });
@@ -54,16 +57,14 @@ namespace Forester.ViewModels.App.Library
 
         public void Run()
         {
-            var files = Directory.GetFiles(currentElement.DownloadSettings.Path);
-
-            var exes = files.Where(x => x.EndsWith(".exe"));
-
-            if (exes.Count() == 0)
+            if (!VerifyVisibilityOfRunButton())
                 return;
+
+            var files = Directory.GetFiles(currentElement.DownloadSettings.RealPath);
 
             var name = currentElement.Application.Name.Split(' ')[0];
 
-            foreach (var exe in exes)
+            foreach (var exe in files.Where(x => x.EndsWith(".exe")))
                 if(exe.Contains(name))
                 {
                     string path = Path.GetDirectoryName(exe);
@@ -79,7 +80,7 @@ namespace Forester.ViewModels.App.Library
             if (!currentElement.DownloadSettings.DeleteNotNecessary)
                 return;
 
-            string directoryPath = currentElement.DownloadSettings.Path;
+            string directoryPath = currentElement.DownloadSettings.RealPath;
 
             string getChecksum = File.ReadAllText(directoryPath + "ForesterConfig/checksum.json");
         
@@ -89,6 +90,27 @@ namespace Forester.ViewModels.App.Library
 
             foreach(var file in filesToDelete)
                 File.Delete(directoryPath + file.Key);
+
+            System.Diagnostics.Debug.WriteLine(VerifyVisibilityOfRunButton());
+        }
+
+        /// <summary>
+        /// Checks if the run button should be visible or not
+        /// Automaticly changes the value
+        /// </summary>
+        bool VerifyVisibilityOfRunButton()
+        {
+            if (!currentElement.DownloadSettings.IsDownloaded)
+            {
+                showRunButton = false;
+                return false;
+            }
+
+            var files = Directory.GetFiles(currentElement.DownloadSettings.RealPath);
+
+            showRunButton = files.Any(x => x.EndsWith(".exe"));
+
+            return showRunButton;
         }
     }
 }

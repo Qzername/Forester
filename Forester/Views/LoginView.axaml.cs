@@ -8,8 +8,8 @@ namespace Forester.Views
 {
     public partial class LoginView : ReactiveUserControl<LoginViewModel>
     {
-        const string SwitchButtonLoginOn = "Do not have an account?";
-        const string SwitchButtonRegisterOn = "Do have an account?";
+        const string SwitchButtonLoginOn = "Click here to register";
+        const string SwitchButtonRegisterOn = "Click here to login";
 
         public LoginView()
         {

@@ -14,7 +14,7 @@
 			</Panel>
 
 			<DockPanel DockPanel.Dock="Top" Height="70" Background="#151515">
-				<Button Command="{Binding Run}" FontSize="36" DockPanel.Dock="Right" VerticalAlignment="Center" Height="51" HorizontalContentAlignment="Center" Margin="10" Width="150">Run</Button>
+				<Button IsVisible="{Binding ShowRunButton}" Command="{Binding Run}" FontSize="36" DockPanel.Dock="Right" VerticalAlignment="Center" Height="51" HorizontalContentAlignment="Center" Margin="10" Width="150">Run</Button>
 				
 				<StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" Margin="10,5,0,5">	
 					<Button IsEnabled="{Binding !currentElement.DownloadSettings.IsDownloaded}" Width="110" Command="{Binding Download}" DockPanel.Dock="Left"  HorizontalContentAlignment="Center" Padding="20,3,20,3" >Download</Button>

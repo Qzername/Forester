@@ -12,6 +12,20 @@ namespace Forester.Models.App
         public bool IsDownloaded { get; set; }
         public bool UseDefaultPath { get; set; }
         public string Path { get; set; }
+
+        /// <summary>
+        /// Returns true path to application by checking if the app uses default path or not
+        /// </summary>
+        public string RealPath 
+        { 
+            get
+            {
+                if(UseDefaultPath)
+                    return PathHelper.GetPath(Path).Replace('/', '\\');
+                else
+                    return Path;
+            } 
+        }
         public bool DeleteNotNecessary { get; set; }
     }
 }

@@ -16,9 +16,9 @@ namespace Forester.Data
 {
     public class SettingsFile : ReactiveObject
     {
-        const string SettingsFilePath = "./Settings.json";
+        readonly string SettingsFilePath = PathHelper.GetPath("Settings.json");
 
-        //maybe in future change settings into abstract classes?
+        //TODO: maybe in future change settings into abstract classes?
 
         [Reactive] public Settings Settings { get; private set; }
         public ForesterData ForesterData { get; private set; }
@@ -37,7 +37,7 @@ namespace Forester.Data
             else
                 Settings = JsonManager.Deserialize<Settings>(File.ReadAllText(SettingsFilePath));
 
-            ForesterData = JsonManager.Deserialize<ForesterData>(File.ReadAllText("./Version.json"));
+            ForesterData = JsonManager.Deserialize<ForesterData>(File.ReadAllText(PathHelper.GetPath("Version.json")));
         }
 
         public void SaveSettings() => File.WriteAllText(SettingsFilePath, JsonManager.Serialize(Settings));

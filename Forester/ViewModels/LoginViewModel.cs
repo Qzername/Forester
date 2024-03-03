@@ -47,22 +47,6 @@ namespace Forester.ViewModels
                 IsChromeOn = false,
                 TitleBarHeight = 50,
             });
-
-            AutoLogin();
-        }
-
-        void AutoLogin()
-        {
-            //if autologin turned off
-            if (string.IsNullOrEmpty(settingsFile.Settings.AutoLogin.Login) ||
-                string.IsNullOrEmpty(settingsFile.Settings.AutoLogin.Password))
-                return;
-
-            login = settingsFile.Settings.AutoLogin.Login;  
-            username = settingsFile.Settings.AutoLogin.Username;
-            password = settingsFile.Settings.AutoLogin.Password;
-
-            _ = Login();
         }
 
         public void ResetData()

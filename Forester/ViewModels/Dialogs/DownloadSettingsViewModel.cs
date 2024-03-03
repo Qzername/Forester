@@ -3,10 +3,13 @@ using Forester.Models.App;
 using Forester.Models.Configurations;
 using Forester.Services;
 using Forester.Services.App;
+using Forester.Tools;
 using Forester.ViewModels.Bases;
 using ReactiveUI.Fody.Helpers;
+using ShimSkiaSharp;
 using System.IO;
 using System.Runtime.Intrinsics.X86;
+using System.Threading.Tasks;
 
 namespace Forester.ViewModels.Dialogs
 {
@@ -15,6 +18,8 @@ namespace Forester.ViewModels.Dialogs
         [Reactive] bool useDefaultPath { get; set; }
         [Reactive] string path { get; set; }
         [Reactive] bool deleteNotNecessary { get; set; }
+
+        [Reactive] string error { get; set; }
 
         //dependency injection
         DialogService dialogService;
@@ -25,6 +30,9 @@ namespace Forester.ViewModels.Dialogs
         public DownloadSettingsViewModel(string applicationName)
         {
             this.applicationName = applicationName;
+
+            useDefaultPath = true;
+            deleteNotNecessary = true;
 
             path = "None";
 
@@ -40,8 +48,16 @@ namespace Forester.ViewModels.Dialogs
                 path = "None";
         }
 
-        public void Approve()
-        {   
+        public async Task Approve()
+        {
+            error = string.Empty;
+
+            if(!useDefaultPath && !Directory.Exists(path))
+            {
+                error = "Path does not exist";
+                return;
+            }
+
             dialogService.ChangeConfiguration(new DialogConfiguration()
             {
                 Content = new FileTransferViewModel(FileTransferViewModel.TransferAction.Download, applicationName, GetPath(), Downloaded),
@@ -61,13 +77,13 @@ namespace Forester.ViewModels.Dialogs
             };
 
             libraryService.AddDownloadSettings(applicationName, downloadSettings);
-            libraryService.ClearView();
+            libraryService.ChangeViewToApplication(applicationName);
         }
          
         string GetPath()
         {
             if (useDefaultPath)
-                return $"./Apps/{applicationName}/";
+                return PathHelper.GetPath($"Apps/{applicationName}/");
             else
                 return path + "\\";
         }

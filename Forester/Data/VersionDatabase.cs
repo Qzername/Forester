@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Forester.Data
 {
+    /// <summary>
+    /// Allows to check and update Forester
+    /// </summary>
     public class VersionDatabase : Database
     {
         protected override string APIprefix => "Update/";
@@ -28,9 +31,9 @@ namespace Forester.Data
         
         public async Task Download(IProgress<int> progress)
         {
-            string checksum = File.ReadAllText("./Checksum.json");
+            string checksum = File.ReadAllText(PathHelper.GetPath("Checksum.json"));
 
-            await FileTransferManager.Download(GenerateURI("Download"), "./tempApp.zip", progress, checksum);
+            await FileTransferManager.Download(GenerateURI("Download"), PathHelper.GetPath("tempApp.zip"), progress, checksum);
         }
     }
 }
