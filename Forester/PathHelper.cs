@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Forester
 {
@@ -12,7 +8,7 @@ namespace Forester
     /// </summary>
     public static class PathHelper
     {
-        static string CurrentDirectory => Directory.GetCurrentDirectory();
+        static string CurrentDirectory => AppDomain.CurrentDomain.BaseDirectory + "\\";
 
         public static string GetPath(string path) 
         {

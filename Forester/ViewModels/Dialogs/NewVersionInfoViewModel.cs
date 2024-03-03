@@ -39,7 +39,7 @@ namespace Forester.ViewModels.Dialogs
 
             if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                string updaterPath = PathHelper.GetPath("Updater/ForesterUpdater");
+                string updaterPath = PathHelper.GetPath("Updater/ForesterUpdater.exe");
 
                 var process = new Process
                 {
