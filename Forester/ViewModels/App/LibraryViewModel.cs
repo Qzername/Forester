@@ -169,7 +169,7 @@ namespace Forester.ViewModels.App
         {
             var currentElement = (LibraryElement)currentElementObject;
 
-            Process.Start("explorer.exe", $"\"{currentElement.DownloadSettings.RealPath}\\\"");
+            Process.Start("explorer.exe", $"\"{currentElement.DownloadSettings.RealPath}\"");
         }
 
         void SaveSettings()

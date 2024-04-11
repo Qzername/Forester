@@ -20,10 +20,13 @@ namespace Forester.Models.App
         { 
             get
             {
+                if (string.IsNullOrEmpty(Path))
+                    return null; 
+
                 if(UseDefaultPath)
-                    return PathHelper.GetPath(Path).Replace('/', '\\');
+                    return PathHelper.GetPath(Path).Replace('/', '\\').Replace("\\\\", "\\");
                 else
-                    return Path;
+                    return Path.Replace("\\\\", "\\");
             } 
         }
         public bool DeleteNotNecessary { get; set; }
