@@ -3,19 +3,21 @@ using Forester.Models.App;
 using Forester.Services.App;
 using Forester.Services;
 using Forester.ViewModels.Bases;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Forester.Data;
 using Forester.Models.API.Pictures;
+using ReactiveUI.Fody.Helpers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Forester.ViewModels.App.Store
 {
     internal class ListViewModel : ViewModelBase
     {
-        AvaloniaList<StoreElement> apps { get; set; }
+        [Reactive] string searchText { get; set; }
+
+        List<StoreElement> apps;
+        AvaloniaList<StoreElement> shownApps { get; set; }
 
         //dependency injection
         ApplicationDatabase applicationDatabase;
@@ -26,7 +28,8 @@ namespace Forester.ViewModels.App.Store
 
         public ListViewModel()
         {
-            apps = new AvaloniaList<StoreElement>();
+            apps = new List<StoreElement>();
+            shownApps = new AvaloniaList<StoreElement>();
 
             applicationDatabase = GetService<ApplicationDatabase>();
             accountDatabase = GetService<AccountDatabase>();
@@ -64,6 +67,20 @@ namespace Forester.ViewModels.App.Store
 
             apps.Clear();
             apps.AddRange(storeElements);
+            Search();
+        }
+
+        public void Search()
+        {
+            shownApps.Clear();  
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                shownApps.AddRange(apps);
+                return;
+            }
+
+            shownApps.AddRange(apps.Where(x => x.Application.Name.ToLower().Contains(searchText.ToLower())));
         }
 
         void LibraryService_OnApplicationRemoved()

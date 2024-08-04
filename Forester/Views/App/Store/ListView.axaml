@@ -6,17 +6,19 @@
              x:Class="Forester.Views.App.Store.ListView">
 	<ScrollViewer>
 		<StackPanel>
-
 			<Panel Height="40" Margin="0,20" Background="#1F1F1F">
-				<Button Command="{Binding GetApps}" Margin="10,0" HorizontalAlignment="Right" Content="Refresh"/>
+				<StackPanel Spacing="5" Orientation="Horizontal" HorizontalAlignment="Right" >
+					<TextBox x:Name="SearchTextBox" Text="{Binding searchText}" Margin="0,5" Width="200"/>
+					<Button x:Name="SearchButton" Command="{Binding Search}" Content="Search"/>
+					<Button Command="{Binding GetApps}" Margin="0,0,5,0" HorizontalAlignment="Right" Content="Refresh"/>
+				</StackPanel>
 			</Panel>
 
-			<ItemsControl ItemsSource="{Binding apps}">
+			<ItemsControl ItemsSource="{Binding shownApps}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-
-						<Button  Command="{Binding $parent[ItemsControl].DataContext.MoveTo}" CommandParameter="{Binding}" Margin="0" Padding="0" CornerRadius="0">
-							<Panel  Height="105">
+						<Button Command="{Binding $parent[ItemsControl].DataContext.MoveTo}" CommandParameter="{Binding}" Margin="0" Padding="0" CornerRadius="0">
+							<Panel Height="105">
 								<Image Source="{Binding BackgroundPicture}" Stretch="UniformToFill"/>
 
 								<!--Background effect-->
