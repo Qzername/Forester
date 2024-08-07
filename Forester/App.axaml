@@ -4,6 +4,7 @@
              x:Class="Forester.App"
 			 
 			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 xmlns:loadingCircle="using:FluentAvalonia.Styling"
 			 
              RequestedThemeVariant="Dark">
 	<Application.DataTemplates>
@@ -12,6 +13,7 @@
 
 	<Application.Styles>
 		<FluentTheme />
+		<StyleInclude Source="avares://FluentAvalonia.ProgressRing/Styling/Controls/ProgressRing.axaml" />
 		<materialIcons:MaterialIconStyles />
     </Application.Styles>
 </Application>

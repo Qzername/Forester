@@ -8,7 +8,8 @@
 		xmlns:app="clr-namespace:Forester"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Forester.Views.MainWindow"
-        
+		
+        xmlns:ui="using:FluentAvalonia.UI.Controls"
 		xmlns:controls="clr-namespace:Forester.Controls"
 		
 		Icon="/Assets/logo.ico"
@@ -25,9 +26,9 @@
 	<Panel>
 		<rxui:RoutedViewHost Router="{Binding Router}">
 			<rxui:RoutedViewHost.DefaultContent>
-				<TextBlock Text="Something went completely wrong if you see this message."
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center" />
+				<Border Padding="20">
+					<ui:ProgressRing IsIndeterminate="True" BorderThickness="10" Width="100" Height="100" />
+				</Border> 
 			</rxui:RoutedViewHost.DefaultContent>
 
 			<rxui:RoutedViewHost.ViewLocator>
