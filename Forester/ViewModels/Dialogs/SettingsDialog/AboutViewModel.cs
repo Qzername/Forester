@@ -25,9 +25,9 @@ namespace Forester.ViewModels.Dialogs.SettingsDialog
             Version = GetService<SettingsFile>().ForesterData.Version;
         }
 
-        public void Discord()
+        public void Github()
         {
-            Process.Start(new ProcessStartInfo { FileName = "https://discord.gg/***REMOVED***", UseShellExecute = true });
+            Process.Start(new ProcessStartInfo { FileName = "https://github.com/***REMOVED***name/Forester", UseShellExecute = true });
         }
     }
 }
