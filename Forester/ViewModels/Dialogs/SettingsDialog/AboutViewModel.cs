@@ -27,7 +27,7 @@ namespace Forester.ViewModels.Dialogs.SettingsDialog
 
         public void Github()
         {
-            Process.Start(new ProcessStartInfo { FileName = "https://github.com/***REMOVED***name/Forester", UseShellExecute = true });
+            Process.Start(new ProcessStartInfo { FileName = "https://github.com/Qzername/Forester", UseShellExecute = true });
         }
     }
 }

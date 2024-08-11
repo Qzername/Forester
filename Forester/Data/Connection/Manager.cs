@@ -10,7 +10,7 @@ namespace Forester.Data.Connection
 {
     public abstract class Manager
     {
-        protected const string BaseAddress = "http://***REMOVED***:5000/";
+        protected const string BaseAddress = "http://**REMOVED**:5000/";
 
         protected HttpClient client;
 
