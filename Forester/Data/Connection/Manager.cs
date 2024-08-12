@@ -10,12 +10,14 @@ namespace Forester.Data.Connection
 {
     public abstract class Manager
     {
-        protected const string BaseAddress = "http://**REMOVED**:5000/";
+        protected readonly string BaseAddress;
 
         protected HttpClient client;
 
-        public Manager()
+        public Manager(string serverIp)
         {
+            BaseAddress = $"http://{serverIp}/";
+
             client = new HttpClient();
         }
         public void SetAuthorization(string token)

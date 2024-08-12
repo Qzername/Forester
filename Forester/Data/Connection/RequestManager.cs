@@ -15,7 +15,7 @@ namespace Forester.Data.Connection
 {
     public class RequestManager : Manager
     {
-        public RequestManager() : base()
+        public RequestManager(string serverIP) : base(serverIP)
         {
             client.BaseAddress = new Uri(BaseAddress);
         }

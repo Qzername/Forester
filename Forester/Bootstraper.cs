@@ -16,7 +16,9 @@ namespace Forester
         public static void Register(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
         {
             // --- avalonia ---
-            services.RegisterLazySingleton(() => new SettingsFile(), typeof(SettingsFile));
+            var settingsFile = new SettingsFile();
+
+            services.RegisterLazySingleton(() => settingsFile, typeof(SettingsFile));
             services.RegisterLazySingleton(() => new ThemeService(GetService<SettingsFile>(resolver)), typeof(ThemeService));
 
             // --- dialogs ---
@@ -26,8 +28,8 @@ namespace Forester
             // --- data ---
 
             //managers
-            services.RegisterLazySingleton(() => new RequestManager(), typeof(RequestManager));
-            services.RegisterLazySingleton(() => new FileTransferManager(), typeof(FileTransferManager));
+            services.RegisterLazySingleton(() => new RequestManager(settingsFile.Settings.Server), typeof(RequestManager));
+            services.RegisterLazySingleton(() => new FileTransferManager(settingsFile.Settings.Server), typeof(FileTransferManager));
 
             //databases
             var requestManager = GetService<RequestManager>(resolver);

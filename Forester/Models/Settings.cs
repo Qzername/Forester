@@ -8,8 +8,9 @@ using Forester.Models.App;
 
 namespace Forester.Models
 {
-    public class Settings
+    public class Settings //why is this a class and not a struct?
     {
+        public string Server { get; set; }
         public Theme Theme { get; set; }
         public Account AutoLogin { get; set; }
         public LibraryElementConfig[] LibraryElements { get; set; }

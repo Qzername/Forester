@@ -15,7 +15,7 @@ namespace Forester.Data.Connection
 {
     public class FileTransferManager : Manager
     {
-        public FileTransferManager() :base()
+        public FileTransferManager(string ip) : base(ip)
         {
             client.BaseAddress = new Uri(BaseAddress);
             client.Timeout = new TimeSpan(24, 0, 0);
