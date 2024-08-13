@@ -1,4 +1,6 @@
-﻿using Forester.Models.App;
+﻿using Forester.Data;
+using Forester.Models;
+using Forester.Models.App;
 using Forester.Models.Configurations;
 using Forester.Services;
 using Forester.Services.App;
@@ -12,12 +14,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Forester.ViewModels.App.Library
 {
     public class AppViewModel : ViewModelBase
     {
         [Reactive] bool showRunButton { get; set; }
+        [Reactive] bool updateAccessible { get; set; }
 
         LibraryElement currentElement { get; set; }
 
@@ -31,6 +35,7 @@ namespace Forester.ViewModels.App.Library
             dialogService = GetService<DialogService>();
 
             VerifyVisibilityOfRunButton();
+            DetectUpdate();
         }
 
         public void Download()
@@ -76,6 +81,16 @@ namespace Forester.ViewModels.App.Library
 
         void UpdateFinished()
         {
+            VerifyVisibilityOfRunButton();
+            DetectUpdate();
+
+            //older versions of ForesterAPI will not create version.json, so here we check that it is correct manually
+            if(updateAccessible)
+            {
+                File.Delete(currentElement.DownloadSettings.RealPath + "/ForesterConfig/version.json");
+                DetectUpdate();
+            }
+
             //remove files that update of program removed
             if (!currentElement.DownloadSettings.DeleteNotNecessary)
                 return;
@@ -83,15 +98,14 @@ namespace Forester.ViewModels.App.Library
             string directoryPath = currentElement.DownloadSettings.RealPath;
 
             string getChecksum = File.ReadAllText(directoryPath + "ForesterConfig/checksum.json");
-        
-            Dictionary<string,string> files = JsonManager.Deserialize<Dictionary<string,string>>(getChecksum);
+
+            Dictionary<string, string> files = JsonManager.Deserialize<Dictionary<string, string>>(getChecksum);
 
             var filesToDelete = files.Where(x => x.Value == "REMOVE");
 
             foreach(var file in filesToDelete)
-                File.Delete(directoryPath + file.Key);
-
-            System.Diagnostics.Debug.WriteLine(VerifyVisibilityOfRunButton());
+                if(File.Exists(directoryPath + file.Key))
+                    File.Delete(directoryPath + file.Key);
         }
 
         /// <summary>
@@ -111,6 +125,26 @@ namespace Forester.ViewModels.App.Library
             showRunButton = files.Any(x => x.EndsWith(".exe"));
 
             return showRunButton;
+        }
+
+        async void DetectUpdate()
+        {
+            updateAccessible = false;
+
+            var appSerivce = GetService<ApplicationDatabase>();
+
+            string versionFile = currentElement.DownloadSettings.RealPath + "/ForesterConfig/version.json";
+
+            if (!File.Exists(versionFile))
+            {
+                File.WriteAllText(versionFile
+                    , "{ \"Version\":\"" + (await appSerivce.GetByName(currentElement.Application.Name)).Version + "\"}");
+            }
+
+            var json = File.ReadAllText(versionFile);
+            var version = JsonManager.Deserialize<VersionData>(json);
+
+            updateAccessible = version.Version != currentElement.Application.Version;
         }
     }
 }

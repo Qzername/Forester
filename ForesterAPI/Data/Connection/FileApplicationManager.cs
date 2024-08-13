@@ -1,5 +1,6 @@
 ﻿using ForesterAPI.Services;
 using ForesterAPI.Tools;
+using System;
 using System.IO.Compression;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -8,10 +9,12 @@ namespace ForesterAPI.Data.Connection
 {
     public class FileApplicationManager
     {
+        ApplicationDatabase applicationDatabase;
         FileConfigurator fileConfigurator;
 
-        public FileApplicationManager(FileConfigurator fileConfigurator)
+        public FileApplicationManager(ApplicationDatabase applicationDatabase, FileConfigurator fileConfigurator)
         {
+            this.applicationDatabase = applicationDatabase;
             this.fileConfigurator = fileConfigurator;
         }
 
@@ -45,9 +48,13 @@ namespace ForesterAPI.Data.Connection
 
             var checksum = fileConfigurator.CreateChecksum(zip);
 
+            string jsonVersion = "{ \"Version\":\"" + applicationDatabase.Get(name).Version + "\"}";
+            zip.CreateEntryFromFile($"{DatabasePrefix}Version.json", "Version.json");
+
             zip.Dispose();
 
             File.WriteAllText($"{directoryPath}checksum.json", fileConfigurator.DictonaryToJson(checksum));
+            File.WriteAllText($"{DatabasePrefix}version.json", jsonVersion);
         }
 
         /// <summary>

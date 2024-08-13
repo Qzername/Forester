@@ -20,6 +20,8 @@
 					<Button IsEnabled="{Binding !currentElement.DownloadSettings.IsDownloaded}" Width="110" Command="{Binding Download}" DockPanel.Dock="Left"  HorizontalContentAlignment="Center" Padding="20,3,20,3" >Download</Button>
 					<Button IsEnabled="{Binding currentElement.DownloadSettings.IsDownloaded}" Width="110" Command="{Binding Update}" DockPanel.Dock="Left" HorizontalContentAlignment="Center" Padding="20,3,20,3" >Update</Button>
 				</StackPanel>
+				
+				<TextBlock IsVisible="{Binding updateAccessible}" Margin="10" VerticalAlignment="Bottom" Text="New update available"/>
 			</DockPanel>
 			<md:MarkdownScrollViewer Margin="20" Markdown="{Binding currentElement.Application.Description}"/>
 		</DockPanel>

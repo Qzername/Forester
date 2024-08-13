@@ -24,9 +24,9 @@ namespace Forester.Data
 
         public async Task<string> GetVersion()
         {
-            var apiMessage = await RequestManager.Get<ForesterData>(GenerateURI("Version"));
+            var apiMessage = await RequestManager.Get<VersionData>(GenerateURI("Version"));
 
-            return ((ForesterData)apiMessage.Content).Version;
+            return ((VersionData)apiMessage.Content).Version;
         }
         
         public async Task Download(IProgress<int> progress)

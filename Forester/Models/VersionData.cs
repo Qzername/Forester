@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Forester.Models
 {
-    public struct ForesterData
+    public struct VersionData
     {
         public string Version { get; set; }
     }
